@@ -1,0 +1,56 @@
+<resources>
+    <!--View name and title-->
+    <string name="app_name">PopularMovie</string>
+
+    <string name="activity_movie_detail_title">MovieDetailActivity</string>
+    <string name="activity_main_title">Pop-Movie</string>
+    <string name="activity_detail_title">DetailActivity</string>
+
+    <string name="dialog_sort_title">Sort by</string>
+
+    <string name="text_view_title_title">Title</string>
+    <string name="text_view_release_date_title">Release Date</string>
+    <string name="text_view_rating_title">Rating</string>
+    <string name="text_view_language_title">Language</string>
+    <string name="text_view_status_title">Status</string>
+    <string name="text_view_genre_title">Genre</string>
+    <string name="text_view_description_title">Description</string>
+    <string name="text_view_cast_title">Cast</string>
+
+    <string name="tab_layout_info_title">Info</string>
+    <string name="tab_layout_videos_title">Videos</string>
+    <string name="tab_layout_reviews_title">Reviews</string>
+    <string name="tab_layout_poster_title">Posters</string>
+
+    <string name="drawer_my_profile_title">My Profile</string>
+    <string name="drawer_discover_title">Discover</string>
+    <string name="drawer_account_title">Account</string>
+    <string name="drawer_log_in_title">Log in</string>
+    <string name="drawer_log_out_title">Log out</string>
+
+    <!--Action Strings-->
+    <string name="action_sort">Sort</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_open_in_browser">Open in browser</string>
+
+    <!--Image description-->
+    <string name="image_description_poster">Movie Poster</string>
+    <string name="image_description_backdrop">Backdrop of the movie</string>
+
+    <!--Error message-->
+    <string name="error_no_data">No data found.</string>
+    <string name="error_no_connection">No connection.</string>
+    <string name="error_server_problem">Server problem.</string>
+    <string name="error_no_connection_button">Reload</string>
+
+    <!--Button strings-->
+    <string name="button_reload_title">Reload</string>
+
+    <!--Drawer String in Main Activity-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--Sharedpreference strings-->
+    <string name="sharedpreference_dialog_sort">sort</string>
+
+</resources>
