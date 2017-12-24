@@ -39,11 +39,17 @@ public class VideoListPresenter extends BasePresenter implements VideoListContra
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
                         .subscribe((video, throwable) -> {
-                            if (video.getVideoResults() == null) {
-                                // Show no video
+                            if (throwable == null) {
+                                if (video.getVideoResults() == null || video.getVideoResults().size() == 0) {
+                                    view.hideProgress();
+                                    view.showNoData();
+                                } else {
+                                    view.onVideoLoaded(video);
+                                    view.hideProgress();
+                                }
                             } else {
-                                view.onVideoLoaded(video);
                                 view.hideProgress();
+                                view.showError();
                             }
                         })
         );

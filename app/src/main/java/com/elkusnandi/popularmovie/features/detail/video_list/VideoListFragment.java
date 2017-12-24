@@ -4,7 +4,10 @@ package com.elkusnandi.popularmovie.features.detail.video_list;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.data.model.VideoResult;
 import com.elkusnandi.popularmovie.data.provider.Repository;
+import com.elkusnandi.popularmovie.ui.widget.InformationView;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.MyDisposable;
 
@@ -25,12 +29,16 @@ import butterknife.ButterKnife;
 
 public class VideoListFragment extends Fragment implements
         VideoAdapter.OnItemClickListener,
+        View.OnClickListener,
         VideoListContract.View {
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     @BindView(R.id.rv_video)
     RecyclerView recyclerView;
+    @BindView(R.id.view_info)
+    InformationView informationView;
+    @BindView(R.id.progressbar)
+    ContentLoadingProgressBar progressBar;
 
     private VideoAdapter adapter;
     private Movies movie;
@@ -60,7 +68,7 @@ public class VideoListFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_video_list, container, false);
@@ -69,7 +77,9 @@ public class VideoListFragment extends Fragment implements
         adapter = new VideoAdapter(getContext());
         adapter.setItemClickListener(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, LinearLayoutManager.VERTICAL, false));
+
+        informationView.addButtonListener(this);
 
         presenter.onAttach(this);
         presenter.loadVideo(movie.getId());
@@ -84,16 +94,35 @@ public class VideoListFragment extends Fragment implements
 
     @Override
     public void showProgress() {
-
+        progressBar.show();
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.hide();
     }
 
     @Override
     public void onVideoLoaded(Video video) {
         adapter.setData(video.getVideoResults());
+    }
+
+    @Override
+    public void showError() {
+        informationView.showNoConnection();
+    }
+
+    @Override
+    public void showNoData() {
+        informationView.showNoData();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_action:
+                presenter.loadVideo(movie.getId());
+                break;
+        }
     }
 }

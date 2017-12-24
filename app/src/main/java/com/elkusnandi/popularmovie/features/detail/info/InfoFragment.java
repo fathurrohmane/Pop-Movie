@@ -11,21 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.CastAdapter;
+import com.elkusnandi.popularmovie.data.model.Genre;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.MyDisposable;
+import com.elkusnandi.popularmovie.utils.TextToLinkUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InfoFragment extends Fragment implements InfoContract.View {
+public class InfoFragment extends Fragment implements InfoContract.View, TextToLinkUtils.SpannableClickListener<Genre> {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -50,13 +53,12 @@ public class InfoFragment extends Fragment implements InfoContract.View {
     TextView textViewPlot;
     @BindView(R.id.rv_casts)
     RecyclerView recyclerViewCast;
-
+    TextToLinkUtils textToLinkUtils;
     private Movies movie;
     private MovieCasts movieCasts;
     private MovieDetail movieDetail;
     private InfoPresenter presenter;
     private CastAdapter castAdapter;
-
     private OnFragmentInteractionListener mListener;
 
     public InfoFragment() {
@@ -80,7 +82,7 @@ public class InfoFragment extends Fragment implements InfoContract.View {
         presenter = new InfoPresenter(MyDisposable.getInstance(),
                 Repository.getInstance(AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance());
-
+        textToLinkUtils = new TextToLinkUtils(this);
     }
 
     @Override
@@ -158,7 +160,11 @@ public class InfoFragment extends Fragment implements InfoContract.View {
     @Override
     public void infoLoaded(MovieDetail movieDetail) {
         if (movieDetail.getGenres() != null) {
-            textViewGenre.setText(movieDetail.getGenres().get(0).getName()); // TODO: 19/12/2017 will throw error
+            if (movieDetail.getGenres().size() > 0) {
+                textToLinkUtils.createSpannableString(movieDetail.getGenres(), textViewGenre);
+            } else {
+                textViewGenre.setText("-");
+            }
         }
     }
 
@@ -170,6 +176,11 @@ public class InfoFragment extends Fragment implements InfoContract.View {
     @Override
     public boolean isDataReady() {
         return movieCasts != null && movieDetail != null;
+    }
+
+    @Override
+    public void onLinkClicked(Genre itemClicked) {
+        Toast.makeText(getContext(), itemClicked.getId() + " " + itemClicked.getName(), Toast.LENGTH_LONG).show();
     }
 
     public interface OnFragmentInteractionListener {

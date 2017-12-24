@@ -16,6 +16,10 @@ public interface VideoListContract {
         void hideProgress();
 
         void onVideoLoaded(Video video);
+
+        void showError();
+
+        void showNoData();
     }
 
     interface Presenter extends MyPresenter<View> {
