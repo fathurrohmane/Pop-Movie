@@ -4,6 +4,8 @@ import com.elkusnandi.popularmovie.api.MovieDbApi;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
+import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 import com.google.gson.Gson;
@@ -90,6 +92,27 @@ public class Repository {
 
     public Single<Video> getMovieVideos(String api, long movieId) {
         return getApiService().getMovieVideos(movieId, api);
+    }
+
+    /**
+     * Get request token respond for log in
+     *
+     * @param apiKey
+     * @return
+     */
+    public Single<RequestTokenRespond> requestToken(String apiKey) {
+        return getApiService().requestToken(apiKey);
+    }
+
+    /**
+     * Get session id for accessing user data
+     *
+     * @param apiKey
+     * @param requestToken
+     * @return
+     */
+    public Single<RequestSessionIdRespond> requestSessionId(String apiKey, String requestToken) {
+        return getApiService().requestSession(apiKey, requestToken);
     }
 
 }

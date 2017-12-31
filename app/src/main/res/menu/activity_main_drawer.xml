@@ -2,29 +2,56 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+    <group
+        android:id="@+id/group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_group_discover"
+            android:title="@string/navigation_drawer_group_discover_title">
+            <menu>
+                <item
+                    android:id="@+id/nav_discover_movie"
+                    android:icon="@drawable/ic_movie_list"
+                    android:title="@string/navigation_drawer_group_discover_movie_title" />
+                <item
+                    android:id="@+id/nav_discover_tv"
+                    android:icon="@drawable/ic_tv"
+                    android:title="@string/navigation_drawer_group_discover_tv_title" />
+            </menu>
+        </item>
 
-    <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_my_profile"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/drawer_my_profile_title" />
+            android:id="@+id/nav_group_my_movie_db_logged_in"
+            android:title="@string/navigation_drawer_group_my_moviedb_title">
+            <menu>
+                <item
+                    android:id="@+id/nav_movie_list"
+                    android:icon="@drawable/ic_movie_list"
+                    android:title="@string/navigation_drawer_group_my_moviedb_movie_list_title" />
+                <item
+                    android:id="@+id/nav_watch_list"
+                    android:icon="@drawable/ic_watch_list"
+                    android:title="@string/navigation_drawer_group_my_moviedb_watch_list_title" />
+                <item
+                    android:id="@+id/nav_favourite"
+                    android:icon="@drawable/ic_favourite"
+                    android:title="@string/navigation_drawer_group_my_moviedb_favourite_title" />
+                <item
+                    android:id="@+id/nav_log_out"
+                    android:icon="@drawable/ic_logout"
+                    android:title="@string/navigation_drawer_group_my_moviedb_log_out_title" />
+            </menu>
+        </item>
+
         <item
-            android:id="@+id/nav_discover"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/drawer_discover_title" />
+            android:id="@+id/nav_group_my_movie_db_logged_out"
+            android:title="@string/navigation_drawer_group_my_moviedb_title">
+            <menu>
+                <item
+                    android:id="@+id/nav_log_in"
+                    android:icon="@drawable/ic_login"
+                    android:title="@string/drawer_log_in_title" />
+            </menu>
+        </item>
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>

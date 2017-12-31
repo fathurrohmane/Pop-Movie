@@ -1,8 +1,10 @@
 package com.elkusnandi.popularmovie.features.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,8 +17,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.features.main.login.LogInActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,26 +44,33 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // Set toolbar
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Discover");
 
+        // Set Fab
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(
                 view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show());
+
+        // Set nav bar
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        setNavigationViewState();
 
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_discover_movie);
+
+        // Show default fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, DiscoverFragment.newInstance("", ""));
         fragmentTransaction.commit();
 
-        navigationView.setCheckedItem(R.id.nav_discover);
-        toolbar.setTitle("Discover");
     }
 
     @Override
@@ -93,14 +104,39 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_discover) {
-            // Handle the camera action
+        switch (id) {
+            case R.id.nav_log_in:
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
+                break;
+            case R.id.nav_discover_movie:
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, DiscoverFragment.newInstance("", ""));
+                fragmentTransaction.commit();
+                break;
+            case R.id.nav_discover_tv:
+                break;
+            case R.id.nav_movie_list:
+                break;
+            case R.id.nav_favourite:
+                break;
+            case R.id.nav_watch_list:
+                break;
+            case R.id.nav_log_out:
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
+                editor.putString(getString(R.string.sharedpreference_session_id), "");
+                editor.apply();
+
+                setNavigationViewState();
+                Toast.makeText(this, getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -115,6 +151,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 123) {
+            setNavigationViewState();
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Change the state of the navigation view depend on user is logged in or not
+     */
+    private void setNavigationViewState() {
+        boolean loginStatus = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE)
+                .getBoolean(getString(R.string.sharedpreference_login_status), false);
+        if (loginStatus) {
+            navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(false);
+        } else {
+            navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(true);
+        }
     }
 }

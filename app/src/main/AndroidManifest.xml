@@ -38,7 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.main.login.LogInActivity" />
+        <activity
+            android:name=".features.main.login.LogInActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".features.search.SearchActivity" />
     </application>
 
 </manifest>

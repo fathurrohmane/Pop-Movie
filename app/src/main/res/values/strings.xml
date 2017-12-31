@@ -37,11 +37,14 @@
     <string name="image_description_poster">Movie Poster</string>
     <string name="image_description_backdrop">Backdrop of the movie</string>
 
-    <!--Error message-->
+    <!-- Message-->
     <string name="error_no_data">No data found.</string>
     <string name="error_no_connection">No connection.</string>
     <string name="error_server_problem">Server problem.</string>
     <string name="error_no_connection_button">Reload</string>
+    <string name="success_login">Login has success. Close this window.</string>
+    <string name="success_logout">Logout has success.</string>
+    <string name="error_login">Login has fail. Close and try again. Error code : %s</string>
 
     <!--Button strings-->
     <string name="button_reload_title">Reload</string>
@@ -49,8 +52,20 @@
     <!--Drawer String in Main Activity-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_group_my_moviedb_title">My Movie DB</string>
+    <string name="navigation_drawer_group_my_moviedb_watch_list_title">Watch List</string>
+    <string name="navigation_drawer_group_my_moviedb_movie_list_title">Movie List</string>
+    <string name="navigation_drawer_group_my_moviedb_favourite_title">Favourite</string>
+    <string name="navigation_drawer_group_my_moviedb_log_out_title">Log out</string>
+    <string name="navigation_drawer_group_my_moviedb_log_in_title">Log in</string>
+    <string name="navigation_drawer_group_discover_title">Discover</string>
+    <string name="navigation_drawer_group_discover_movie_title">Movie</string>
+    <string name="navigation_drawer_group_discover_tv_title">TV</string>
 
     <!--Sharedpreference strings-->
+    <string name="sharedpreference_id">com.elkusnandi.popularmovie.PREFERENCE_FILE_KEY</string>
     <string name="sharedpreference_dialog_sort">sort</string>
+    <string name="sharedpreference_session_id">session_id</string>
+    <string name="sharedpreference_login_status">login_status</string>
 
 </resources>

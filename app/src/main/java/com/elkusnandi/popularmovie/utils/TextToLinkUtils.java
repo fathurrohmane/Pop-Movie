@@ -29,7 +29,7 @@ public class TextToLinkUtils {
         this.clickListener = clickListener;
     }
 
-    public SpannableStringBuilder createSpannableString(List<Genre> genres, TextView textView) {
+    public void createSpannableString(List<Genre> genres, TextView textView) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 
         for (Genre genre : genres) {
@@ -69,8 +69,6 @@ public class TextToLinkUtils {
 
         textView.setText(spannableStringBuilder);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
-
-        return spannableStringBuilder;
     }
 
     public interface SpannableClickListener<T> {
