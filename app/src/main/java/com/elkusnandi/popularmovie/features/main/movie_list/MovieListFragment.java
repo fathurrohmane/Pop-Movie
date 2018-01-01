@@ -1,7 +1,9 @@
 package com.elkusnandi.popularmovie.features.main.movie_list;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,6 +39,8 @@ public class MovieListFragment extends Fragment implements
         View.OnClickListener {
 
     private static final String ARG_PARAM1 = "discover_type";
+    private static final String ARG_PARAM2 = "account_id";
+    private static final String ARG_PARAM3 = "session_id";
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -96,7 +100,9 @@ public class MovieListFragment extends Fragment implements
         adapter.addItemClickListener(this);
         recyclerView.setAdapter(adapter);
         presenter.onAttach(this);
-        presenter.loadMovies(discoverType);
+
+        // load movie
+        loadMovies();
 
         return view;
     }
@@ -163,8 +169,23 @@ public class MovieListFragment extends Fragment implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_action:
-                presenter.loadMovies(discoverType);
+                loadMovies();
                 break;
+        }
+    }
+
+    private void loadMovies() {
+        if (discoverType.equals(Repository.MOVIE_TYPE_FAVOURITE)) {
+            if (getContext() != null) {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE);
+                long accountId = sharedPreferences.getLong(getString(R.string.sharedpreference_account_id), -1L);
+                String sessionId = sharedPreferences.getString(getString(R.string.sharedpreference_session_id), "");
+                presenter.loadFavouriteMovies(accountId, sessionId, 1);
+            } else {
+                throw new IllegalArgumentException("Missing Context");
+            }
+        } else {
+            presenter.loadMovies(discoverType, 1, "ID");
         }
     }
 }

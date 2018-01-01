@@ -6,6 +6,7 @@ import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
+import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 
 import io.reactivex.Single;
@@ -24,8 +25,7 @@ public interface MovieDbApi {
 
     String API = "?api_key=" + BuildConfig.MOVIE_DB_API_KEY;
 
-    @GET("discover/{type}" + API)
-    Single<MovieRespond> getPopularMovies(@Path("type") String type);
+//  ========== Movies ==========
 
     @GET("movie/{movieId}" + API)
     Single<MovieRespond> getMovieDetailInfo(@Path("type") long movieId);
@@ -64,14 +64,14 @@ public interface MovieDbApi {
 
 //  ========== Account ==========
 
-    @GET("account/" + API)
-    Single<RequestTokenRespond> getUserDetail(@Query("session_id") String sessionId);
+    @GET("account" + API)
+    Single<UserDetailRespond> getUserDetail(@Query("session_id") String sessionId);
 
     @GET("account/{account_id}/lists" + API)
     Single<RequestTokenRespond> getUserMovieList(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @GET("account/{account_id}/favorite/movies" + API)
-    Single<MovieRespond> getUserFavouriteMovies(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
+    Single<MovieRespond> getUserFavouriteMovies(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @GET("account/{account_id}/watchlist/movies" + API)
     Single<RequestTokenRespond> getUserWatchList(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);

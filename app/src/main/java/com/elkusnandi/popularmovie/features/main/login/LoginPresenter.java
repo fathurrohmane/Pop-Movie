@@ -51,18 +51,31 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
 
     @Override
     public void requestSessionId(String token) {
-        disposable.add(
-                repository.requestSessionId(token)
-                        .subscribeOn(schedulerProvider.io())
-                        .observeOn(schedulerProvider.ui())
-                        .subscribe((requestSessionIdRespond, throwable) -> {
-                                    if (throwable == null) {
-                                        view.onLoginSuccess(requestSessionIdRespond.getSessionId());
-                                    } else {
-                                        view.onLoginFail(throwable.getMessage());
-                                    }
-                                }
-                        )
+        disposable.add(repository.requestSessionId(token)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe((requestSessionIdRespond, throwable) -> {
+                            if (throwable == null) {
+                                view.onLoginSuccess(requestSessionIdRespond.getSessionId());
+                            } else {
+                                view.onLoginFail(throwable.getMessage());
+                            }
+                        }
+                )
         );
+    }
+
+    @Override
+    public void requestUserDetails(String sessionId) {
+        disposable.add(repository.requestUserDetail(sessionId)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe((userDetailRespond, throwable) -> {
+                    if (throwable == null) {
+                        view.onUserDetailReceived(userDetailRespond);
+                    } else {
+                        view.onLoginFail(throwable.getMessage());
+                    }
+                }));
     }
 }

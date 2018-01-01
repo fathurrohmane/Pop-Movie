@@ -22,7 +22,6 @@ import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.features.detail.info.InfoFragment;
 import com.elkusnandi.popularmovie.features.detail.video_list.VideoListFragment;
-import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,10 +97,6 @@ public class DetailActivity extends AppCompatActivity {
                     return InfoFragment.newInstance(movie);
                 case 1:
                     return VideoListFragment.newInstance(movie);
-                case 2:
-                    return MovieListFragment.newInstance("popular");
-                case 3:
-                    return MovieListFragment.newInstance("recently_added");
                 default:
                     throw new IllegalArgumentException("Illegal fragment number");
             }
@@ -109,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 2;
         }
 
         @Nullable

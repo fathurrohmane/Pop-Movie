@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
 import butterknife.BindView;
@@ -100,7 +101,6 @@ public class DiscoverFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -114,13 +114,13 @@ public class DiscoverFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return MovieListFragment.newInstance("now_playing");
+                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_NOW_PLAYING);
                 case 1:
-                    return MovieListFragment.newInstance("up_coming");
+                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_UP_COMING);
                 case 2:
-                    return MovieListFragment.newInstance("popular");
+                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_POPULAR);
                 case 3:
-                    return MovieListFragment.newInstance("recently_added");
+                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_RECENTLY_ADDED);
                 default:
                     throw new IllegalArgumentException("Illegal fragment number");
             }

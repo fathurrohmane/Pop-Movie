@@ -24,7 +24,9 @@ public interface MovieListContract {
 
     interface Presenter extends MyPresenter<View> {
 
-        void loadMovies(String movieType);
+        void loadMovies(String discoverType, int page, String region);
+
+        void loadFavouriteMovies(long accountId, String sessionId, int page);
 
     }
 }

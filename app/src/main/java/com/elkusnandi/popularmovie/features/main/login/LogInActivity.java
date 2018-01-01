@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.MyDisposable;
@@ -86,7 +87,21 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
         editor.putBoolean(getString(R.string.sharedpreference_login_status), true);
         editor.apply();
 
-        Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_LONG).show();
+
+        // Request user detail
+        presenter.requestUserDetails(sessionId);
+    }
+
+    @Override
+    public void onUserDetailReceived(UserDetailRespond userDetailRespond) {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.sharedpreference_user_name), userDetailRespond.getUsername());
+        editor.putLong(getString(R.string.sharedpreference_account_id), userDetailRespond.getId());
+        editor.apply();
+
+        Toast.makeText(this, getString(R.string.success_get_user_detail, userDetailRespond.getUsername()), Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -44,6 +44,7 @@
     <string name="error_no_connection_button">Reload</string>
     <string name="success_login">Login has success. Close this window.</string>
     <string name="success_logout">Logout has success.</string>
+    <string name="success_get_user_detail">Welcome %s</string>
     <string name="error_login">Login has fail. Close and try again. Error code : %s</string>
 
     <!--Button strings-->
@@ -66,6 +67,8 @@
     <string name="sharedpreference_id">com.elkusnandi.popularmovie.PREFERENCE_FILE_KEY</string>
     <string name="sharedpreference_dialog_sort">sort</string>
     <string name="sharedpreference_session_id">session_id</string>
+    <string name="sharedpreference_account_id">account_id</string>
+    <string name="sharedpreference_user_name">user_name</string>
     <string name="sharedpreference_login_status">login_status</string>
 
 </resources>

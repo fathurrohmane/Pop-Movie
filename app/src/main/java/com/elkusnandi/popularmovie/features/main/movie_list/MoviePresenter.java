@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
 /**
@@ -36,27 +37,21 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
         disposable.clear();
     }
 
-    public void loadMovies(String discoverType) {
+    @Override
+    public void loadMovies(String discoverType, int page, String region) {
         view.showProgress();
-        Single<MovieRespond> single;
-        switch (discoverType) {
-            case "now_playing":
-                single = repository.getNowPlayingMovies(1, "ID");
-                break;
-            case "up_coming":
-                single = repository.getUpComingMovies(1, "ID");
-                break;
-            case "popular":
-                single = repository.getPopularMovies(1, "ID");
-                break;
-            case "recently_added":
-                single = repository.getRecentlyAddedMovies(1, "ID");
-                break;
-            default:
-                throw new IllegalArgumentException("Discover Type Not Found");
-        }
+        disposable.add(getMoviesDisposable(repository.getMovies(discoverType, page, region)));
 
-        disposable.add(single.subscribeOn(schedulerProvider.io())
+    }
+
+    @Override
+    public void loadFavouriteMovies(long accountId, String sessionId, int page) {
+        view.showProgress();
+        disposable.add(getMoviesDisposable(repository.getUserFavouriteMovies(accountId, sessionId, page)));
+    }
+
+    private Disposable getMoviesDisposable(Single<MovieRespond> movieRespondSingle) {
+        return movieRespondSingle.subscribeOn(schedulerProvider.io())
                 .timeout(15, TimeUnit.SECONDS)
                 .observeOn(schedulerProvider.ui())
                 .subscribe((movieResult, throwable) -> {
@@ -75,7 +70,6 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
                         view.hideProgress();
                         view.showError(1);
                     }
-                })
-        );
+                });
     }
 }

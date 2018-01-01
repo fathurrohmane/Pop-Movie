@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +21,9 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.login.LogInActivity;
+import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,15 +118,14 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
                 break;
             case R.id.nav_discover_movie:
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, DiscoverFragment.newInstance("", ""));
-                fragmentTransaction.commit();
+                changeFragment(DiscoverFragment.newInstance("", ""));
                 break;
             case R.id.nav_discover_tv:
                 break;
             case R.id.nav_movie_list:
                 break;
             case R.id.nav_favourite:
+                changeFragment(MovieListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE));
                 break;
             case R.id.nav_watch_list:
                 break;
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
                 editor.putString(getString(R.string.sharedpreference_session_id), "");
+                editor.putLong(getString(R.string.sharedpreference_account_id), 0L);
                 editor.apply();
 
                 setNavigationViewState();
@@ -172,5 +175,11 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(true);
         }
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }

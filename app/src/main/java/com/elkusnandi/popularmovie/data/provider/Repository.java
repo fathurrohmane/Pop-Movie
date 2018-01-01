@@ -6,6 +6,7 @@ import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
+import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 import com.google.gson.Gson;
@@ -22,8 +23,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Repository {
 
+    public static final String MOVIE_TYPE_NOW_PLAYING = "now_playing";
+    public static final String MOVIE_TYPE_UP_COMING = "up_coming";
+    public static final String MOVIE_TYPE_POPULAR = "popular";
+    public static final String MOVIE_TYPE_RECENTLY_ADDED = "recently_added";
+    public static final String MOVIE_TYPE_FAVOURITE = "favourite";
     private static Repository INSTANCE;
-
     private Retrofit retrofit;
 
     private Repository(BaseSchedulerProvider schedulerProvider) {
@@ -51,19 +56,31 @@ public class Repository {
         return retrofit.create(MovieDbApi.class);
     }
 
-    public Single<MovieRespond> getTopMovies(String type, String api) {
+    public Single<MovieRespond> getMovies(String type, int page, String region) {
         switch (type) {
-            case "now_playing":
-
-            case "up_coming":
-                return getApiService().getPopularMovies(type);
-            case "popular":
-                return getApiService().getPopularMovies(type);
-            case "recently_added":
-                return getApiService().getPopularMovies(type);
+            case MOVIE_TYPE_NOW_PLAYING:
+                return getApiService().getNowPlayingMovies(page, region);
+            case MOVIE_TYPE_UP_COMING:
+                return getApiService().getUpcomingMovies(page, region);
+            case MOVIE_TYPE_POPULAR:
+                return getApiService().getPopularMovies(page, region);
+            case MOVIE_TYPE_RECENTLY_ADDED:
+                return getApiService().getRecentlyAddedMovies(page, region);
             default:
-                return getApiService().getPopularMovies("movie");
+                throw new IllegalArgumentException("Discover Type Not Found");
         }
+    }
+
+    /**
+     * Get user favourite movie list
+     *
+     * @param accountId movie db account id
+     * @param sessionId movie db session id
+     * @param page      page
+     * @return Rx Single of MovieRespond
+     */
+    public Single<MovieRespond> getUserFavouriteMovies(long accountId, String sessionId, int page) {
+        return getApiService().getUserFavouriteMovies(accountId, sessionId, page);
     }
 
     public Single<MovieRespond> getNowPlayingMovies(int page, String region) {
@@ -111,6 +128,16 @@ public class Repository {
      */
     public Single<RequestSessionIdRespond> requestSessionId(String requestToken) {
         return getApiService().requestSession(requestToken);
+    }
+
+    /**
+     * Get user detail such as Name, User id, avatar etc
+     *
+     * @param sessionId sessionId from moviedb (get it from MovieDBApi.requestSessionId())
+     * @return single observable of UserDetailRespond
+     */
+    public Single<UserDetailRespond> requestUserDetail(String sessionId) {
+        return getApiService().getUserDetail(sessionId);
     }
 
 }
