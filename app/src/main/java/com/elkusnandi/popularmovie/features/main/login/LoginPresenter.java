@@ -30,9 +30,9 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
     }
 
     @Override
-    public void requestToken(String apiKey) {
+    public void requestToken() {
         disposable.add(
-                repository.requestToken(apiKey)
+                repository.requestToken()
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
                         .subscribe((requestTokenRespond, throwable) -> {
@@ -50,9 +50,9 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
     }
 
     @Override
-    public void requestSessionId(String apiKey, String token) {
+    public void requestSessionId(String token) {
         disposable.add(
-                repository.requestSessionId(apiKey, token)
+                repository.requestSessionId(token)
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
                         .subscribe((requestSessionIdRespond, throwable) -> {

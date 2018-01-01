@@ -1,6 +1,6 @@
 package com.elkusnandi.popularmovie.features.main.movie_list;
 
-import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.interfaces.BaseView;
 import com.elkusnandi.popularmovie.interfaces.MyPresenter;
 
@@ -18,7 +18,7 @@ public interface MovieListContract {
 
         void showError(int type);
 
-        void loadMovie(MovieResult movieResult);
+        void loadMovie(MovieRespond movieRespond);
 
     }
 

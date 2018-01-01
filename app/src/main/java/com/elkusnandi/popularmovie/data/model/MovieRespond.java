@@ -12,17 +12,17 @@ import java.util.List;
  * Created by Taruna 98 on 12/12/2017.
  */
 
-public class MovieResult implements Parcelable {
+public class MovieRespond implements Parcelable {
 
-    public static final Creator<MovieResult> CREATOR = new Creator<MovieResult>() {
+    public static final Creator<MovieRespond> CREATOR = new Creator<MovieRespond>() {
         @Override
-        public MovieResult createFromParcel(Parcel in) {
-            return new MovieResult(in);
+        public MovieRespond createFromParcel(Parcel in) {
+            return new MovieRespond(in);
         }
 
         @Override
-        public MovieResult[] newArray(int size) {
-            return new MovieResult[size];
+        public MovieRespond[] newArray(int size) {
+            return new MovieRespond[size];
         }
     };
     @SerializedName("page")
@@ -38,7 +38,7 @@ public class MovieResult implements Parcelable {
     @Expose
     private List<Movies> results = null;
 
-    protected MovieResult(Parcel in) {
+    protected MovieRespond(Parcel in) {
         page = in.readInt();
         totalResults = in.readInt();
         totalPages = in.readInt();

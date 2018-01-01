@@ -1,8 +1,9 @@
 package com.elkusnandi.popularmovie.api;
 
+import com.elkusnandi.popularmovie.BuildConfig;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
-import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
@@ -21,64 +22,65 @@ public interface MovieDbApi {
 
     String BASE_URL = "https://api.themoviedb.org/3/";
 
-    @GET("discover/{type}")
-    Single<MovieResult> getPopularMovies(@Path("type") String type, @Query("api_key") String apiKey);
+    String API = "?api_key=" + BuildConfig.MOVIE_DB_API_KEY;
 
-    @GET("movie/{movieId}")
-    Single<MovieResult> getMovieDetailInfo(@Path("type") long movieId, @Query("api_key") String apiKey);
+    @GET("discover/{type}" + API)
+    Single<MovieRespond> getPopularMovies(@Path("type") String type);
 
-    @GET("movie/now_playing")
-    Single<MovieResult> getNowPlayingMovies(@Query("api_key") String apiKey, @Query("page") int page, @Query("region") String region);
+    @GET("movie/{movieId}" + API)
+    Single<MovieRespond> getMovieDetailInfo(@Path("type") long movieId);
 
-    @GET("movie/popular")
-    Single<MovieResult> getPopularMovies(@Query("api_key") String apiKey, @Query("page") int page, @Query("region") String region);
+    @GET("movie/now_playing" + API)
+    Single<MovieRespond> getNowPlayingMovies(@Query("page") int page, @Query("region") String region);
 
-    @GET("movie/latest")
-    Single<MovieResult> getRecentlyAddedMovies(@Query("api_key") String apiKey, @Query("page") int page, @Query("region") String region);
+    @GET("movie/popular" + API)
+    Single<MovieRespond> getPopularMovies(@Query("page") int page, @Query("region") String region);
 
-    @GET("movie/upcoming")
-    Single<MovieResult> getUpcomingMovies(@Query("api_key") String apiKey, @Query("page") int page, @Query("region") String region);
+    @GET("movie/latest" + API)
+    Single<MovieRespond> getRecentlyAddedMovies(@Query("page") int page, @Query("region") String region);
 
-    @GET("movie/{movie_id}")
-    Single<MovieDetail> getMovieDetails(@Path("movie_id") long movieId, @Query("api_key") String apiKey);
+    @GET("movie/upcoming" + API)
+    Single<MovieRespond> getUpcomingMovies(@Query("page") int page, @Query("region") String region);
 
-    @GET("movie/{movie_id}/credits")
-    Single<MovieCasts> getMovieCasts(@Path("movie_id") long movieId, @Query("api_key") String apiKey);
+    @GET("movie/{movie_id}" + API)
+    Single<MovieDetail> getMovieDetails(@Path("movie_id") long movieId);
 
-    @GET("movie/{movie_id}/videos")
-    Single<Video> getMovieVideos(@Path("movie_id") long movieId, @Query("api_key") String apiKey);
+    @GET("movie/{movie_id}/credits" + API)
+    Single<MovieCasts> getMovieCasts(@Path("movie_id") long movieId);
 
-    @GET("movie/{movie_id}/images")
-    Single<MovieResult> getMovieWallpapers(@Path("movie_id") long movieId, @Query("api_key") String apiKey);
+    @GET("movie/{movie_id}/videos" + API)
+    Single<Video> getMovieVideos(@Path("movie_id") long movieId);
+
+    @GET("movie/{movie_id}/images" + API)
+    Single<MovieRespond> getMovieWallpapers(@Path("movie_id") long movieId);
 
 //  ========== Login ==========
 
-    @GET("authentication/token/new")
-    Single<RequestTokenRespond> requestToken(@Query("api_key") String apiKey);
+    @GET("authentication/token/new" + API)
+    Single<RequestTokenRespond> requestToken();
 
-    @GET("authentication/session/new")
-    Single<RequestSessionIdRespond> requestSession(@Query("api_key") String apiKey, @Query("request_token") String requestToken);
+    @GET("authentication/session/new" + API)
+    Single<RequestSessionIdRespond> requestSession(@Query("request_token") String requestToken);
 
 //  ========== Account ==========
 
-    @GET("account/")
-    Single<RequestTokenRespond> getUserDetail(@Query("api_key") String apiKey, @Query("session_id") String sessionId);
+    @GET("account/" + API)
+    Single<RequestTokenRespond> getUserDetail(@Query("session_id") String sessionId);
 
-    @GET("account/{account_id}/lists")
-    Single<RequestTokenRespond> getUserMovieList(@Query("api_key") String apiKey, @Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
+    @GET("account/{account_id}/lists" + API)
+    Single<RequestTokenRespond> getUserMovieList(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
-    // TODO: 30/12/2017 change data type
-    @GET("account/{account_id}/favorite/movies")
-    Single<RequestTokenRespond> getUserFavouriteMovie(@Query("api_key") String apiKey, @Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
+    @GET("account/{account_id}/favorite/movies" + API)
+    Single<MovieRespond> getUserFavouriteMovies(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
-    @GET("account/{account_id}/watchlist/movies")
-    Single<RequestTokenRespond> getUserWatchList(@Query("api_key") String apiKey, @Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
+    @GET("account/{account_id}/watchlist/movies" + API)
+    Single<RequestTokenRespond> getUserWatchList(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
-    @POST("account/{account_id}/favorite")
-    Single<RequestTokenRespond> addMovieToFavourite(@Query("api_key") String apiKey, @Query("session_id") String sessionId);
+    @POST("account/{account_id}/favorite" + API)
+    Single<RequestTokenRespond> addMovieToFavourite(@Query("session_id") String sessionId);
 
-    @POST("account/{account_id}/watchlist")
-    Single<RequestTokenRespond> addMovieToWatchList(@Query("api_key") String apiKey, @Query("session_id") String sessionId);
+    @POST("account/{account_id}/watchlist" + API)
+    Single<RequestTokenRespond> addMovieToWatchList(@Query("session_id") String sessionId);
 
 
 }

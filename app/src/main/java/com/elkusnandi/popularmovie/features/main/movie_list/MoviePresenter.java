@@ -1,8 +1,7 @@
 package com.elkusnandi.popularmovie.features.main.movie_list;
 
-import com.elkusnandi.popularmovie.BuildConfig;
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
-import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 
@@ -39,19 +38,19 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
 
     public void loadMovies(String discoverType) {
         view.showProgress();
-        Single<MovieResult> single;
+        Single<MovieRespond> single;
         switch (discoverType) {
             case "now_playing":
-                single = repository.getNowPlayingMovies(BuildConfig.MOVIE_DB_API_KEY, 1, "ID");
+                single = repository.getNowPlayingMovies(1, "ID");
                 break;
             case "up_coming":
-                single = repository.getUpComingMovies(BuildConfig.MOVIE_DB_API_KEY, 1, "ID");
+                single = repository.getUpComingMovies(1, "ID");
                 break;
             case "popular":
-                single = repository.getPopularMovies(BuildConfig.MOVIE_DB_API_KEY, 1, "ID");
+                single = repository.getPopularMovies(1, "ID");
                 break;
             case "recently_added":
-                single = repository.getRecentlyAddedMovies(BuildConfig.MOVIE_DB_API_KEY, 1, "ID");
+                single = repository.getRecentlyAddedMovies(1, "ID");
                 break;
             default:
                 throw new IllegalArgumentException("Discover Type Not Found");

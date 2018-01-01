@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.MovieAdapter;
-import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
@@ -126,19 +126,19 @@ public class MovieListFragment extends Fragment implements
     }
 
     @Override
-    public void loadMovie(MovieResult movieResult) {
+    public void loadMovie(MovieRespond movieRespond) {
         if (adapter.getItemCount() == 0) {
-            if (movieResult.getResults() != null && movieResult.getResults().size() > 0) {
+            if (movieRespond.getResults() != null && movieRespond.getResults().size() > 0) {
                 // Add new data
-                adapter.setData(movieResult.getResults());
+                adapter.setData(movieRespond.getResults());
             } else {
                 // Show no data view
                 informationView.showNoData();
             }
         } else {
-            if (movieResult.getResults() != null) {
+            if (movieRespond.getResults() != null) {
                 // Add more data
-                adapter.setData(movieResult.getResults());
+                adapter.setData(movieRespond.getResults());
             } else {
                 // Reach bottom of page cant scroll anymore.
             }

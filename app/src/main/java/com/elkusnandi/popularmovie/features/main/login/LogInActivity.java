@@ -15,7 +15,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.elkusnandi.popularmovie.BuildConfig;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
@@ -67,7 +66,7 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
                 AndroidSchedulerProvider.getInstance()
         );
         presenter.onAttach(this);
-        presenter.requestToken(BuildConfig.MOVIE_DB_API_KEY);
+        presenter.requestToken();
     }
 
     @Override
@@ -127,9 +126,9 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
             toolbar.setTitle(view.getTitle());
 
             if (url.contains("allow")) {
-                presenter.requestSessionId(BuildConfig.MOVIE_DB_API_KEY, token);
+                presenter.requestSessionId(token);
             } else if (url.contains("deny")) {
-                presenter.requestSessionId(BuildConfig.MOVIE_DB_API_KEY, token);
+                presenter.requestSessionId(token);
             }
 
             super.onPageFinished(view, url);

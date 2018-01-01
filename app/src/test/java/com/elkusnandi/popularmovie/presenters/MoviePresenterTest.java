@@ -1,6 +1,6 @@
 package com.elkusnandi.popularmovie.presenters;
 
-import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListContract;
 import com.elkusnandi.popularmovie.features.main.movie_list.MoviePresenter;
@@ -49,9 +49,9 @@ public class MoviePresenterTest {
             }
 
             @Override
-            public void loadMovie(MovieResult movieResult) {
-                Assert.assertNotNull(movieResult);
-                Assert.assertEquals(1, movieResult.getPage());
+            public void loadMovie(MovieRespond movieRespond) {
+                Assert.assertNotNull(movieRespond);
+                Assert.assertEquals(1, movieRespond.getPage());
             }
 
         };

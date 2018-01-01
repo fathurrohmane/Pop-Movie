@@ -21,8 +21,8 @@ public class LoginContract {
 
     public interface Presenter extends MyPresenter<View> {
 
-        void requestToken(String apiKey);
+        void requestToken();
 
-        void requestSessionId(String apiKey, String token);
+        void requestSessionId(String token);
     }
 }

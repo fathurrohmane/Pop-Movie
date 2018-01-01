@@ -1,6 +1,5 @@
 package com.elkusnandi.popularmovie.features.detail.info;
 
-import com.elkusnandi.popularmovie.BuildConfig;
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
@@ -35,7 +34,7 @@ public class InfoPresenter extends BasePresenter implements InfoContract.Present
     public void loadInfo(long movieId) {
         view.showProgress();
         disposable.add(
-                repository.getMovieDetails(BuildConfig.MOVIE_DB_API_KEY, movieId)
+                repository.getMovieDetails(movieId)
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
                         .subscribe((movieDetail, throwable) -> {
@@ -50,7 +49,7 @@ public class InfoPresenter extends BasePresenter implements InfoContract.Present
     @Override
     public void loadCast(long movieId) {
         disposable.add(
-                repository.getMovieCasts(BuildConfig.MOVIE_DB_API_KEY, movieId)
+                repository.getMovieCasts(movieId)
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
                         .subscribe((movieCasts, throwable) -> {

@@ -3,7 +3,7 @@ package com.elkusnandi.popularmovie.data.provider;
 import com.elkusnandi.popularmovie.api.MovieDbApi;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
-import com.elkusnandi.popularmovie.data.model.MovieResult;
+import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
@@ -51,68 +51,66 @@ public class Repository {
         return retrofit.create(MovieDbApi.class);
     }
 
-    public Single<MovieResult> getTopMovies(String type, String api) {
+    public Single<MovieRespond> getTopMovies(String type, String api) {
         switch (type) {
             case "now_playing":
 
             case "up_coming":
-                return getApiService().getPopularMovies(type, api);
+                return getApiService().getPopularMovies(type);
             case "popular":
-                return getApiService().getPopularMovies(type, api);
+                return getApiService().getPopularMovies(type);
             case "recently_added":
-                return getApiService().getPopularMovies(type, api);
+                return getApiService().getPopularMovies(type);
             default:
-                return getApiService().getPopularMovies("movie", api);
+                return getApiService().getPopularMovies("movie");
         }
     }
 
-    public Single<MovieResult> getNowPlayingMovies(String api, int page, String region) {
-        return getApiService().getNowPlayingMovies(api, page, region);
+    public Single<MovieRespond> getNowPlayingMovies(int page, String region) {
+        return getApiService().getNowPlayingMovies(page, region);
     }
 
-    public Single<MovieResult> getUpComingMovies(String api, int page, String region) {
-        return getApiService().getUpcomingMovies(api, page, region);
+    public Single<MovieRespond> getUpComingMovies(int page, String region) {
+        return getApiService().getUpcomingMovies(page, region);
     }
 
-    public Single<MovieResult> getPopularMovies(String api, int page, String region) {
-        return getApiService().getPopularMovies(api, page, region);
+    public Single<MovieRespond> getPopularMovies(int page, String region) {
+        return getApiService().getPopularMovies(page, region);
     }
 
-    public Single<MovieResult> getRecentlyAddedMovies(String api, int page, String region) {
-        return getApiService().getRecentlyAddedMovies(api, page, region);
+    public Single<MovieRespond> getRecentlyAddedMovies(int page, String region) {
+        return getApiService().getRecentlyAddedMovies(page, region);
     }
 
-    public Single<MovieCasts> getMovieCasts(String api, long movieId) {
-        return getApiService().getMovieCasts(movieId, api);
+    public Single<MovieCasts> getMovieCasts(long movieId) {
+        return getApiService().getMovieCasts(movieId);
     }
 
-    public Single<MovieDetail> getMovieDetails(String api, long movieId) {
-        return getApiService().getMovieDetails(movieId, api);
+    public Single<MovieDetail> getMovieDetails(long movieId) {
+        return getApiService().getMovieDetails(movieId);
     }
 
-    public Single<Video> getMovieVideos(String api, long movieId) {
-        return getApiService().getMovieVideos(movieId, api);
+    public Single<Video> getMovieVideos(long movieId) {
+        return getApiService().getMovieVideos(movieId);
     }
 
     /**
      * Get request token respond for log in
      *
-     * @param apiKey
      * @return
      */
-    public Single<RequestTokenRespond> requestToken(String apiKey) {
-        return getApiService().requestToken(apiKey);
+    public Single<RequestTokenRespond> requestToken() {
+        return getApiService().requestToken();
     }
 
     /**
      * Get session id for accessing user data
      *
-     * @param apiKey
      * @param requestToken
      * @return
      */
-    public Single<RequestSessionIdRespond> requestSessionId(String apiKey, String requestToken) {
-        return getApiService().requestSession(apiKey, requestToken);
+    public Single<RequestSessionIdRespond> requestSessionId(String requestToken) {
+        return getApiService().requestSession(requestToken);
     }
 
 }
