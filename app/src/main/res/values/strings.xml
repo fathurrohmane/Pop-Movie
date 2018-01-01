@@ -45,7 +45,7 @@
     <string name="success_login">Login has success. Close this window.</string>
     <string name="success_logout">Logout has success.</string>
     <string name="success_get_user_detail">Welcome %s</string>
-    <string name="error_login">Login has fail. Close and try again. Error code : %s</string>
+    <string name="error_login">Login has fail. Close and try again./n Error code : %s</string>
 
     <!--Button strings-->
     <string name="button_reload_title">Reload</string>

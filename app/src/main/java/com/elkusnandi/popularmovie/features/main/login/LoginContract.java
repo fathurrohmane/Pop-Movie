@@ -18,7 +18,7 @@ public class LoginContract {
 
         void onUserDetailReceived(UserDetailRespond userDetailRespond);
 
-        void onLoginFail(String message);
+        void onError(int code, String message);
 
     }
 

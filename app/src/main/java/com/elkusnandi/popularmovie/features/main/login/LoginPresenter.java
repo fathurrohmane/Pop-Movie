@@ -5,6 +5,7 @@ import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
+import retrofit2.HttpException;
 
 /**
  * Created by Taruna 98 on 29/12/2017.
@@ -54,11 +55,17 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         disposable.add(repository.requestSessionId(token)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe((requestSessionIdRespond, throwable) -> {
+                .subscribe(
+                        (requestSessionIdRespond, throwable) -> {
                             if (throwable == null) {
                                 view.onLoginSuccess(requestSessionIdRespond.getSessionId());
                             } else {
-                                view.onLoginFail(throwable.getMessage());
+                                if (throwable instanceof HttpException) {
+                                    HttpException httpException = (HttpException) throwable;
+                                    view.onError(httpException.code(), throwable.getMessage());
+                                } else {
+                                    view.onError(-1, throwable.getMessage());
+                                }
                             }
                         }
                 )
@@ -74,8 +81,34 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                     if (throwable == null) {
                         view.onUserDetailReceived(userDetailRespond);
                     } else {
-                        view.onLoginFail(throwable.getMessage());
+                        if (throwable instanceof HttpException) {
+                            HttpException httpException = (HttpException) throwable;
+                            view.onError(httpException.code(), throwable.getMessage());
+                        } else {
+                            view.onError(-1, throwable.getMessage());
+                        }
                     }
-                }));
+                })
+        );
+    }
+
+    public void login(String token) {
+        disposable.add(repository
+                .requestSessionId(token)
+                .subscribeOn(schedulerProvider.io())
+                .flatMap(requestSessionIdRespond -> repository.requestUserDetail(requestSessionIdRespond.getSessionId()))
+                .subscribe((userDetailRespond, throwable) -> {
+                    if (throwable == null) {
+                        view.onUserDetailReceived(userDetailRespond);
+                    } else {
+                        if (throwable instanceof HttpException) {
+                            HttpException httpException = (HttpException) throwable;
+                            view.onError(httpException.code(), throwable.getMessage());
+                        } else {
+                            view.onError(-1, throwable.getMessage());
+                        }
+                    }
+                })
+        );
     }
 }

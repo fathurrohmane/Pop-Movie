@@ -105,7 +105,7 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void onLoginFail(String message) {
+    public void onError(int code, String message) {
         // Set login status to false
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
