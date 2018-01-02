@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -21,9 +22,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
-import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.login.LogInActivity;
-import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
+import com.elkusnandi.popularmovie.features.main.my_moviedb.MyFavouriteMovieFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_movie_list:
                 break;
             case R.id.nav_favourite:
-                changeFragment(MovieListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE));
+                changeFragment(MyFavouriteMovieFragment.newInstance());
                 break;
             case R.id.nav_watch_list:
                 break;

@@ -50,6 +50,14 @@
     <!--Button strings-->
     <string name="button_reload_title">Reload</string>
 
+    <!--Toolbar title-->
+    <string name="toolbar_my_moviedb_watch_list_title">@string/toolbar_my_moviedb_watch_list_title</string>
+    <string name="toolbar_my_moviedb_movie_list_title">@string/navigation_drawer_group_my_moviedb_movie_list_title</string>
+    <string name="toolbar_my_moviedb_favourite_title">@string/navigation_drawer_group_my_moviedb_favourite_title</string>
+    <string name="toolbar_discover_title">@string/navigation_drawer_group_discover_title</string>
+    <string name="toolbar_discover_movie_title">@string/navigation_drawer_group_discover_movie_title</string>
+    <string name="toolbar_discover_tv_title">@string/navigation_drawer_group_discover_tv_title</string>
+
     <!--Drawer String in Main Activity-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -70,5 +78,8 @@
     <string name="sharedpreference_account_id">account_id</string>
     <string name="sharedpreference_user_name">user_name</string>
     <string name="sharedpreference_login_status">login_status</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

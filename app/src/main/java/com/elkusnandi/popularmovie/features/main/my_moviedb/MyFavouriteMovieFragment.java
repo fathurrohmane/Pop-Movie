@@ -1,7 +1,6 @@
-package com.elkusnandi.popularmovie.features.main;
+package com.elkusnandi.popularmovie.features.main.my_moviedb;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,30 +20,31 @@ import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
-public class DiscoverFragment extends Fragment {
+public class MyFavouriteMovieFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "discover_type";
+    private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    private String discoverType;
+    private Unbinder unbinder;
+    private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
 
-    public DiscoverFragment() {
+    public MyFavouriteMovieFragment() {
         // Required empty public constructor
     }
 
-    public static DiscoverFragment newInstance(String param1, String param2) {
-        DiscoverFragment fragment = new DiscoverFragment();
+
+    public static MyFavouriteMovieFragment newInstance() {
+        MyFavouriteMovieFragment fragment = new MyFavouriteMovieFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +53,7 @@ public class DiscoverFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            discoverType = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -61,20 +61,20 @@ public class DiscoverFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_discover, container, false);
-        ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.fragment_my_favourite_movie, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
-        // Set activity
         if (getActivity() != null) {
             // Set toolbar
             Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-            toolbar.setTitle(getString(R.string.toolbar_discover_title));
+            toolbar.setTitle(getString(R.string.toolbar_my_moviedb_favourite_title));
 
             // Setup view pager and tab layout
             TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-            SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+            SectionsPagerAdapter sectionsPagerAdapter =
+                    new SectionsPagerAdapter(getChildFragmentManager());
             tabLayout.setupWithViewPager(viewPager);
             viewPager.setAdapter(sectionsPagerAdapter);
         }
@@ -82,31 +82,10 @@ public class DiscoverFragment extends Fragment {
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -119,13 +98,9 @@ public class DiscoverFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_NOW_PLAYING);
+                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE);
                 case 1:
-                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_UP_COMING);
-                case 2:
-                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_POPULAR);
-                case 3:
-                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_RECENTLY_ADDED);
+                    return MovieListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE);
                 default:
                     throw new IllegalArgumentException("Illegal fragment number");
             }
@@ -133,7 +108,7 @@ public class DiscoverFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 4;
+            return 2;
         }
 
         @Nullable
@@ -141,13 +116,9 @@ public class DiscoverFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Now Playing";
+                    return "Movies";
                 case 1:
-                    return "Up Coming";
-                case 2:
-                    return "Popular";
-                case 3:
-                    return "Recently Added";
+                    return "TVs";
             }
             return super.getPageTitle(position);
         }
