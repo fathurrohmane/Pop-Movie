@@ -9,12 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class UserFavouriteMovieFragment extends Fragment {
+public class UserFavouriteMovieFragment extends BaseFragment {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
@@ -31,7 +31,6 @@ public class UserFavouriteMovieFragment extends Fragment {
     private Unbinder unbinder;
 
     public UserFavouriteMovieFragment() {
-        // Required empty public constructor
     }
 
 
@@ -46,14 +45,14 @@ public class UserFavouriteMovieFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_my_favourite_movie, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        if (getActivity() != null) {
-            // Set toolbar
-            Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-            toolbar.setTitle(getString(R.string.toolbar_my_moviedb_favourite_title));
+        // Set toolbar
+        setActivityToolbarTitle(R.string.toolbar_my_moviedb_favourite_title);
 
+        if (getActivity() != null) {
             // Setup view pager and tab layout
             TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -62,6 +61,7 @@ public class UserFavouriteMovieFragment extends Fragment {
                     new SectionsPagerAdapter(getChildFragmentManager());
             tabLayout.setupWithViewPager(viewPager);
             viewPager.setAdapter(sectionsPagerAdapter);
+            tabLayout.setVisibility(View.VISIBLE);
         }
 
         return view;
@@ -75,7 +75,7 @@ public class UserFavouriteMovieFragment extends Fragment {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

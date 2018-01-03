@@ -1,10 +1,11 @@
-package com.elkusnandi.popularmovie.features.main.login;
+package com.elkusnandi.popularmovie.features.login;
 
 import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 
 /**
+ * Login Contract class
  * Created by Taruna 98 on 29/12/2017.
  */
 

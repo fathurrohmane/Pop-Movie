@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".features.main.login.LogInActivity"
+            android:name=".features.login.LogInActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".features.search.SearchActivity" />
     </application>

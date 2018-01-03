@@ -1,4 +1,4 @@
-package com.elkusnandi.popularmovie.features.main.login;
+package com.elkusnandi.popularmovie.features.login;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

@@ -1,4 +1,4 @@
-package com.elkusnandi.popularmovie.features.main.login;
+package com.elkusnandi.popularmovie.features.login;
 
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
 import com.elkusnandi.popularmovie.data.provider.Repository;
@@ -8,6 +8,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.HttpException;
 
 /**
+ * Login Presenter class to handle all data logic of the Login Activity
  * Created by Taruna 98 on 29/12/2017.
  */
 
@@ -41,10 +42,18 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                                 if (requestTokenRespond != null) {
                                     view.requestLogin(requestTokenRespond.getRequestToken());
                                 } else {
+                                    throw new IllegalArgumentException("RequestTokenRespond is Null");
                                 }
 
                             } else {
-                                // throw error
+                                // Show error message
+                                if (throwable instanceof HttpException) {
+                                    HttpException httpException = (HttpException) throwable;
+                                    view.onError(httpException.code(), httpException.getMessage());
+                                } else {
+                                    view.onError(0, throwable.getMessage());
+                                }
+
                             }
                         })
         );

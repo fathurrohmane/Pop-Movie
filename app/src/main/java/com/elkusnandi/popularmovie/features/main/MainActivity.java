@@ -2,7 +2,6 @@ package com.elkusnandi.popularmovie.features.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,15 +21,15 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
-import com.elkusnandi.popularmovie.features.main.login.LogInActivity;
+import com.elkusnandi.popularmovie.features.login.LogInActivity;
+import com.elkusnandi.popularmovie.features.main.discover.DiscoverFragment;
 import com.elkusnandi.popularmovie.features.main.my_moviedb.UserFavouriteMovieFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        DiscoverFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.fragment_container)
     FrameLayout frameLayout;
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
         // Show default fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, DiscoverFragment.newInstance("", ""));
+        fragmentTransaction.replace(R.id.fragment_container, DiscoverFragment.newInstance());
         fragmentTransaction.commit();
 
     }
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
                 break;
             case R.id.nav_discover_movie:
-                changeFragment(DiscoverFragment.newInstance("", ""));
+                changeFragment(DiscoverFragment.newInstance());
                 break;
             case R.id.nav_discover_tv:
                 break;
@@ -147,11 +146,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override

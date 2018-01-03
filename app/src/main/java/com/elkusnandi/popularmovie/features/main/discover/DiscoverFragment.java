@@ -1,7 +1,5 @@
-package com.elkusnandi.popularmovie.features.main;
+package com.elkusnandi.popularmovie.features.main.discover;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
@@ -23,95 +21,49 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class DiscoverFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "discover_type";
-    private static final String ARG_PARAM2 = "param2";
+public class DiscoverFragment extends BaseFragment {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-
-    private String discoverType;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     public DiscoverFragment() {
         // Required empty public constructor
     }
 
-    public static DiscoverFragment newInstance(String param1, String param2) {
+    public static DiscoverFragment newInstance() {
         DiscoverFragment fragment = new DiscoverFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            discoverType = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         ButterKnife.bind(this, view);
 
-        // Set activity
-        if (getActivity() != null) {
-            // Set toolbar
-            Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-            toolbar.setTitle(getString(R.string.toolbar_discover_title));
+        setActivityToolbarTitle(R.string.toolbar_discover_title);
 
-            // Setup view pager and tab layout
+        // Set TabLayout
+        if (getActivity() != null) {
             TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-            SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+            DiscoverFragment.SectionsPagerAdapter sectionsPagerAdapter =
+                    new DiscoverFragment.SectionsPagerAdapter(getChildFragmentManager());
             tabLayout.setupWithViewPager(viewPager);
             viewPager.setAdapter(sectionsPagerAdapter);
+            tabLayout.setVisibility(View.VISIBLE);
         }
 
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

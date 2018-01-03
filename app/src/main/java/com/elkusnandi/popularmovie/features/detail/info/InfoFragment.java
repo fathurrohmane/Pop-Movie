@@ -1,8 +1,7 @@
 package com.elkusnandi.popularmovie.features.detail.info;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,8 +44,6 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     TextView textViewRating;
     @BindView(R.id.tv_language)
     TextView textViewLanguage;
-    @BindView(R.id.tv_status)
-    TextView textViewStatus;
     @BindView(R.id.tv_genre)
     TextView textViewGenre;
     @BindView(R.id.tv_plot)
@@ -54,12 +51,12 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     @BindView(R.id.rv_casts)
     RecyclerView recyclerViewCast;
     TextToLinkUtils textToLinkUtils;
+
     private Movies movie;
     private MovieCasts movieCasts;
     private MovieDetail movieDetail;
     private InfoPresenter presenter;
     private CastAdapter castAdapter;
-    private OnFragmentInteractionListener mListener;
 
     public InfoFragment() {
     }
@@ -86,7 +83,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
         ButterKnife.bind(this, view);
@@ -103,11 +100,9 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
         textViewTitle.setText(movie.getTitle());
         textViewPlot.setText(movie.getOverview());
         textViewReleaseDate.setText(movie.getReleaseDate());
-        textViewGenre.setText("Comedy");
         textViewLanguage.setText(movie.getOriginalLanguage());
         textViewLanguage.setText(movie.getOriginalLanguage());
         textViewReleaseDate.setText(movie.getReleaseDate());
-        textViewStatus.setText("Released");
         String rating = String.valueOf(movie.getVoteAverage());
         textViewRating.setText(rating);
 
@@ -124,27 +119,9 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     }
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -181,10 +158,5 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     @Override
     public void onLinkClicked(Genre itemClicked) {
         Toast.makeText(getContext(), itemClicked.getId() + " " + itemClicked.getName(), Toast.LENGTH_LONG).show();
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
