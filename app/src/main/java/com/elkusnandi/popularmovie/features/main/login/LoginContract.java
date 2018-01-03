@@ -1,8 +1,8 @@
 package com.elkusnandi.popularmovie.features.main.login;
 
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
+import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
-import com.elkusnandi.popularmovie.interfaces.BaseView;
-import com.elkusnandi.popularmovie.interfaces.MyPresenter;
 
 /**
  * Created by Taruna 98 on 29/12/2017.

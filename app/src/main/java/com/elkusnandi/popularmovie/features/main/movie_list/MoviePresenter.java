@@ -56,7 +56,7 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
                 .observeOn(schedulerProvider.ui())
                 .subscribe((movieResult, throwable) -> {
                     if (movieResult != null) {
-                        view.loadMovie(movieResult);
+                        view.onMovieLoaded(movieResult);
                         view.hideProgress();
                     } else {
                         if (throwable instanceof HttpException) {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.VideoAdapter;
+import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.data.model.VideoResult;
@@ -27,7 +27,7 @@ import com.elkusnandi.popularmovie.utils.MyDisposable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class VideoListFragment extends Fragment implements
+public class VideoListFragment extends BaseFragment implements
         VideoAdapter.OnItemClickListener,
         View.OnClickListener,
         VideoListContract.View {

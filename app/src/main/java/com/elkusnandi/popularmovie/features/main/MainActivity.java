@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.features.main.login.LogInActivity;
-import com.elkusnandi.popularmovie.features.main.my_moviedb.MyFavouriteMovieFragment;
+import com.elkusnandi.popularmovie.features.main.my_moviedb.UserFavouriteMovieFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_movie_list:
                 break;
             case R.id.nav_favourite:
-                changeFragment(MyFavouriteMovieFragment.newInstance());
+                changeFragment(UserFavouriteMovieFragment.newInstance());
                 break;
             case R.id.nav_watch_list:
                 break;

@@ -3,7 +3,6 @@ package com.elkusnandi.popularmovie.features.detail.info;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.CastAdapter;
+import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.data.model.Genre;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InfoFragment extends Fragment implements InfoContract.View, TextToLinkUtils.SpannableClickListener<Genre> {
+public class InfoFragment extends BaseFragment implements InfoContract.View, TextToLinkUtils.SpannableClickListener<Genre> {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";

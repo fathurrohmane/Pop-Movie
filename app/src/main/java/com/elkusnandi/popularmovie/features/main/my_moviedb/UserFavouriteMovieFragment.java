@@ -23,39 +23,24 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class MyFavouriteMovieFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class UserFavouriteMovieFragment extends Fragment {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
     private Unbinder unbinder;
-    private String mParam1;
-    private String mParam2;
 
-
-    public MyFavouriteMovieFragment() {
+    public UserFavouriteMovieFragment() {
         // Required empty public constructor
     }
 
 
-    public static MyFavouriteMovieFragment newInstance() {
-        MyFavouriteMovieFragment fragment = new MyFavouriteMovieFragment();
+    public static UserFavouriteMovieFragment newInstance() {
+        UserFavouriteMovieFragment fragment = new UserFavouriteMovieFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override

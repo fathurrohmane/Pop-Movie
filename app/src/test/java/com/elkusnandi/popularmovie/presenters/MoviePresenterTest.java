@@ -49,7 +49,7 @@ public class MoviePresenterTest {
             }
 
             @Override
-            public void loadMovie(MovieRespond movieRespond) {
+            public void onMovieLoaded(MovieRespond movieRespond) {
                 Assert.assertNotNull(movieRespond);
                 Assert.assertEquals(1, movieRespond.getPage());
             }

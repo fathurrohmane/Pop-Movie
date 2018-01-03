@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.MovieAdapter;
+import com.elkusnandi.popularmovie.common.base.BaseFragment;
+import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
 import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.provider.Repository;
@@ -33,9 +35,9 @@ import butterknife.ButterKnife;
  * Use the {@link MovieListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieListFragment extends Fragment implements
+public class MovieListFragment extends BaseFragment implements
         MovieListContract.View,
-        MovieAdapter.MovieItemClickListener,
+        RecyclerViewItemClickListener<Movies>,
         View.OnClickListener {
 
     private static final String ARG_PARAM1 = "discover_type";
@@ -132,7 +134,7 @@ public class MovieListFragment extends Fragment implements
     }
 
     @Override
-    public void loadMovie(MovieRespond movieRespond) {
+    public void onMovieLoaded(MovieRespond movieRespond) {
         if (adapter.getItemCount() == 0) {
             if (movieRespond.getResults() != null && movieRespond.getResults().size() > 0) {
                 // Add new data
@@ -159,7 +161,7 @@ public class MovieListFragment extends Fragment implements
     }
 
     @Override
-    public void onClick(Movies movie, View view) {
+    public void onItemClick(Movies movie, View view) {
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
 import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.utils.GlideApp;
 import com.elkusnandi.popularmovie.utils.MovieResultDiffUtils;
@@ -32,14 +33,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private final Context mContext;
     private List<Movies> mMovieList;
-    private MovieItemClickListener onClickListener;
+    private RecyclerViewItemClickListener<Movies> onClickListener;
 
     public MovieAdapter(Context mContext) {
         this.mContext = mContext;
         mMovieList = new ArrayList<>();
     }
 
-    public void addItemClickListener(MovieItemClickListener movieItemClickListener) {
+    public void addItemClickListener(RecyclerViewItemClickListener<Movies> movieItemClickListener) {
         this.onClickListener = movieItemClickListener;
 
     }
@@ -117,13 +118,6 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return mMovieList.size();
     }
 
-    /**
-     * Recyclerview interface to return data when item gets clicked
-     */
-    public interface MovieItemClickListener {
-        void onClick(Movies movie, View view);
-    }
-
     private class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final FrameLayout mFrameLayoutItem;
@@ -147,7 +141,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            onClickListener.onClick(mMovie, view);
+            onClickListener.onItemClick(mMovie, view);
         }
     }
 }

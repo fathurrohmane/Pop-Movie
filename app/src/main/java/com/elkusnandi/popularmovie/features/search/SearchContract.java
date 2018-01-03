@@ -1,7 +1,7 @@
 package com.elkusnandi.popularmovie.features.search;
 
-import com.elkusnandi.popularmovie.interfaces.BaseView;
-import com.elkusnandi.popularmovie.interfaces.MyPresenter;
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
+import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 
 /**
  * Created by Taruna 98 on 26/12/2017.
