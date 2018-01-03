@@ -15,9 +15,9 @@ import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.CastAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.data.model.Genre;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
-import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.MyDisposable;
@@ -52,7 +52,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     RecyclerView recyclerViewCast;
     TextToLinkUtils textToLinkUtils;
 
-    private Movies movie;
+    private Movie movie;
     private MovieCasts movieCasts;
     private MovieDetail movieDetail;
     private InfoPresenter presenter;
@@ -61,10 +61,10 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     public InfoFragment() {
     }
 
-    public static InfoFragment newInstance(Movies movies) {
+    public static InfoFragment newInstance(Movie movie) {
         InfoFragment fragment = new InfoFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, movies);
+        args.putParcelable(ARG_PARAM1, movie);
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,10 +90,10 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
 
         // Initialize view
         Picasso.with(getContext())
-                .load(movie.getPosterUrl(Movies.PosterSize.w342))
+                .load(movie.getPosterUrl(Movie.PosterSize.w342))
                 .into(imageViewPoster);
         Picasso.with(getContext())
-                .load(movie.getBackdropUrl(Movies.PosterSize.w342))
+                .load(movie.getBackdropUrl(Movie.PosterSize.w342))
                 .fit()
                 .centerCrop()
                 .into(imageViewBackdrop);

@@ -1,14 +1,18 @@
 package com.elkusnandi.popularmovie.common.base;
 
 import android.support.annotation.StringRes;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.elkusnandi.popularmovie.R;
 
 /**
  * Base Fragment
- *
+ * <p>
  * Created by Taruna 98 on 03/01/2018.
  */
 
@@ -50,5 +54,20 @@ public class BaseFragment extends Fragment {
         } else {
             throw new IllegalArgumentException("Activity is null. This fragment isnt attached to any Activity");
         }
+    }
+
+    /**
+     * Set adapter for view pager from the fragment itself
+     *
+     * @param viewPager            viewpager
+     * @param tabLayout            tablayout
+     * @param fragmentPagerAdapter fragment pager adapter
+     */
+    protected void setPagerAdapter(ViewPager viewPager, TabLayout tabLayout, FragmentPagerAdapter fragmentPagerAdapter) {
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(fragmentPagerAdapter);
+        tabLayout.setVisibility(View.VISIBLE);
     }
 }

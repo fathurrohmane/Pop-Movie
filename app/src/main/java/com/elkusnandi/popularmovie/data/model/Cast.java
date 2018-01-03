@@ -127,7 +127,7 @@ public class Cast implements Parcelable {
         this.profilePath = profilePath;
     }
 
-    public String getProfilePath(Movies.PosterSize posterSize) {
+    public String getProfilePath(Movie.PosterSize posterSize) {
         String mainUrl = "http://image.tmdb.org/t/p/";
         String middle;
         switch (posterSize) {

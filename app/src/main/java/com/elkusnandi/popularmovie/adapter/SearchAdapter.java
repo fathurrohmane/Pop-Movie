@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.elkusnandi.popularmovie.R;
-import com.elkusnandi.popularmovie.data.model.Movies;
+import com.elkusnandi.popularmovie.data.model.Movie;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     private static final String TAG = SearchAdapter.class.getSimpleName();
     private Context mContext;
-    private List<Movies> mList;
+    private List<Movie> mList;
 
     public SearchAdapter(Context context) {
         this.mContext = context;
@@ -38,7 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Movies item = mList.get(position);
+        Movie item = mList.get(position);
 
     }
 

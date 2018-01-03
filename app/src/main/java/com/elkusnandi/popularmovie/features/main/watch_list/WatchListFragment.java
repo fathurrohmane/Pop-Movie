@@ -1,4 +1,4 @@
-package com.elkusnandi.popularmovie.features.main.discover;
+package com.elkusnandi.popularmovie.features.main.watch_list;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,25 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
-import com.elkusnandi.popularmovie.adapter.DiscoverMovieAdapter;
+import com.elkusnandi.popularmovie.adapter.WatchListMovieAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
+/**
+ * Fragment class for displaying user watch list
+ * Created by Taruna 98 on 03/01/2018.
+ */
 
-public class DiscoverFragment extends BaseFragment {
+public class WatchListFragment extends BaseFragment {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    public DiscoverFragment() {
-        // Required empty public constructor
+    private Unbinder unbinder;
+
+    public WatchListFragment() {
     }
 
-    public static DiscoverFragment newInstance() {
-        DiscoverFragment fragment = new DiscoverFragment();
+
+    public static WatchListFragment newInstance() {
+        WatchListFragment fragment = new WatchListFragment();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,16 +45,23 @@ public class DiscoverFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_withonly_viewpager, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
-        setActivityToolbarTitle(R.string.toolbar_discover_title);
+        // Set toolbar
+        setActivityToolbarTitle(R.string.toolbar_my_moviedb_watch_list_title);
 
         if (getActivity() != null) {
             TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-            setPagerAdapter(viewPager, tabLayout, new DiscoverMovieAdapter(getChildFragmentManager()));
+            setPagerAdapter(viewPager, tabLayout, new WatchListMovieAdapter(getChildFragmentManager()));
         }
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 
 }

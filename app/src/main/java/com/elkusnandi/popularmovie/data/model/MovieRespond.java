@@ -36,7 +36,7 @@ public class MovieRespond implements Parcelable {
     private int totalPages;
     @SerializedName("results")
     @Expose
-    private List<Movies> results = null;
+    private List<Movie> results = null;
 
     protected MovieRespond(Parcel in) {
         page = in.readInt();
@@ -68,11 +68,11 @@ public class MovieRespond implements Parcelable {
         this.totalPages = totalPages;
     }
 
-    public List<Movies> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 
-    public void setResults(List<Movies> results) {
+    public void setResults(List<Movie> results) {
         this.results = results;
     }
 

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
-import com.elkusnandi.popularmovie.data.model.Movies;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.utils.GlideApp;
 import com.elkusnandi.popularmovie.utils.MovieResultDiffUtils;
 
@@ -32,15 +32,15 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
-    private List<Movies> mMovieList;
-    private RecyclerViewItemClickListener<Movies> onClickListener;
+    private List<Movie> mMovieList;
+    private RecyclerViewItemClickListener<Movie> onClickListener;
 
     public MovieAdapter(Context mContext) {
         this.mContext = mContext;
         mMovieList = new ArrayList<>();
     }
 
-    public void addItemClickListener(RecyclerViewItemClickListener<Movies> movieItemClickListener) {
+    public void addItemClickListener(RecyclerViewItemClickListener<Movie> movieItemClickListener) {
         this.onClickListener = movieItemClickListener;
 
     }
@@ -54,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     /**
      * Set Movie data for recyclerview
      */
-    public void setData(List<Movies> movieList) {
+    public void setData(List<Movie> movieList) {
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MovieResultDiffUtils(mMovieList, movieList));
 
         this.mMovieList.clear();
@@ -91,7 +91,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MovieViewHolder viewHolder = (MovieViewHolder) holder;
-        String url = mMovieList.get(position).getPosterUrl(Movies.PosterSize.w342);
+        String url = mMovieList.get(position).getPosterUrl(Movie.PosterSize.w342);
         GlideApp.with(mContext)
                 .load(url)
                 .error(R.drawable.ic_image_error)
@@ -124,7 +124,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         final ImageView mImageViewMovie;
         final TextView mTextViewTitle;
 
-        Movies mMovie;
+        Movie mMovie;
 
         MovieViewHolder(View itemView) {
             super(itemView);
@@ -135,7 +135,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mTextViewTitle = itemView.findViewById(R.id.tv_title);
         }
 
-        private void setMovie(Movies movie) {
+        private void setMovie(Movie movie) {
             this.mMovie = movie;
         }
 

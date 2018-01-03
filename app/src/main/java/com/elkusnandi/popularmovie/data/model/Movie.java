@@ -13,17 +13,17 @@ import java.util.List;
  */
 
 
-public class Movies implements Parcelable {
+public class Movie implements Parcelable {
 
-    public static final Creator<Movies> CREATOR = new Creator<Movies>() {
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
-        public Movies createFromParcel(Parcel in) {
-            return new Movies(in);
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
         }
 
         @Override
-        public Movies[] newArray(int size) {
-            return new Movies[size];
+        public Movie[] newArray(int size) {
+            return new Movie[size];
         }
     };
     @SerializedName("vote_count")
@@ -69,7 +69,7 @@ public class Movies implements Parcelable {
     @Expose
     private String releaseDate;
 
-    protected Movies(Parcel in) {
+    protected Movie(Parcel in) {
         voteCount = in.readInt();
         id = in.readInt();
         byte tmpVideo = in.readByte();

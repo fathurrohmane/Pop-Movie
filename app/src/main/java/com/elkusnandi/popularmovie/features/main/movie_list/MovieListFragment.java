@@ -19,8 +19,8 @@ import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.MovieAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.MovieRespond;
-import com.elkusnandi.popularmovie.data.model.Movies;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
 import com.elkusnandi.popularmovie.ui.widget.InformationView;
@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
  */
 public class MovieListFragment extends BaseFragment implements
         MovieListContract.View,
-        RecyclerViewItemClickListener<Movies>,
+        RecyclerViewItemClickListener<Movie>,
         View.OnClickListener {
 
     private static final String ARG_PARAM1 = "discover_type";
@@ -105,7 +105,7 @@ public class MovieListFragment extends BaseFragment implements
         presenter.onAttach(this);
 
         // load movie
-        loadMovies();
+        loadMovies(discoverType, 1);
 
         return view;
     }
@@ -162,7 +162,7 @@ public class MovieListFragment extends BaseFragment implements
     }
 
     @Override
-    public void onItemClick(Movies movie, View view) {
+    public void onItemClick(Movie movie, View view) {
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
@@ -172,23 +172,34 @@ public class MovieListFragment extends BaseFragment implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_action:
-                loadMovies();
+                loadMovies(discoverType, 1);
                 break;
         }
     }
 
-    private void loadMovies() {
-        if (discoverType.equals(Repository.MOVIE_TYPE_FAVOURITE)) {
-            if (getContext() != null) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE);
-                long accountId = sharedPreferences.getLong(getString(R.string.sharedpreference_account_id), -1L);
-                String sessionId = sharedPreferences.getString(getString(R.string.sharedpreference_session_id), "");
-                presenter.loadFavouriteMovies(accountId, sessionId, 1);
-            } else {
-                throw new IllegalArgumentException("Missing Context");
-            }
+    private void loadMovies(String discoverType, int page) {
+        SharedPreferences sharedPreferences;
+        long accountId;
+        String sessionId;
+
+        if (getContext() != null) {
+            sharedPreferences = getContext().getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE);
+            accountId = sharedPreferences.getLong(getString(R.string.sharedpreference_account_id), -1L);
+            sessionId = sharedPreferences.getString(getString(R.string.sharedpreference_session_id), "");
         } else {
-            presenter.loadMovies(discoverType, 1, "ID");
+            throw new IllegalArgumentException("Missing Context");
+        }
+
+        switch (discoverType) {
+            case Repository.MOVIE_TYPE_FAVOURITE:
+                presenter.loadFavouriteMovies(accountId, sessionId, page);
+                break;
+            case Repository.MOVIE_TYPE_WATCH_LIST:
+                presenter.loadWatchList(accountId, sessionId, page);
+                break;
+            default:
+                presenter.loadMovies(discoverType, page, "ID");
+                break;
         }
     }
 }

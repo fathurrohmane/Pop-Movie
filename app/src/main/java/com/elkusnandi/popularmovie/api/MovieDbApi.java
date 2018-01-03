@@ -25,7 +25,7 @@ public interface MovieDbApi {
 
     String API = "?api_key=" + BuildConfig.MOVIE_DB_API_KEY;
 
-//  ========== Movies ==========
+//  ========== Movie ==========
 
     @GET("movie/{movieId}" + API)
     Single<MovieRespond> getMovieDetailInfo(@Path("type") long movieId);
@@ -74,7 +74,7 @@ public interface MovieDbApi {
     Single<MovieRespond> getUserFavouriteMovies(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @GET("account/{account_id}/watchlist/movies" + API)
-    Single<RequestTokenRespond> getUserWatchList(@Path("account_id") String accountId, @Query("session_id") String sessionId, @Query("page") int page);
+    Single<MovieRespond> getUserWatchList(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @POST("account/{account_id}/favorite" + API)
     Single<RequestTokenRespond> addMovieToFavourite(@Query("session_id") String sessionId);

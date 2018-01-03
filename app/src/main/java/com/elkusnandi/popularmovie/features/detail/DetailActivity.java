@@ -19,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.elkusnandi.popularmovie.R;
-import com.elkusnandi.popularmovie.data.model.Movies;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.features.detail.info.InfoFragment;
 import com.elkusnandi.popularmovie.features.detail.video_list.VideoListFragment;
 
@@ -35,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    private Movies movie;
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

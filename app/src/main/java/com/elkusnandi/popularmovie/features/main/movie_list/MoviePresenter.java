@@ -41,13 +41,18 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
     public void loadMovies(String discoverType, int page, String region) {
         view.showProgress();
         disposable.add(getMoviesDisposable(repository.getMovies(discoverType, page, region)));
-
     }
 
     @Override
     public void loadFavouriteMovies(long accountId, String sessionId, int page) {
         view.showProgress();
         disposable.add(getMoviesDisposable(repository.getUserFavouriteMovies(accountId, sessionId, page)));
+    }
+
+    @Override
+    public void loadWatchList(long accountId, String sessionId, int page) {
+        view.showProgress();
+        disposable.add(getMoviesDisposable(repository.getUserWatchList(accountId, sessionId, page)));
     }
 
     private Disposable getMoviesDisposable(Single<MovieRespond> movieRespondSingle) {

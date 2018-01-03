@@ -2,7 +2,7 @@ package com.elkusnandi.popularmovie.utils;
 
 import android.support.v7.util.DiffUtil;
 
-import com.elkusnandi.popularmovie.data.model.Movies;
+import com.elkusnandi.popularmovie.data.model.Movie;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class MovieResultDiffUtils extends DiffUtil.Callback {
 
-    private List<Movies> oldList;
-    private List<Movies> newList;
+    private List<Movie> oldList;
+    private List<Movie> newList;
 
-    public MovieResultDiffUtils(List<Movies> oldList, List<Movies> newList) {
+    public MovieResultDiffUtils(List<Movie> oldList, List<Movie> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }

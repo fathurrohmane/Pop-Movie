@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.Cast;
-import com.elkusnandi.popularmovie.data.model.Movies;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.utils.GlideApp;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
         GlideApp
                 .with(mContext)
-                .load(item.getProfilePath(Movies.PosterSize.w342))
+                .load(item.getProfilePath(Movie.PosterSize.w342))
                 .placeholder(R.drawable.ic_cast_placeholder)
                 .error(R.drawable.ic_cast_placeholder)
                 .into(holder.imageViewCast);

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.VideoAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
-import com.elkusnandi.popularmovie.data.model.Movies;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.data.model.VideoResult;
 import com.elkusnandi.popularmovie.data.provider.Repository;
@@ -41,16 +41,16 @@ public class VideoListFragment extends BaseFragment implements
     ContentLoadingProgressBar progressBar;
 
     private VideoAdapter adapter;
-    private Movies movie;
+    private Movie movie;
     private VideoListPresenter presenter;
 
     public VideoListFragment() {
     }
 
-    public static VideoListFragment newInstance(Movies movies) {
+    public static VideoListFragment newInstance(Movie movie) {
         VideoListFragment fragment = new VideoListFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, movies);
+        args.putParcelable(ARG_PARAM1, movie);
         fragment.setArguments(args);
         return fragment;
     }

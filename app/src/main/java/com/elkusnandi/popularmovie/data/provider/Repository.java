@@ -28,6 +28,7 @@ public class Repository {
     public static final String MOVIE_TYPE_POPULAR = "popular";
     public static final String MOVIE_TYPE_RECENTLY_ADDED = "recently_added";
     public static final String MOVIE_TYPE_FAVOURITE = "favourite";
+    public static final String MOVIE_TYPE_WATCH_LIST = "watch_list";
     private static Repository INSTANCE;
     private Retrofit retrofit;
 
@@ -81,6 +82,18 @@ public class Repository {
      */
     public Single<MovieRespond> getUserFavouriteMovies(long accountId, String sessionId, int page) {
         return getApiService().getUserFavouriteMovies(accountId, sessionId, page);
+    }
+
+    /**
+     * Get user watch list
+     *
+     * @param accountId movie db account id
+     * @param sessionId movie db session id
+     * @param page      page
+     * @return Rx Single of MovieRespond
+     */
+    public Single<MovieRespond> getUserWatchList(long accountId, String sessionId, int page) {
+        return getApiService().getUserWatchList(accountId, sessionId, page);
     }
 
     public Single<MovieRespond> getNowPlayingMovies(int page, String region) {

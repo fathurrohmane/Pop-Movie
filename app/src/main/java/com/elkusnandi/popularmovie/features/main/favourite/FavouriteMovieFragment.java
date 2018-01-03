@@ -1,4 +1,5 @@
-package com.elkusnandi.popularmovie.features.main.discover;
+package com.elkusnandi.popularmovie.features.main.favourite;
+
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,25 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
-import com.elkusnandi.popularmovie.adapter.DiscoverMovieAdapter;
+import com.elkusnandi.popularmovie.adapter.FavouriteMovieAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
-public class DiscoverFragment extends BaseFragment {
+public class FavouriteMovieFragment extends BaseFragment {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    public DiscoverFragment() {
-        // Required empty public constructor
+    private Unbinder unbinder;
+
+    public FavouriteMovieFragment() {
     }
 
-    public static DiscoverFragment newInstance() {
-        DiscoverFragment fragment = new DiscoverFragment();
+
+    public static FavouriteMovieFragment newInstance() {
+        FavouriteMovieFragment fragment = new FavouriteMovieFragment();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,17 +41,24 @@ public class DiscoverFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_withonly_viewpager, container, false);
-        ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.fragment_my_favourite_movie, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
-        setActivityToolbarTitle(R.string.toolbar_discover_title);
+        // Set toolbar
+        setActivityToolbarTitle(R.string.toolbar_my_moviedb_favourite_title);
 
         if (getActivity() != null) {
             TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-            setPagerAdapter(viewPager, tabLayout, new DiscoverMovieAdapter(getChildFragmentManager()));
+            setPagerAdapter(viewPager, tabLayout, new FavouriteMovieAdapter(getChildFragmentManager()));
         }
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 
 }

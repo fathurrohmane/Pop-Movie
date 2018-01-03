@@ -51,7 +51,7 @@
     <string name="button_reload_title">Reload</string>
 
     <!--Toolbar title-->
-    <string name="toolbar_my_moviedb_watch_list_title">@string/toolbar_my_moviedb_watch_list_title</string>
+    <string name="toolbar_my_moviedb_watch_list_title">@string/navigation_drawer_group_my_moviedb_watch_list_title</string>
     <string name="toolbar_my_moviedb_movie_list_title">@string/navigation_drawer_group_my_moviedb_movie_list_title</string>
     <string name="toolbar_my_moviedb_favourite_title">@string/navigation_drawer_group_my_moviedb_favourite_title</string>
     <string name="toolbar_discover_title">@string/navigation_drawer_group_discover_title</string>

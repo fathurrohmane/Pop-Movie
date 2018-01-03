@@ -28,5 +28,7 @@ public interface MovieListContract {
 
         void loadFavouriteMovies(long accountId, String sessionId, int page);
 
+        void loadWatchList(long accountId, String sessionId, int page);
+
     }
 }

@@ -23,7 +23,8 @@ import android.widget.Toast;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.features.login.LogInActivity;
 import com.elkusnandi.popularmovie.features.main.discover.DiscoverFragment;
-import com.elkusnandi.popularmovie.features.main.my_moviedb.UserFavouriteMovieFragment;
+import com.elkusnandi.popularmovie.features.main.favourite.FavouriteMovieFragment;
+import com.elkusnandi.popularmovie.features.main.watch_list.WatchListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -126,9 +127,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_movie_list:
                 break;
             case R.id.nav_favourite:
-                changeFragment(UserFavouriteMovieFragment.newInstance());
+                changeFragment(FavouriteMovieFragment.newInstance());
                 break;
             case R.id.nav_watch_list:
+                changeFragment(WatchListFragment.newInstance());
                 break;
             case R.id.nav_log_out:
                 SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
@@ -175,6 +177,8 @@ public class MainActivity extends AppCompatActivity
 
     private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in,
+                R.anim.fade_out);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
