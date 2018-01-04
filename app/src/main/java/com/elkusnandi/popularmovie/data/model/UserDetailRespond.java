@@ -9,10 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserDetailRespond {
 
-//    @SerializedName("avatar")
-//    @Expose
-//    private Avatar avatar;
-
+    @SerializedName("avatar")
+    @Expose
+    private Avatar avatar;
     @SerializedName("id")
     @Expose
     private long id;
@@ -32,13 +31,17 @@ public class UserDetailRespond {
     @Expose
     private String username;
 
-//    public Avatar getAvatar() {
-//        return avatar;
-//    }
-//
-//    public void setAvatar(Avatar avatar) {
-//        this.avatar = avatar;
-//    }
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public String avatarPath() {
+        return getAvatar().gravatar.path;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
 
     public long getId() {
         return id;
@@ -86,6 +89,18 @@ public class UserDetailRespond {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    private class Avatar {
+        @SerializedName("gravatar")
+        @Expose
+        private Gravatar gravatar;
+    }
+
+    private class Gravatar {
+        @SerializedName("hash")
+        @Expose
+        private String path;
     }
 
 }

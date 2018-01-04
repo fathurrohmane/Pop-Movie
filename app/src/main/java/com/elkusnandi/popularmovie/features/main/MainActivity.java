@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +30,8 @@ import com.elkusnandi.popularmovie.features.login.LogInActivity;
 import com.elkusnandi.popularmovie.features.main.discover.DiscoverFragment;
 import com.elkusnandi.popularmovie.features.main.favourite.FavouriteMovieFragment;
 import com.elkusnandi.popularmovie.features.main.watch_list.WatchListFragment;
+import com.elkusnandi.popularmovie.utils.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,55 +49,14 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.tabs)
     TabLayout tabLayout;
+    //@BindView(R.id.imageview_profile)
+    ImageView imageViewProfile;
+    //@BindView(R.id.textview_username)
+    TextView textViewUserName;
 
     private Fragment nextFragment;
     private int drawerItemClickedId;
     private Context context;
-
-    /**
-     * Dialog button listener
-     */
-    private MaterialDialog.SingleButtonCallback onPositiveDialogButtonClicked = (dialog, which) -> {
-        String tag = (String) dialog.getTag();
-
-        if (tag != null) {
-            switch (tag) {
-                case "logout_dialog":
-                    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
-                    editor.putString(getString(R.string.sharedpreference_session_id), "");
-                    editor.putLong(getString(R.string.sharedpreference_account_id), 0L);
-                    editor.apply();
-
-                    setNavigationViewState();
-                    Toast.makeText(this, getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
-    /**
-     * Drawer listener
-     */
-    private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
-        @Override
-        public void onDrawerClosed(View drawerView) {
-            switch (drawerItemClickedId) {
-                case R.id.nav_log_in:
-                    Intent intent = new Intent(context, LogInActivity.class);
-                    startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
-                case R.id.nav_discover_movie:
-                case R.id.nav_discover_tv:
-                case R.id.nav_movie_list:
-                case R.id.nav_favourite:
-                case R.id.nav_watch_list:
-                    changeFragment(nextFragment);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +83,8 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         drawer.addDrawerListener(drawerListener);
         toggle.syncState();
+        imageViewProfile = navigationView.getHeaderView(0).findViewById(R.id.imageview_profile);
+        textViewUserName = navigationView.getHeaderView(0).findViewById(R.id.textview_username);
 
         setNavigationViewState();
 
@@ -214,12 +179,23 @@ public class MainActivity extends AppCompatActivity
      * Change the state of the navigation view depend on user is logged in or not
      */
     private void setNavigationViewState() {
-        boolean loginStatus = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE)
-                .getBoolean(getString(R.string.sharedpreference_login_status), false);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
+        boolean loginStatus = sharedPreferences.getBoolean(getString(R.string.sharedpreference_login_status), false);
+
         if (loginStatus) {
+            String avatarPath = sharedPreferences.getString(getString(R.string.sharedpreference_profile_picture_path), "");
+            String userName = sharedPreferences.getString(getString(R.string.sharedpreference_user_name), "");
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(false);
+            Picasso.with(this)
+                    .load("https://secure.gravatar.com/avatar/" + avatarPath + ".jpg?s=50")
+                    .transform(new CircleTransform())
+                    .into(imageViewProfile);
+            imageViewProfile.setVisibility(View.VISIBLE);
+            textViewUserName.setText(userName);
         } else {
+            textViewUserName.setText(getString(R.string.app_name));
+            imageViewProfile.setVisibility(View.INVISIBLE);
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(true);
         }
@@ -239,4 +215,51 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
     }
+
+    /**
+     * Drawer listener
+     */
+    private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            switch (drawerItemClickedId) {
+                case R.id.nav_log_in:
+                    Intent intent = new Intent(context, LogInActivity.class);
+                    startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
+                case R.id.nav_discover_movie:
+                case R.id.nav_discover_tv:
+                case R.id.nav_movie_list:
+                case R.id.nav_favourite:
+                case R.id.nav_watch_list:
+                    changeFragment(nextFragment);
+                    break;
+                default:
+                    break;
+            }
+            drawerItemClickedId = -1;
+        }
+    };
+
+    /**
+     * Dialog button listener
+     */
+    private MaterialDialog.SingleButtonCallback onPositiveDialogButtonClicked = (dialog, which) -> {
+        String tag = (String) dialog.getTag();
+
+        if (tag != null) {
+            switch (tag) {
+                case "logout_dialog":
+                    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
+                    editor.putString(getString(R.string.sharedpreference_session_id), "");
+                    editor.putLong(getString(R.string.sharedpreference_account_id), 0L);
+                    editor.apply();
+
+                    setNavigationViewState();
+                    Toast.makeText(this, getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 }

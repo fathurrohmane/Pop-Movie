@@ -98,6 +98,7 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(getString(R.string.sharedpreference_user_name), userDetailRespond.getUsername());
+        editor.putString(getString(R.string.sharedpreference_profile_picture_path), userDetailRespond.avatarPath());
         editor.putLong(getString(R.string.sharedpreference_account_id), userDetailRespond.getId());
         editor.apply();
 
