@@ -3,6 +3,7 @@ package com.elkusnandi.popularmovie.features.main;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -43,6 +45,20 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.tabs)
     TabLayout tabLayout;
 
+    private Fragment nextFragment;
+    private Fragment currentFragment;
+    private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            if (nextFragment != null) {
+                if (nextFragment.getId() != currentFragment.getId()) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(() -> changeFragment(nextFragment), 250);
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +75,12 @@ public class MainActivity extends AppCompatActivity
                 view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show());
 
-        // Set nav bar
+        // Set nav drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(drawerListener);
         toggle.syncState();
 
         setNavigationViewState();
@@ -72,9 +89,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_discover_movie);
 
         // Show default fragment
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, DiscoverFragment.newInstance());
-        fragmentTransaction.commit();
+        changeFragment(DiscoverFragment.newInstance());
 
     }
 
@@ -111,7 +126,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         switch (id) {
@@ -145,8 +159,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -181,5 +194,6 @@ public class MainActivity extends AppCompatActivity
                 R.anim.fade_out);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+        currentFragment = fragment;
     }
 }
