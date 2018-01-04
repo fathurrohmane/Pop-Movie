@@ -3,7 +3,6 @@ package com.elkusnandi.popularmovie.features.main;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -50,12 +49,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
         @Override
         public void onDrawerClosed(View drawerView) {
-            if (nextFragment != null) {
-                if (nextFragment.getId() != currentFragment.getId()) {
-                    final Handler handler = new Handler();
-                    handler.postDelayed(() -> changeFragment(nextFragment), 250);
-                }
-            }
+            changeFragment(nextFragment);
         }
     };
 
@@ -134,17 +128,17 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
                 break;
             case R.id.nav_discover_movie:
-                changeFragment(DiscoverFragment.newInstance());
+                nextFragment = DiscoverFragment.newInstance();
                 break;
             case R.id.nav_discover_tv:
                 break;
             case R.id.nav_movie_list:
                 break;
             case R.id.nav_favourite:
-                changeFragment(FavouriteMovieFragment.newInstance());
+                nextFragment = FavouriteMovieFragment.newInstance();
                 break;
             case R.id.nav_watch_list:
-                changeFragment(WatchListFragment.newInstance());
+                nextFragment = WatchListFragment.newInstance();
                 break;
             case R.id.nav_log_out:
                 SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
@@ -189,11 +183,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void changeFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fade_in,
-                R.anim.fade_out);
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
-        currentFragment = fragment;
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.fade_in,
+                    R.anim.fade_out);
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+            currentFragment = fragment;
+        }
     }
 }
