@@ -1,5 +1,6 @@
 package com.elkusnandi.popularmovie.features.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.features.login.LogInActivity;
 import com.elkusnandi.popularmovie.features.main.discover.DiscoverFragment;
@@ -45,11 +47,50 @@ public class MainActivity extends AppCompatActivity
     TabLayout tabLayout;
 
     private Fragment nextFragment;
-    private Fragment currentFragment;
+    private int drawerItemClickedId;
+    private Context context;
+    /**
+     * Dialog button listener
+     */
+    private MaterialDialog.SingleButtonCallback onPositiveDialogButtonClicked = (dialog, which) -> {
+        String tag = (String) dialog.getTag();
+
+        if (tag != null) {
+            switch (tag) {
+                case "logout_dialog":
+                    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
+                    editor.putString(getString(R.string.sharedpreference_session_id), "");
+                    editor.putLong(getString(R.string.sharedpreference_account_id), 0L);
+                    editor.apply();
+
+                    setNavigationViewState();
+                    Toast.makeText(this, getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+    /**
+     * Drawer listener
+     */
     private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
         @Override
         public void onDrawerClosed(View drawerView) {
-            changeFragment(nextFragment);
+            switch (drawerItemClickedId) {
+                case R.id.nav_log_in:
+                    Intent intent = new Intent(context, LogInActivity.class);
+                    startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
+                case R.id.nav_discover_movie:
+                case R.id.nav_discover_tv:
+                case R.id.nav_movie_list:
+                case R.id.nav_favourite:
+                case R.id.nav_watch_list:
+                    changeFragment(nextFragment);
+                    break;
+                default:
+                    break;
+            }
         }
     };
 
@@ -58,6 +99,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        context = this;
 
         // Set toolbar
         setSupportActionBar(toolbar);
@@ -89,9 +132,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -105,12 +147,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -124,32 +162,35 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_log_in:
-                Intent intent = new Intent(this, LogInActivity.class);
-                startActivityForResult(intent, LogInActivity.REQUEST_CODE_LOGIN);
+                drawerItemClickedId = R.id.nav_log_in;
                 break;
             case R.id.nav_discover_movie:
                 nextFragment = DiscoverFragment.newInstance();
+                drawerItemClickedId = R.id.nav_discover_movie;
                 break;
             case R.id.nav_discover_tv:
+                drawerItemClickedId = R.id.nav_discover_tv;
                 break;
             case R.id.nav_movie_list:
+                drawerItemClickedId = R.id.nav_movie_list;
                 break;
             case R.id.nav_favourite:
                 nextFragment = FavouriteMovieFragment.newInstance();
+                drawerItemClickedId = R.id.nav_favourite;
                 break;
             case R.id.nav_watch_list:
                 nextFragment = WatchListFragment.newInstance();
+                drawerItemClickedId = R.id.nav_watch_list;
                 break;
             case R.id.nav_log_out:
-                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
-                editor.putString(getString(R.string.sharedpreference_session_id), "");
-                editor.putLong(getString(R.string.sharedpreference_account_id), 0L);
-                editor.apply();
-
-                setNavigationViewState();
-                Toast.makeText(this, getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
+                new MaterialDialog.Builder(this)
+                        .tag("logout_dialog")
+                        .title(R.string.dialog_logout_title)
+                        .content(R.string.dialog_logout_content)
+                        .onPositive(onPositiveDialogButtonClicked)
+                        .positiveText(R.string.dialog_logout_button_positive)
+                        .negativeText(R.string.dialog_logout_button_negative)
+                        .show();
                 break;
         }
 
@@ -182,6 +223,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Change fragment in MainActivity fragment container
+     *
+     * @param fragment
+     */
     private void changeFragment(Fragment fragment) {
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -189,7 +235,6 @@ public class MainActivity extends AppCompatActivity
                     R.anim.fade_out);
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-            currentFragment = fragment;
         }
     }
 }

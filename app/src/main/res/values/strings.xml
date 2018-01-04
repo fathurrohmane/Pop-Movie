@@ -58,6 +58,13 @@
     <string name="toolbar_discover_movie_title">@string/navigation_drawer_group_discover_movie_title</string>
     <string name="toolbar_discover_tv_title">@string/navigation_drawer_group_discover_tv_title</string>
 
+    <!--Dialog-->
+    <string name="dialog_logout_id">dialog_logout</string>
+    <string name="dialog_logout_title">Logout</string>
+    <string name="dialog_logout_content">Do you wish to logout?</string>
+    <string name="dialog_logout_button_positive">Logout</string>
+    <string name="dialog_logout_button_negative">Cancel</string>
+
     <!--Drawer String in Main Activity-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
