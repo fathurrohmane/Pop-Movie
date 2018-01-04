@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private Fragment nextFragment;
     private int drawerItemClickedId;
     private Context context;
+
     /**
      * Dialog button listener
      */
@@ -149,8 +150,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -226,12 +228,12 @@ public class MainActivity extends AppCompatActivity
     /**
      * Change fragment in MainActivity fragment container
      *
-     * @param fragment
+     * @param fragment fragment to change to
      */
     private void changeFragment(Fragment fragment) {
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.fade_in,
+            fragmentTransaction.setCustomAnimations(R.anim.zoom_in,
                     R.anim.fade_out);
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
