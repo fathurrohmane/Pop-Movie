@@ -62,6 +62,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 .into(holder.imageViewThumbnail);
         holder.textViewTitle.setText(item.getName());
         holder.textViewType.setText(item.getType());
+        holder.textViewPlatform.setText(item.getSite());
 
         holder.itemView.setOnClickListener(v -> mListener.onItemClick(item));
     }
@@ -75,7 +76,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         void onItemClick(VideoResult video);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_thumbnail)
         ImageView imageViewThumbnail;
@@ -83,8 +84,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         TextView textViewTitle;
         @BindView(R.id.tv_type)
         TextView textViewType;
+        @BindView(R.id.tv_platform)
+        TextView textViewPlatform;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
