@@ -2,6 +2,7 @@ package com.elkusnandi.popularmovie.features.detail.info;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
 
     @BindView(R.id.iv_poster)
     ImageView imageViewPoster;
+    @Nullable
     @BindView(R.id.iv_backdrop)
     ImageView imageViewBackdrop;
     @BindView(R.id.tv_title)
@@ -92,11 +94,13 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
         Picasso.with(getContext())
                 .load(movie.getPosterUrl(Movie.PosterSize.w342))
                 .into(imageViewPoster);
-        Picasso.with(getContext())
-                .load(movie.getBackdropUrl(Movie.PosterSize.w342))
-                .fit()
-                .centerCrop()
-                .into(imageViewBackdrop);
+        if (imageViewBackdrop != null) {
+            Picasso.with(getContext())
+                    .load(movie.getBackdropUrl(Movie.PosterSize.w342))
+                    .fit()
+                    .centerCrop()
+                    .into(imageViewBackdrop);
+        }
         textViewTitle.setText(movie.getTitle());
         textViewPlot.setText(movie.getOverview());
         textViewReleaseDate.setText(movie.getReleaseDate());

@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -69,12 +67,6 @@ public class MainActivity extends AppCompatActivity
         // Set toolbar
         setSupportActionBar(toolbar);
         toolbar.setTitle("Discover");
-
-        // Set Fab
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(
-                view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show());
 
         // Set nav drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

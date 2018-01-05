@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:mContext="com.elkusnandi.popularmovie.features.detail.DetailActivity">
+
+    <ImageView
+        android:id="@+id/iv_poster"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_description_poster"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h,3:2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/colorAccent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_unfavorite"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
+        app:layout_constraintStart_toEndOf="@+id/fab_rate" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_add_to_playlist"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
+        app:layout_constraintEnd_toEndOf="@+id/iv_poster"
+        app:layout_constraintStart_toStartOf="@+id/iv_poster" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_watch_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_create_list"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
+        app:layout_constraintEnd_toStartOf="@+id/fab_rate" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_half_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.38" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_poster"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                tools:text="Title Avatar The Legend of Aang" />
+
+            <TableLayout
+                android:stretchColumns="0,1,2"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_releasedate_label"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/text_view_release_date_title"
+                        android:textStyle="bold"
+                        tools:text="@string/text_view_release_date_title" />
+
+                    <TextView
+                        android:id="@+id/tv_rating_label"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/text_view_rating_title"
+                        android:textStyle="bold"
+                        tools:text="Rating" />
+
+                    <TextView
+                        android:id="@+id/tv_language_label"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/text_view_language_title"
+                        android:textStyle="bold"
+                        tools:text="Language" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_releasedate"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        tools:text="2017 - 12 - 12" />
+
+
+                    <TextView
+                        android:id="@+id/tv_rating"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        tools:text="7.5" />
+
+                    <TextView
+                        android:id="@+id/tv_language"
+                        style="@style/TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        tools:text="En" />
+                </TableRow>
+            </TableLayout>
+
+
+            <TextView
+                android:id="@+id/tv_genre_label"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                android:text="@string/text_view_genre_title"
+                android:textStyle="bold"
+                tools:text="Genre" />
+
+            <TextView
+                android:id="@+id/tv_genre"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                tools:text="Comedy Action Parody" />
+
+            <TextView
+                android:id="@+id/tv_plot_label"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:padding="@dimen/padding_8dp"
+                android:text="@string/text_view_description_title"
+                tools:text="@string/text_view_description_title" />
+
+            <TextView
+                android:id="@+id/tv_plot"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="@dimen/padding_8dp"
+                tools:text="When underappreciated video specialist Joe Scheffer is brutally humiliated by the office bully Mark McKinney in front of his daughter, Joe begins a quest for personal redemption. He proceeds by enduring a personal make-over and takes martial arts lessons from a B-action star. As news spreads of his rematch with Mark, Joe suddenly finds himself the center of attention, ascending the corporate ladder and growing in popularity. He's determined to show everyone in his life that he is not a nobody, but a force to be reckoned with." />
+
+            <TextView
+                android:id="@+id/tv_cast_label"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:padding="@dimen/padding_8dp"
+                android:text="@string/text_view_cast_title"
+                tools:text="@string/text_view_cast_title" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_casts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutAnimation="@anim/layout_animation_slide_in" />
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
