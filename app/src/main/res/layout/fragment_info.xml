@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_half_screen" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_rate"
+        android:id="@+id/fab_watchlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -58,14 +58,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_half_screen" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_watch_list"
+        android:id="@+id/fab_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_create_list"
         app:layout_constraintBottom_toTopOf="@+id/guideline_half_screen"
-        app:layout_constraintEnd_toStartOf="@+id/fab_rate"
+        app:layout_constraintEnd_toStartOf="@+id/fab_watchlist"
         app:layout_constraintTop_toTopOf="@+id/guideline_half_screen" />
 
     <android.support.constraint.Guideline

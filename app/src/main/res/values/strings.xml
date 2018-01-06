@@ -45,6 +45,10 @@
     <string name="success_login">Login has success. Close this window.</string>
     <string name="success_logout">Logout has success.</string>
     <string name="success_get_user_detail">Welcome %s</string>
+    <string name="success_add_data">The item/record was updated successfully.</string>
+    <string name="error_authentication">Authentication failed: Login to gain access to your account.</string>
+    <string name="error_resource_not_found">The resource you requested could not be found.</string>
+    <string name="error_unknown">Unknown error. Error code : %d</string>
     <string name="error_login">Login has fail. Close and try again./n Error code : %s</string>
 
     <!--Button strings-->
@@ -87,7 +91,6 @@
     <string name="sharedpreference_profile_picture_path">profile_picture</string>
     <string name="sharedpreference_login_status">login_status</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

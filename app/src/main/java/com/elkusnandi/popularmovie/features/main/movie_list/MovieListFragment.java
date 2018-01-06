@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -27,6 +28,9 @@ import com.elkusnandi.popularmovie.ui.widget.InformationView;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.MyDisposable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,6 +47,7 @@ public class MovieListFragment extends BaseFragment implements
     private static final String ARG_PARAM1 = "discover_type";
     private static final String ARG_PARAM2 = "account_id";
     private static final String ARG_PARAM3 = "session_id";
+    private static final String ARG_MOVIE_SAVEDINSCTANCE = "movies";
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -53,6 +58,7 @@ public class MovieListFragment extends BaseFragment implements
 
     private MoviePresenter presenter;
     private MovieAdapter adapter;
+    private List<Movie> movieList;
     private String discoverType;
 
     public MovieListFragment() {
@@ -79,6 +85,8 @@ public class MovieListFragment extends BaseFragment implements
                 Repository.getInstance(AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );
+
+        movieList = new ArrayList<>();
     }
 
     @Override
@@ -103,11 +111,25 @@ public class MovieListFragment extends BaseFragment implements
         adapter.addItemClickListener(this);
         recyclerView.setAdapter(adapter);
         presenter.onAttach(this);
-
-        // load movie
-        loadMovies(discoverType, 1);
+// TODO: 05/01/2018 fix fragment called twice bug
+        // if it is not configuration change
+        if (savedInstanceState == null) {
+            // load movie
+            loadMovies(discoverType, 1);
+        } else {
+            // load from savedinstance
+            movieList = savedInstanceState.getParcelableArrayList(ARG_MOVIE_SAVEDINSCTANCE);
+            adapter.setData(movieList);
+        }
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelableArrayList(ARG_MOVIE_SAVEDINSCTANCE, (ArrayList<? extends Parcelable>) movieList);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -139,6 +161,7 @@ public class MovieListFragment extends BaseFragment implements
         if (adapter.getItemCount() == 0) {
             if (movieRespond.getResults() != null && movieRespond.getResults().size() > 0) {
                 // Add new data
+                movieList.addAll(movieRespond.getResults());
                 adapter.setData(movieRespond.getResults());
             } else {
                 // Show no data view
@@ -147,6 +170,7 @@ public class MovieListFragment extends BaseFragment implements
         } else {
             if (movieRespond.getResults() != null) {
                 // Add more data
+                movieList.addAll(movieRespond.getResults());
                 adapter.setData(movieRespond.getResults());
             } else {
                 // Reach bottom of page cant scroll anymore.
@@ -157,7 +181,7 @@ public class MovieListFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         presenter.onDetach();
-        //adapter.removeItemClickListener();
+        adapter.removeItemClickListener();
         super.onDestroy();
     }
 

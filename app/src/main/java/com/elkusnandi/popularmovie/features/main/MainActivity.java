@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_discover_movie);
 
+        if (savedInstanceState != null) {
+            return;
+        }
         // Show default fragment
         changeFragment(DiscoverFragment.newInstance());
 

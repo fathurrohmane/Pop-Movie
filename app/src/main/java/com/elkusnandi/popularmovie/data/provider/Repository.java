@@ -4,8 +4,10 @@ import com.elkusnandi.popularmovie.api.MovieDbApi;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.MovieRespond;
+import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
+import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
@@ -151,6 +153,26 @@ public class Repository {
      */
     public Single<UserDetailRespond> requestUserDetail(String sessionId) {
         return getApiService().getUserDetail(sessionId);
+    }
+
+    /**
+     * @param accountId user account id
+     * @param sessionId user session id
+     * @param movie     movie to add to favourite list
+     * @return Respond with respond code
+     */
+    public Single<Respond> addMovieToFavourite(long accountId, String sessionId, PostMovie movie) {
+        return getApiService().addMovieToFavourite(accountId, sessionId, movie);
+    }
+
+    /**
+     * @param accountId user accound id
+     * @param sessionId user session id
+     * @param movie     movie to add to watchlist
+     * @return Respond with respond code
+     */
+    public Single<Respond> addMovieToWatchList(long accountId, String sessionId, PostMovie movie) {
+        return getApiService().addMovieToWatchList(accountId, sessionId, movie);
     }
 
 }

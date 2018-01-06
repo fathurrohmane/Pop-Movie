@@ -9,6 +9,7 @@ import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 
 /**
+ * Fragment pager adapter for discover menu
  * Created by Taruna 98 on 03/01/2018.
  */
 

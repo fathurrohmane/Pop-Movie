@@ -32,10 +32,10 @@
         android:layout_marginStart="8dp"
         android:src="@drawable/ic_unfavorite"
         app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
-        app:layout_constraintStart_toEndOf="@+id/fab_rate" />
+        app:layout_constraintStart_toEndOf="@+id/fab_watchlist" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_rate"
+        android:id="@+id/fab_watchlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -47,7 +47,7 @@
         app:layout_constraintStart_toStartOf="@+id/iv_poster" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_watch_list"
+        android:id="@+id/fab_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -55,7 +55,7 @@
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_create_list"
         app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
-        app:layout_constraintEnd_toStartOf="@+id/fab_rate" />
+        app:layout_constraintEnd_toStartOf="@+id/fab_watchlist" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_half_screen"

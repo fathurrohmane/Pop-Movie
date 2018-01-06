@@ -1,8 +1,11 @@
 package com.elkusnandi.popularmovie.features.detail.info;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +22,8 @@ import com.elkusnandi.popularmovie.data.model.Genre;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
+import com.elkusnandi.popularmovie.data.model.PostMovie;
+import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.MyDisposable;
@@ -27,6 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class InfoFragment extends BaseFragment implements InfoContract.View, TextToLinkUtils.SpannableClickListener<Genre> {
 
@@ -53,6 +59,12 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     @BindView(R.id.rv_casts)
     RecyclerView recyclerViewCast;
     TextToLinkUtils textToLinkUtils;
+    @BindView(R.id.fab_favourite)
+    FloatingActionButton fabFavourite;
+    @BindView(R.id.fab_list)
+    FloatingActionButton fabList;
+    @BindView(R.id.fab_watchlist)
+    FloatingActionButton fabWatchList;
 
     private Movie movie;
     private MovieCasts movieCasts;
@@ -110,6 +122,8 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
         String rating = String.valueOf(movie.getVoteAverage());
         textViewRating.setText(rating);
 
+        // set button fab
+
         // Init presenter
         presenter.onAttach(this);
         presenter.loadCast(movie.getId());
@@ -136,6 +150,64 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     @Override
     public void hideProgress() {
 
+    }
+
+    @OnClick({R.id.fab_favourite, R.id.fab_watchlist})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab_favourite:
+                if (getActivity() != null && getContext() != null) {
+                    String sessionId = getActivity()
+                            .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
+                            .getString(getString(R.string.sharedpreference_session_id), "");
+                    long accountId = getActivity()
+                            .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
+                            .getLong(getString(R.string.sharedpreference_account_id), -1L);
+                    presenter.addToFavourite(accountId, sessionId, new PostMovie(PostMovie.TYPE_MOVIE, movie.getId(), true));
+                    fabFavourite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favourite));
+                }
+                break;
+            case R.id.fab_watchlist:
+                if (getActivity() != null && getContext() != null) {
+                    String sessionId = getActivity()
+                            .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
+                            .getString(getString(R.string.sharedpreference_session_id), "");
+                    long accountId = getActivity()
+                            .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
+                            .getLong(getString(R.string.sharedpreference_account_id), -1L);
+                    presenter.addToWatchList(accountId, sessionId, new PostMovie(PostMovie.TYPE_MOVIE, movie.getId(), true));
+                    fabWatchList.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_playlist_check));
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void showRespond(Respond respond) {
+        switch (respond.getStatusCode()) {
+            case 1:
+                // mew added
+            case 12:
+                // update data
+                showToast(getString(R.string.success_add_data));
+                break;
+            case 3:
+                // error auth
+                showToast(getString(R.string.error_authentication));
+                break;
+            case 34:
+                // resource not found / wrong id
+                showToast(getString(R.string.error_resource_not_found));
+                break;
+            default:
+                showToast(getString(R.string.error_unknown, respond.getStatusCode()));
+                break;
+        }
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override

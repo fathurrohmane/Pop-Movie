@@ -4,12 +4,15 @@ import com.elkusnandi.popularmovie.BuildConfig;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.MovieRespond;
+import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
+import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 
 import io.reactivex.Single;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -77,10 +80,10 @@ public interface MovieDbApi {
     Single<MovieRespond> getUserWatchList(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @POST("account/{account_id}/favorite" + API)
-    Single<RequestTokenRespond> addMovieToFavourite(@Query("session_id") String sessionId);
+    Single<Respond> addMovieToFavourite(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Body PostMovie movie);
 
     @POST("account/{account_id}/watchlist" + API)
-    Single<RequestTokenRespond> addMovieToWatchList(@Query("session_id") String sessionId);
+    Single<Respond> addMovieToWatchList(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Body PostMovie movie);
 
 
 }
