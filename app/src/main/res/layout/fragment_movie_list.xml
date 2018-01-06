@@ -16,7 +16,7 @@
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutAnimation="@anim/layout_animation_fade_in" />
+        android:layoutAnimation="@anim/layout_animation_slide_up_enter" />
 
     <com.elkusnandi.popularmovie.ui.widget.InformationView
         android:id="@+id/view_info"
