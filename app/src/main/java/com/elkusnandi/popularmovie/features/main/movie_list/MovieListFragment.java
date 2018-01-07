@@ -21,7 +21,7 @@ import com.elkusnandi.popularmovie.adapter.MovieAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
 import com.elkusnandi.popularmovie.data.model.Movie;
-import com.elkusnandi.popularmovie.data.model.MovieRespond;
+import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
 import com.elkusnandi.popularmovie.ui.widget.InformationView;
@@ -157,21 +157,21 @@ public class MovieListFragment extends BaseFragment implements
     }
 
     @Override
-    public void onMovieLoaded(MovieRespond movieRespond) {
+    public void onMovieLoaded(ShowRespond<Movie> showRespond) {
         if (adapter.getItemCount() == 0) {
-            if (movieRespond.getResults() != null && movieRespond.getResults().size() > 0) {
+            if (showRespond.getResults() != null && showRespond.getResults().size() > 0) {
                 // Add new data
-                movieList.addAll(movieRespond.getResults());
-                adapter.setData(movieRespond.getResults());
+                movieList.addAll(showRespond.getResults());
+                adapter.setData(showRespond.getResults());
             } else {
                 // Show no data view
                 informationView.showNoData();
             }
         } else {
-            if (movieRespond.getResults() != null) {
+            if (showRespond.getResults() != null) {
                 // Add more data
-                movieList.addAll(movieRespond.getResults());
-                adapter.setData(movieRespond.getResults());
+                movieList.addAll(showRespond.getResults());
+                adapter.setData(showRespond.getResults());
             } else {
                 // Reach bottom of page cant scroll anymore.
             }

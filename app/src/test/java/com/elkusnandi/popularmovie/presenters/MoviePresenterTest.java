@@ -1,6 +1,6 @@
 package com.elkusnandi.popularmovie.presenters;
 
-import com.elkusnandi.popularmovie.data.model.MovieRespond;
+import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListContract;
 import com.elkusnandi.popularmovie.features.main.movie_list.MoviePresenter;
@@ -15,13 +15,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
+ * Test class for MoviePresenter
  * Created by Taruna 98 on 12/12/2017.
  */
 @RunWith(JUnit4.class)
 public class MoviePresenterTest {
 
-    MoviePresenter presenter;
-    MovieListContract.View view;
+    private MoviePresenter presenter;
+    private MovieListContract.View view;
 
     @Before
     public void setup() {
@@ -49,9 +50,9 @@ public class MoviePresenterTest {
             }
 
             @Override
-            public void onMovieLoaded(MovieRespond movieRespond) {
-                Assert.assertNotNull(movieRespond);
-                Assert.assertEquals(1, movieRespond.getPage());
+            public void onMovieLoaded(ShowRespond showRespond) {
+                Assert.assertNotNull(showRespond);
+                Assert.assertEquals(1, showRespond.getPage());
             }
 
         };
@@ -60,7 +61,7 @@ public class MoviePresenterTest {
     @Test
     public void loadMovieTest() {
         presenter.onAttach(view);
-        presenter.loadMovies("tv");
+        presenter.loadMovies("movie", 1, "ID");
     }
 
     @After

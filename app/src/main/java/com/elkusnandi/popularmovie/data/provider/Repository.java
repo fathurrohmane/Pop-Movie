@@ -1,13 +1,14 @@
 package com.elkusnandi.popularmovie.data.provider;
 
 import com.elkusnandi.popularmovie.api.MovieDbApi;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
-import com.elkusnandi.popularmovie.data.model.MovieRespond;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
 import com.elkusnandi.popularmovie.data.model.Respond;
+import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
@@ -20,6 +21,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * Repository class for handling local and remote network operation
  * Created by Taruna 98 on 12/12/2017.
  */
 
@@ -59,7 +61,7 @@ public class Repository {
         return retrofit.create(MovieDbApi.class);
     }
 
-    public Single<MovieRespond> getMovies(String type, int page, String region) {
+    public Single<ShowRespond<Movie>> getMovies(String type, int page, String region) {
         switch (type) {
             case MOVIE_TYPE_NOW_PLAYING:
                 return getApiService().getNowPlayingMovies(page, region);
@@ -80,9 +82,9 @@ public class Repository {
      * @param accountId movie db account id
      * @param sessionId movie db session id
      * @param page      page
-     * @return Rx Single of MovieRespond
+     * @return Rx Single of ShowRespond
      */
-    public Single<MovieRespond> getUserFavouriteMovies(long accountId, String sessionId, int page) {
+    public Single<ShowRespond<Movie>> getUserFavouriteMovies(long accountId, String sessionId, int page) {
         return getApiService().getUserFavouriteMovies(accountId, sessionId, page);
     }
 
@@ -92,25 +94,25 @@ public class Repository {
      * @param accountId movie db account id
      * @param sessionId movie db session id
      * @param page      page
-     * @return Rx Single of MovieRespond
+     * @return Rx Single of ShowRespond
      */
-    public Single<MovieRespond> getUserWatchList(long accountId, String sessionId, int page) {
+    public Single<ShowRespond<Movie>> getUserWatchList(long accountId, String sessionId, int page) {
         return getApiService().getUserWatchList(accountId, sessionId, page);
     }
 
-    public Single<MovieRespond> getNowPlayingMovies(int page, String region) {
+    public Single<ShowRespond<Movie>> getNowPlayingMovies(int page, String region) {
         return getApiService().getNowPlayingMovies(page, region);
     }
 
-    public Single<MovieRespond> getUpComingMovies(int page, String region) {
+    public Single<ShowRespond<Movie>> getUpComingMovies(int page, String region) {
         return getApiService().getUpcomingMovies(page, region);
     }
 
-    public Single<MovieRespond> getPopularMovies(int page, String region) {
+    public Single<ShowRespond<Movie>> getPopularMovies(int page, String region) {
         return getApiService().getPopularMovies(page, region);
     }
 
-    public Single<MovieRespond> getRecentlyAddedMovies(int page, String region) {
+    public Single<ShowRespond<Movie>> getRecentlyAddedMovies(int page, String region) {
         return getApiService().getRecentlyAddedMovies(page, region);
     }
 
@@ -129,7 +131,7 @@ public class Repository {
     /**
      * Get request token respond for log in
      *
-     * @return
+     * @return Obervable of RequestTokenRespond
      */
     public Single<RequestTokenRespond> requestToken() {
         return getApiService().requestToken();
@@ -138,8 +140,8 @@ public class Repository {
     /**
      * Get session id for accessing user data
      *
-     * @param requestToken
-     * @return
+     * @param requestToken request token from moviedb api
+     * @return Obervable of RequestSessionIdRespond
      */
     public Single<RequestSessionIdRespond> requestSessionId(String requestToken) {
         return getApiService().requestSession(requestToken);

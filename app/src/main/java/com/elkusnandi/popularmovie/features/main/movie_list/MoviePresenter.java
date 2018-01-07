@@ -1,7 +1,8 @@
 package com.elkusnandi.popularmovie.features.main.movie_list;
 
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
-import com.elkusnandi.popularmovie.data.model.MovieRespond;
+import com.elkusnandi.popularmovie.data.model.Movie;
+import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 
@@ -13,6 +14,7 @@ import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
 /**
+ * Movie Presenter implementation
  * Created by Taruna 98 on 12/12/2017.
  */
 
@@ -55,7 +57,7 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
         disposable.add(getMoviesDisposable(repository.getUserWatchList(accountId, sessionId, page)));
     }
 
-    private Disposable getMoviesDisposable(Single<MovieRespond> movieRespondSingle) {
+    private Disposable getMoviesDisposable(Single<ShowRespond<Movie>> movieRespondSingle) {
         return movieRespondSingle.subscribeOn(schedulerProvider.io())
                 .timeout(15, TimeUnit.SECONDS)
                 .observeOn(schedulerProvider.ui())

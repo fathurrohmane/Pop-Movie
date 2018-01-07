@@ -8,21 +8,21 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
+/** Class to hold information for gathering Movie and Tv Lists
  * Created by Taruna 98 on 12/12/2017.
  */
 
-public class MovieRespond implements Parcelable {
+public class ShowRespond<T extends Show> implements Parcelable {
 
-    public static final Creator<MovieRespond> CREATOR = new Creator<MovieRespond>() {
+    public static final Creator<ShowRespond> CREATOR = new Creator<ShowRespond>() {
         @Override
-        public MovieRespond createFromParcel(Parcel in) {
-            return new MovieRespond(in);
+        public ShowRespond createFromParcel(Parcel in) {
+            return new ShowRespond(in);
         }
 
         @Override
-        public MovieRespond[] newArray(int size) {
-            return new MovieRespond[size];
+        public ShowRespond[] newArray(int size) {
+            return new ShowRespond[size];
         }
     };
     @SerializedName("page")
@@ -36,9 +36,9 @@ public class MovieRespond implements Parcelable {
     private int totalPages;
     @SerializedName("results")
     @Expose
-    private List<Movie> results = null;
+    private List<T> results = null;
 
-    protected MovieRespond(Parcel in) {
+    protected ShowRespond(Parcel in) {
         page = in.readInt();
         totalResults = in.readInt();
         totalPages = in.readInt();
@@ -68,11 +68,11 @@ public class MovieRespond implements Parcelable {
         this.totalPages = totalPages;
     }
 
-    public List<Movie> getResults() {
+    public List<T> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(List<T> results) {
         this.results = results;
     }
 

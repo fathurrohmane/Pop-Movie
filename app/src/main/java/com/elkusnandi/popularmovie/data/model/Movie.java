@@ -9,11 +9,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
+ * Movie class to hold movie information from movie db
+ * Extends Show
  * Created by Taruna 98 on 12/12/2017.
  */
 
 
-public class Movie implements Parcelable {
+public class Movie extends Show implements Parcelable {
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
@@ -26,45 +28,18 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
-    @SerializedName("vote_count")
-    @Expose
-    private int voteCount;
-    @SerializedName("id")
-    @Expose
-    private int id;
     @SerializedName("video")
     @Expose
     private Boolean video;
-    @SerializedName("vote_average")
-    @Expose
-    private double voteAverage;
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("popularity")
-    @Expose
-    private double popularity;
-    @SerializedName("poster_path")
-    @Expose
-    private String posterPath;
-    @SerializedName("original_language")
-    @Expose
-    private String originalLanguage;
     @SerializedName("original_title")
     @Expose
     private String originalTitle;
-    @SerializedName("genre_ids")
-    @Expose
-    private List<Integer> genreIds = null;
-    @SerializedName("backdrop_path")
-    @Expose
-    private String backdropPath;
     @SerializedName("adult")
     @Expose
     private Boolean adult;
-    @SerializedName("overview")
-    @Expose
-    private String overview;
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
