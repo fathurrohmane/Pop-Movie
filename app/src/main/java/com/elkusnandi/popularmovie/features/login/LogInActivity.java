@@ -19,10 +19,10 @@ import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
-import com.elkusnandi.popularmovie.utils.MyDisposable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class LogInActivity extends AppCompatActivity implements LoginContract.View {
 
@@ -62,7 +62,7 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
         }
 
         // Set Presenter
-        presenter = new LoginPresenter(MyDisposable.getInstance(),
+        presenter = new LoginPresenter(new CompositeDisposable(),
                 Repository.getInstance(AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );

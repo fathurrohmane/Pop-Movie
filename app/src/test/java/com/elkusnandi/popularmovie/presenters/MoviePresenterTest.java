@@ -4,7 +4,6 @@ import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListContract;
 import com.elkusnandi.popularmovie.features.main.movie_list.MoviePresenter;
-import com.elkusnandi.popularmovie.utils.MyDisposable;
 import com.elkusnandi.popularmovie.utils.TestSchedulerProvider;
 
 import org.junit.After;
@@ -13,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Test class for MoviePresenter
@@ -27,7 +28,7 @@ public class MoviePresenterTest {
     @Before
     public void setup() {
         presenter = new MoviePresenter(
-                MyDisposable.getInstance(),
+                new CompositeDisposable(),
                 Repository.getInstance(TestSchedulerProvider.getInstance()),
                 TestSchedulerProvider.getInstance()
         );

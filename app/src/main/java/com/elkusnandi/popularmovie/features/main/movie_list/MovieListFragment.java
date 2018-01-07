@@ -26,13 +26,13 @@ import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
 import com.elkusnandi.popularmovie.ui.widget.InformationView;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
-import com.elkusnandi.popularmovie.utils.MyDisposable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +81,7 @@ public class MovieListFragment extends BaseFragment implements
         }
 
         presenter = new MoviePresenter(
-                MyDisposable.getInstance(),
+                new CompositeDisposable(),
                 Repository.getInstance(AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );

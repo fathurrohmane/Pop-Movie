@@ -16,7 +16,7 @@ public class BasePresenter {
     protected BaseSchedulerProvider schedulerProvider;
 
     public BasePresenter(CompositeDisposable disposable, Repository repository, BaseSchedulerProvider schedulerProvider) {
-        this.disposable = new CompositeDisposable();
+        this.disposable = disposable;
         this.repository = repository;
         this.schedulerProvider = schedulerProvider;
     }

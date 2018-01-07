@@ -26,13 +26,13 @@ import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
-import com.elkusnandi.popularmovie.utils.MyDisposable;
 import com.elkusnandi.popularmovie.utils.TextToLinkUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class InfoFragment extends BaseFragment implements InfoContract.View, TextToLinkUtils.SpannableClickListener<Genre> {
 
@@ -90,7 +90,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
             movie = getArguments().getParcelable(ARG_PARAM1);
         }
 
-        presenter = new InfoPresenter(MyDisposable.getInstance(),
+        presenter = new InfoPresenter(new CompositeDisposable(),
                 Repository.getInstance(AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance());
         textToLinkUtils = new TextToLinkUtils(this);

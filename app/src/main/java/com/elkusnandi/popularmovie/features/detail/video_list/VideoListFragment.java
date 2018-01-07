@@ -22,10 +22,10 @@ import com.elkusnandi.popularmovie.data.model.VideoResult;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.ui.widget.InformationView;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
-import com.elkusnandi.popularmovie.utils.MyDisposable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class VideoListFragment extends BaseFragment implements
         VideoAdapter.OnItemClickListener,
@@ -62,7 +62,7 @@ public class VideoListFragment extends BaseFragment implements
             movie = getArguments().getParcelable(ARG_PARAM1);
         }
 
-        presenter = new VideoListPresenter(MyDisposable.getInstance()
+        presenter = new VideoListPresenter(new CompositeDisposable()
                 , Repository.getInstance(AndroidSchedulerProvider.getInstance())
                 , AndroidSchedulerProvider.getInstance());
     }
