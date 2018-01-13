@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         // Show default fragment
-        changeFragment(DiscoverFragment.newInstance());
+        changeFragment(DiscoverFragment.newInstance("movie"));
 
     }
 
@@ -127,10 +127,11 @@ public class MainActivity extends AppCompatActivity
                 drawerItemClickedId = R.id.nav_log_in;
                 break;
             case R.id.nav_discover_movie:
-                nextFragment = DiscoverFragment.newInstance();
+                nextFragment = DiscoverFragment.newInstance("movie");
                 drawerItemClickedId = R.id.nav_discover_movie;
                 break;
             case R.id.nav_discover_tv:
+                nextFragment = DiscoverFragment.newInstance("tv");
                 drawerItemClickedId = R.id.nav_discover_tv;
                 break;
             case R.id.nav_movie_list:
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(false);
             Picasso.with(this)
-                    .load("https://secure.gravatar.com/avatar/" + avatarPath + ".jpg?s=50")
+                    .load("https://secure.gravatar.com/avatar/" + avatarPath + ".jpg?s=150")
                     .transform(new CircleTransform())
                     .into(imageViewProfile);
             imageViewProfile.setVisibility(View.VISIBLE);

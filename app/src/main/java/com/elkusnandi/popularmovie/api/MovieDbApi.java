@@ -9,6 +9,8 @@ import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
 import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
+import com.elkusnandi.popularmovie.data.model.Tv;
+import com.elkusnandi.popularmovie.data.model.TvDetail;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 
@@ -31,9 +33,6 @@ public interface MovieDbApi {
     String API = "?api_key=" + BuildConfig.MOVIE_DB_API_KEY;
 
 //  ========== Movie ==========
-
-    @GET("movie/{movieId}" + API)
-    Single<ShowRespond<Movie>> getMovieDetailInfo(@Path("type") long movieId);
 
     @GET("movie/now_playing" + API)
     Single<ShowRespond<Movie>> getNowPlayingMovies(@Query("page") int page, @Query("region") String region);
@@ -59,6 +58,36 @@ public interface MovieDbApi {
     @GET("movie/{movie_id}/images" + API)
     Single<ShowRespond<Movie>> getMovieWallpapers(@Path("movie_id") long movieId);
 
+//  ========== Tv =========
+
+    @GET("tv/{id}" + API)
+    Single<ShowRespond<Tv>> geTvDetailInfo(@Path("type") long id);
+
+    @GET("tv/on_the_air" + API)
+    Single<ShowRespond<Tv>> getOnTheAirTvs(@Query("page") int page, @Query("region") String region);
+
+    @GET("tv/popular" + API)
+    Single<ShowRespond<Tv>> getPopularTvs(@Query("page") int page, @Query("region") String region);
+
+    @GET("tv/latest" + API)
+    Single<ShowRespond<Tv>> getRecentlyAddedTvs(@Query("page") int page, @Query("region") String region);
+
+    @GET("tv/airing_today" + API)
+    Single<ShowRespond<Tv>> getAiringTodayTvs(@Query("page") int page, @Query("language") String language);
+
+    @GET("tv/{id}" + API)
+    Single<TvDetail> getTvDetails(@Path("movie_id") long id);
+
+    @GET("tv/{id}/credits" + API)
+    Single<MovieCasts> getTvCasts(@Path("movie_id") long id);
+
+    // TODO: 13/01/2018 is MovieCast same as TvCast ?
+    @GET("tv/{id}/videos" + API)
+    Single<Video> getTvVideos(@Path("movie_id") long id);
+
+    @GET("tv/{id}/images" + API)
+    Single<ShowRespond<Tv>> getTvWallpapers(@Path("movie_id") long id);
+
 //  ========== Login ==========
 
     @GET("authentication/token/new" + API)
@@ -79,7 +108,13 @@ public interface MovieDbApi {
     Single<ShowRespond<Movie>> getUserFavouriteMovies(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @GET("account/{account_id}/watchlist/movies" + API)
-    Single<ShowRespond<Movie>> getUserWatchList(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
+    Single<ShowRespond<Movie>> getUserMovieWatchList(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
+
+    @GET("account/{account_id}/favorite/tv" + API)
+    Single<ShowRespond<Tv>> getUserFavouriteTvs(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
+
+    @GET("account/{account_id}/watchlist/tv" + API)
+    Single<ShowRespond<Tv>> getUserTvWatchList(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Query("page") int page);
 
     @POST("account/{account_id}/favorite" + API)
     Single<Respond> addMovieToFavourite(@Path("account_id") long accountId, @Query("session_id") String sessionId, @Body PostMovie movie);

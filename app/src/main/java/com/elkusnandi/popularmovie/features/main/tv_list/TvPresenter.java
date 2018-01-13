@@ -1,8 +1,8 @@
-package com.elkusnandi.popularmovie.features.main.movie_list;
+package com.elkusnandi.popularmovie.features.main.tv_list;
 
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
-import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
+import com.elkusnandi.popularmovie.data.model.Tv;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 
@@ -14,22 +14,22 @@ import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
 /**
- * Movie Presenter implementation
- * Created by Taruna 98 on 12/12/2017.
+ * Tv presenter class
+ * Created by Taruna 98 on 13/01/2018.
  */
 
-public class MoviePresenter extends BasePresenter implements MovieListContract.Presenter {
+public class TvPresenter extends BasePresenter implements TvListContract.Presenter {
 
-    private MovieListContract.View view;
+    private TvListContract.View view;
 
-    public MoviePresenter(CompositeDisposable disposable,
-                          Repository repository,
-                          BaseSchedulerProvider schedulerProvider) {
+    public TvPresenter(CompositeDisposable disposable,
+                       Repository repository,
+                       BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
     }
 
     @Override
-    public void onAttach(MovieListContract.View view) {
+    public void onAttach(TvListContract.View view) {
         this.view = view;
     }
 
@@ -40,30 +40,30 @@ public class MoviePresenter extends BasePresenter implements MovieListContract.P
     }
 
     @Override
-    public void loadMovies(String discoverType, int page, String region) {
+    public void loadShows(String discoverType, int page, String region) {
         view.showProgress();
-        disposable.add(getMoviesDisposable(repository.getMovies(discoverType, page, region)));
+        disposable.add(getShowsDisposable(repository.getTvs(discoverType, page, region)));
     }
 
     @Override
-    public void loadFavouriteMovies(long accountId, String sessionId, int page) {
+    public void loadFavouriteShows(long accountId, String sessionId, int page) {
         view.showProgress();
-        disposable.add(getMoviesDisposable(repository.getUserFavouriteMovies(accountId, sessionId, page)));
+        disposable.add(getShowsDisposable(repository.getUserFavouriteTvs(accountId, sessionId, page)));
     }
 
     @Override
     public void loadWatchList(long accountId, String sessionId, int page) {
         view.showProgress();
-        disposable.add(getMoviesDisposable(repository.getUserMovieWatchList(accountId, sessionId, page)));
+        disposable.add(getShowsDisposable(repository.getUserTvWatchList(accountId, sessionId, page)));
     }
 
-    private Disposable getMoviesDisposable(Single<ShowRespond<Movie>> movieRespondSingle) {
-        return movieRespondSingle.subscribeOn(schedulerProvider.io())
+    private Disposable getShowsDisposable(Single<ShowRespond<Tv>> singleTvRespond) {
+        return singleTvRespond.subscribeOn(schedulerProvider.io())
                 .timeout(15, TimeUnit.SECONDS)
                 .observeOn(schedulerProvider.ui())
                 .subscribe((movieResult, throwable) -> {
                     if (movieResult != null) {
-                        view.onMovieLoaded(movieResult);
+                        view.onShowLoaded(movieResult);
                         view.hideProgress();
                     } else {
                         if (throwable instanceof HttpException) {

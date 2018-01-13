@@ -9,6 +9,7 @@ import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
 import com.elkusnandi.popularmovie.data.model.RequestTokenRespond;
 import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
+import com.elkusnandi.popularmovie.data.model.Tv;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
@@ -33,6 +34,7 @@ public class Repository {
     public static final String MOVIE_TYPE_RECENTLY_ADDED = "recently_added";
     public static final String MOVIE_TYPE_FAVOURITE = "favourite";
     public static final String MOVIE_TYPE_WATCH_LIST = "watch_list";
+
     private static Repository INSTANCE;
     private Retrofit retrofit;
 
@@ -77,6 +79,41 @@ public class Repository {
     }
 
     /**
+     * Get tv data
+     *
+     * @param type     type of the tv. Type from Tv class
+     * @param page     number of page
+     * @param language language of the tv show
+     * @return Observable show respond
+     */
+    public Single<ShowRespond<Tv>> getTvs(String type, int page, String language) {
+        switch (type) {
+            case Tv.TV_TYPE_TODAY_AIRING:
+                return getApiService().getAiringTodayTvs(page, language);
+            case Tv.TV_TYPE_ON_THE_AIR:
+                return getApiService().getOnTheAirTvs(page, language);
+            case Tv.TV_TYPE_POPULAR_TV:
+                return getApiService().getPopularTvs(page, language);
+            case Tv.TV_TYPE_RECENTLY_ADDED:
+                return getApiService().getRecentlyAddedTvs(page, language);
+            default:
+                throw new IllegalArgumentException("Discover Type Not Found");
+        }
+    }
+
+    /**
+     * Get user favourite tv list
+     *
+     * @param accountId tv db account id
+     * @param sessionId tv db session id
+     * @param page      page
+     * @return Rx Single of ShowRespond
+     */
+    public Single<ShowRespond<Tv>> getUserFavouriteTvs(long accountId, String sessionId, int page) {
+        return getApiService().getUserFavouriteTvs(accountId, sessionId, page);
+    }
+
+    /**
      * Get user favourite movie list
      *
      * @param accountId movie db account id
@@ -89,31 +126,27 @@ public class Repository {
     }
 
     /**
-     * Get user watch list
+     * Get user Movie watch list
      *
      * @param accountId movie db account id
      * @param sessionId movie db session id
      * @param page      page
      * @return Rx Single of ShowRespond
      */
-    public Single<ShowRespond<Movie>> getUserWatchList(long accountId, String sessionId, int page) {
-        return getApiService().getUserWatchList(accountId, sessionId, page);
+    public Single<ShowRespond<Movie>> getUserMovieWatchList(long accountId, String sessionId, int page) {
+        return getApiService().getUserMovieWatchList(accountId, sessionId, page);
     }
 
-    public Single<ShowRespond<Movie>> getNowPlayingMovies(int page, String region) {
-        return getApiService().getNowPlayingMovies(page, region);
-    }
-
-    public Single<ShowRespond<Movie>> getUpComingMovies(int page, String region) {
-        return getApiService().getUpcomingMovies(page, region);
-    }
-
-    public Single<ShowRespond<Movie>> getPopularMovies(int page, String region) {
-        return getApiService().getPopularMovies(page, region);
-    }
-
-    public Single<ShowRespond<Movie>> getRecentlyAddedMovies(int page, String region) {
-        return getApiService().getRecentlyAddedMovies(page, region);
+    /**
+     * Get user Tv watch list
+     *
+     * @param accountId tv db account id
+     * @param sessionId tv db session id
+     * @param page      page
+     * @return Rx Single of ShowRespond
+     */
+    public Single<ShowRespond<Tv>> getUserTvWatchList(long accountId, String sessionId, int page) {
+        return getApiService().getUserTvWatchList(accountId, sessionId, page);
     }
 
     public Single<MovieCasts> getMovieCasts(long movieId) {

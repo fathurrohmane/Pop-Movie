@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
+import com.elkusnandi.popularmovie.features.main.tv_list.TvListFragment;
 
 /**
  * Created by Taruna 98 on 03/01/2018.
@@ -24,7 +25,7 @@ public class FavouriteMovieAdapter extends FragmentPagerAdapter {
             case 0:
                 return MovieListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE);
             case 1:
-                return MovieListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE);
+                return TvListFragment.newInstance(Repository.MOVIE_TYPE_FAVOURITE);
             default:
                 throw new IllegalArgumentException("Illegal fragment number");
         }

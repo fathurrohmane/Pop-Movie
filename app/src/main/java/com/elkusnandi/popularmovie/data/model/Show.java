@@ -44,6 +44,38 @@ public class Show {
         return posterPath;
     }
 
+    public String getPosterUrl(Movie.PosterSize posterSize) {
+        String mainUrl = "http://image.tmdb.org/t/p/";
+        String middle;
+        switch (posterSize) {
+            case w92:
+                middle = "w92";
+                break;
+            case w154:
+                middle = "w154";
+                break;
+            case w185:
+                middle = "w185";
+                break;
+            case w342:
+                middle = "w342";
+                break;
+            case w500:
+                middle = "w500";
+                break;
+            case w780:
+                middle = "w780";
+                break;
+            case original:
+                middle = "original";
+                break;
+            default:
+                middle = "w185";
+                break;
+        }
+        return mainUrl + middle + getPosterPath();
+    }
+
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
