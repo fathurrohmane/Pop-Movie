@@ -9,20 +9,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MovieCasts implements Parcelable {
+public class CastRespond implements Parcelable {
 
-    public final static Creator<MovieCasts> CREATOR = new Creator<MovieCasts>() {
+    public final static Creator<CastRespond> CREATOR = new Creator<CastRespond>() {
 
 
         @SuppressWarnings({
                 "unchecked"
         })
-        public MovieCasts createFromParcel(Parcel in) {
-            return new MovieCasts(in);
+        public CastRespond createFromParcel(Parcel in) {
+            return new CastRespond(in);
         }
 
-        public MovieCasts[] newArray(int size) {
-            return (new MovieCasts[size]);
+        public CastRespond[] newArray(int size) {
+            return (new CastRespond[size]);
         }
 
     };
@@ -36,13 +36,13 @@ public class MovieCasts implements Parcelable {
     @Expose
     private List<Crew> crew = null;
 
-    protected MovieCasts(Parcel in) {
+    protected CastRespond(Parcel in) {
         this.id = ((int) in.readValue((int.class.getClassLoader())));
         in.readList(this.cast, (com.elkusnandi.popularmovie.data.model.Cast.class.getClassLoader()));
         in.readList(this.crew, (com.elkusnandi.popularmovie.data.model.Crew.class.getClassLoader()));
     }
 
-    public MovieCasts() {
+    public CastRespond() {
     }
 
     public int getId() {

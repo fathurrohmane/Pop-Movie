@@ -59,8 +59,8 @@
     <string name="toolbar_my_moviedb_movie_list_title">@string/navigation_drawer_group_my_moviedb_movie_list_title</string>
     <string name="toolbar_my_moviedb_favourite_title">@string/navigation_drawer_group_my_moviedb_favourite_title</string>
     <string name="toolbar_discover_title">@string/navigation_drawer_group_discover_title</string>
-    <string name="toolbar_discover_movie_title">@string/navigation_drawer_group_discover_movie_title</string>
-    <string name="toolbar_discover_tv_title">@string/navigation_drawer_group_discover_tv_title</string>
+    <string name="toolbar_discover_movie_title">Discover - Movie</string>
+    <string name="toolbar_discover_tv_title">Discover - TV</string>
 
     <!--Dialog-->
     <string name="dialog_logout_id">dialog_logout</string>

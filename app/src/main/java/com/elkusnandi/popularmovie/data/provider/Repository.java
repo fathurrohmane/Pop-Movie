@@ -1,8 +1,8 @@
 package com.elkusnandi.popularmovie.data.provider;
 
 import com.elkusnandi.popularmovie.api.MovieDbApi;
+import com.elkusnandi.popularmovie.data.model.CastRespond;
 import com.elkusnandi.popularmovie.data.model.Movie;
-import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
@@ -149,7 +149,7 @@ public class Repository {
         return getApiService().getUserTvWatchList(accountId, sessionId, page);
     }
 
-    public Single<MovieCasts> getMovieCasts(long movieId) {
+    public Single<CastRespond> getMovieCasts(long movieId) {
         return getApiService().getMovieCasts(movieId);
     }
 

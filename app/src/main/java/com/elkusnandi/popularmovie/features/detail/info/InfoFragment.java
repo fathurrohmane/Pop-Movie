@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.CastAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
+import com.elkusnandi.popularmovie.data.model.CastRespond;
 import com.elkusnandi.popularmovie.data.model.Genre;
 import com.elkusnandi.popularmovie.data.model.Movie;
-import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.Respond;
@@ -34,11 +34,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class InfoFragment extends BaseFragment implements InfoContract.View, TextToLinkUtils.SpannableClickListener<Genre> {
+public class InfoFragment extends BaseFragment implements
+        InfoContract.View,
+        TextToLinkUtils.SpannableClickListener<Genre> {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    //    Header Info views
     @BindView(R.id.iv_poster)
     ImageView imageViewPoster;
     @Nullable
@@ -54,11 +57,14 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     TextView textViewLanguage;
     @BindView(R.id.tv_genre)
     TextView textViewGenre;
+
+    //    Content Info view
     @BindView(R.id.tv_plot)
     TextView textViewPlot;
     @BindView(R.id.rv_casts)
     RecyclerView recyclerViewCast;
-    TextToLinkUtils textToLinkUtils;
+
+    //    Action button
     @BindView(R.id.fab_favourite)
     FloatingActionButton fabFavourite;
     @BindView(R.id.fab_list)
@@ -67,10 +73,11 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     FloatingActionButton fabWatchList;
 
     private Movie movie;
-    private MovieCasts movieCasts;
+    private CastRespond castRespond;
     private MovieDetail movieDetail;
     private InfoPresenter presenter;
     private CastAdapter castAdapter;
+    private TextToLinkUtils textToLinkUtils;
 
     public InfoFragment() {
     }
@@ -113,6 +120,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
                     .centerCrop()
                     .into(imageViewBackdrop);
         }
+
         textViewTitle.setText(movie.getTitle());
         textViewPlot.setText(movie.getOverview());
         textViewReleaseDate.setText(movie.getReleaseDate());
@@ -131,7 +139,9 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
 
         castAdapter = new CastAdapter(getContext());
         recyclerViewCast.setAdapter(castAdapter);
-        recyclerViewCast.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewCast.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
 
         return view;
     }
@@ -222,13 +232,13 @@ public class InfoFragment extends BaseFragment implements InfoContract.View, Tex
     }
 
     @Override
-    public void castLoaded(MovieCasts movieCasts) {
-        castAdapter.addData(movieCasts.getCast());
+    public void castLoaded(CastRespond castRespond) {
+        castAdapter.addData(castRespond.getCast());
     }
 
     @Override
     public boolean isDataReady() {
-        return movieCasts != null && movieDetail != null;
+        return castRespond != null && movieDetail != null;
     }
 
     @Override

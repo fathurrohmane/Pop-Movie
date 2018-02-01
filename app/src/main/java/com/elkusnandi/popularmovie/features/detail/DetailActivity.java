@@ -36,6 +36,7 @@ public class DetailActivity extends AppCompatActivity {
     ViewPager viewPager;
 
     private Movie movie;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,6 @@ public class DetailActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -67,7 +67,6 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

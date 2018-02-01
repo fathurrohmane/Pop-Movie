@@ -2,7 +2,7 @@ package com.elkusnandi.popularmovie.features.detail.info;
 
 import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
-import com.elkusnandi.popularmovie.data.model.MovieCasts;
+import com.elkusnandi.popularmovie.data.model.CastRespond;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.Respond;
@@ -20,7 +20,7 @@ public interface InfoContract {
 
         void infoLoaded(MovieDetail movieDetail);
 
-        void castLoaded(MovieCasts movieCasts);
+        void castLoaded(CastRespond castRespond);
 
         boolean isDataReady();
 

@@ -17,7 +17,8 @@ import java.util.List;
 /**
  * Class that handle transformation from a normal string to clickable link string using SpannableString.
  * Input object e.g Genre (id, name)
- * Output SpannableString e.g if clicked a genre it will sends its id and name then open search a movie of its genre
+ * Output SpannableString e.g if a genre clicked it will sends its id and name then open search a movie of its genre
+ *
  * Created by Taruna 98 on 23/12/2017.
  */
 
@@ -42,6 +43,7 @@ public class TextToLinkUtils {
                     spannableStringBuilder.length(),
                     0
             );
+
             // Add clickable span
             spannableStringBuilder.setSpan(
                     new ClickableSpan() {

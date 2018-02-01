@@ -1,8 +1,8 @@
 package com.elkusnandi.popularmovie.api;
 
 import com.elkusnandi.popularmovie.BuildConfig;
+import com.elkusnandi.popularmovie.data.model.CastRespond;
 import com.elkusnandi.popularmovie.data.model.Movie;
-import com.elkusnandi.popularmovie.data.model.MovieCasts;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.RequestSessionIdRespond;
@@ -50,7 +50,7 @@ public interface MovieDbApi {
     Single<MovieDetail> getMovieDetails(@Path("movie_id") long movieId);
 
     @GET("movie/{movie_id}/credits" + API)
-    Single<MovieCasts> getMovieCasts(@Path("movie_id") long movieId);
+    Single<CastRespond> getMovieCasts(@Path("movie_id") long movieId);
 
     @GET("movie/{movie_id}/videos" + API)
     Single<Video> getMovieVideos(@Path("movie_id") long movieId);
@@ -59,9 +59,6 @@ public interface MovieDbApi {
     Single<ShowRespond<Movie>> getMovieWallpapers(@Path("movie_id") long movieId);
 
 //  ========== Tv =========
-
-    @GET("tv/{id}" + API)
-    Single<ShowRespond<Tv>> geTvDetailInfo(@Path("type") long id);
 
     @GET("tv/on_the_air" + API)
     Single<ShowRespond<Tv>> getOnTheAirTvs(@Query("page") int page, @Query("region") String region);
@@ -76,17 +73,16 @@ public interface MovieDbApi {
     Single<ShowRespond<Tv>> getAiringTodayTvs(@Query("page") int page, @Query("language") String language);
 
     @GET("tv/{id}" + API)
-    Single<TvDetail> getTvDetails(@Path("movie_id") long id);
+    Single<TvDetail> getTvDetails(@Path("id") long id);
 
     @GET("tv/{id}/credits" + API)
-    Single<MovieCasts> getTvCasts(@Path("movie_id") long id);
+    Single<CastRespond> getTvCasts(@Path("id") long id);
 
-    // TODO: 13/01/2018 is MovieCast same as TvCast ?
     @GET("tv/{id}/videos" + API)
-    Single<Video> getTvVideos(@Path("movie_id") long id);
+    Single<Video> getTvVideos(@Path("id") long id);
 
     @GET("tv/{id}/images" + API)
-    Single<ShowRespond<Tv>> getTvWallpapers(@Path("movie_id") long id);
+    Single<ShowRespond<Tv>> getTvWallpapers(@Path("id") long id);
 
 //  ========== Login ==========
 
