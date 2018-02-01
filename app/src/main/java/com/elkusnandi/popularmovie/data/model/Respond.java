@@ -16,6 +16,8 @@ public class Respond {
 //     "status_code": 34
 //     "status_message": "The resource you requested could not be found.",
 
+    // Reference here
+    // https://www.themoviedb.org/documentation/api/status-codes
 
     @SerializedName("status_code")
     @Expose

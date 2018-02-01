@@ -1,5 +1,6 @@
 package com.elkusnandi.popularmovie.common.base;
 
+import android.content.SharedPreferences;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,8 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.data.model.Respond;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Base Fragment
@@ -69,5 +74,35 @@ public class BaseFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(fragmentPagerAdapter);
         tabLayout.setVisibility(View.VISIBLE);
+    }
+
+    protected void showRespond(Respond respond) {
+        switch (respond.getStatusCode()) {
+            case 1:
+                // mew added
+            case 12:
+                // update data
+                Toast.makeText(getContext(), getString(R.string.success_add_data), Toast.LENGTH_LONG).show();
+                break;
+            case 3:
+                // error auth
+                Toast.makeText(getContext(), getString(R.string.error_authentication), Toast.LENGTH_LONG).show();
+                if (getContext() != null) {
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
+                    editor.putString(getString(R.string.sharedpreference_session_id), "");
+                    editor.putLong(getString(R.string.sharedpreference_account_id), 0L);
+                    editor.apply();
+                }
+                break;
+            case 34:
+                // resource not found / wrong id
+                Toast.makeText(getContext(), getString(R.string.error_resource_not_found), Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getContext(), getString(R.string.error_unknown, respond.getStatusCode()), Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 }

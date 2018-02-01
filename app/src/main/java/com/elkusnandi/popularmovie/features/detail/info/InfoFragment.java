@@ -194,25 +194,7 @@ public class InfoFragment extends BaseFragment implements
 
     @Override
     public void showRespond(Respond respond) {
-        switch (respond.getStatusCode()) {
-            case 1:
-                // mew added
-            case 12:
-                // update data
-                showToast(getString(R.string.success_add_data));
-                break;
-            case 3:
-                // error auth
-                showToast(getString(R.string.error_authentication));
-                break;
-            case 34:
-                // resource not found / wrong id
-                showToast(getString(R.string.error_resource_not_found));
-                break;
-            default:
-                showToast(getString(R.string.error_unknown, respond.getStatusCode()));
-                break;
-        }
+        super.showRespond(respond);
     }
 
     @Override
