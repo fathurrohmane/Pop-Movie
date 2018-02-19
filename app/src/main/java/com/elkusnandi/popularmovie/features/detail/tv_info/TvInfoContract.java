@@ -1,7 +1,6 @@
 package com.elkusnandi.popularmovie.features.detail.tv_info;
 
 import com.elkusnandi.popularmovie.common.interfaces.BaseView;
-import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 import com.elkusnandi.popularmovie.data.model.Respond;
 import com.elkusnandi.popularmovie.data.model.TvDetail;
 
@@ -26,7 +25,7 @@ public interface TvInfoContract {
         void showToast(String message);
     }
 
-    interface Presenter extends MyPresenter<View> {
+    interface Presenter {
         void loadInfo(long tvId);
     }
 }

@@ -18,25 +18,12 @@ import retrofit2.HttpException;
  * Created by Taruna 98 on 12/12/2017.
  */
 
-public class MoviePresenter extends BasePresenter implements MovieListContract.Presenter {
-
-    private MovieListContract.View view;
+public class MoviePresenter extends BasePresenter< MovieListContract.View> implements MovieListContract.Presenter {
 
     public MoviePresenter(CompositeDisposable disposable,
                           Repository repository,
                           BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(MovieListContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        view = null;
-        disposable.clear();
     }
 
     @Override

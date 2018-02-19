@@ -9,9 +9,9 @@ import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
  * Created by Taruna 98 on 29/12/2017.
  */
 
-public class LoginContract {
+public interface LoginContract {
 
-    public interface View extends BaseView {
+    interface View extends BaseView {
 
         void requestLogin(String token);
 
@@ -23,7 +23,7 @@ public class LoginContract {
 
     }
 
-    public interface Presenter extends MyPresenter<View> {
+    interface Presenter {
 
         void requestToken();
 

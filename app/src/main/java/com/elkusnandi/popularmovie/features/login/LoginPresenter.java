@@ -12,23 +12,13 @@ import retrofit2.HttpException;
  * Created by Taruna 98 on 29/12/2017.
  */
 
-public class LoginPresenter extends BasePresenter implements LoginContract.Presenter {
+public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
 
-    private LoginContract.View view;
 
-    public LoginPresenter(CompositeDisposable disposable, Repository repository, BaseSchedulerProvider schedulerProvider) {
+    public LoginPresenter(CompositeDisposable disposable
+            , Repository repository
+            , BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(LoginContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        view = null;
-        disposable.clear();
     }
 
     @Override

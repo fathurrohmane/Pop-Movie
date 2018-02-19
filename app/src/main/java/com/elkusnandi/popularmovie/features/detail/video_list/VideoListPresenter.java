@@ -7,27 +7,16 @@ import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
+ * Video List Presenter
  * Created by Taruna 98 on 19/12/2017.
  */
 
-public class VideoListPresenter extends BasePresenter implements VideoListContract.Presenter {
-
-    private VideoListContract.View view;
+public class VideoListPresenter extends BasePresenter<VideoListContract.View> implements VideoListContract.Presenter {
 
     public VideoListPresenter(CompositeDisposable disposable
             , Repository repository
             , BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(VideoListContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        disposable.clear();
     }
 
     @Override

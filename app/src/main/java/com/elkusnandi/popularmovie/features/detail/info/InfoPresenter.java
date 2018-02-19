@@ -12,24 +12,12 @@ import retrofit2.HttpException;
  * Created by Taruna 98 on 19/12/2017.
  */
 
-public class InfoPresenter extends BasePresenter implements InfoContract.Presenter {
-
-    private InfoContract.View view;
+public class InfoPresenter extends BasePresenter<InfoContract.View> implements InfoContract.Presenter {
 
     public InfoPresenter(CompositeDisposable disposable
             , Repository repository
             , BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(InfoContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        disposable.clear();
     }
 
     @Override

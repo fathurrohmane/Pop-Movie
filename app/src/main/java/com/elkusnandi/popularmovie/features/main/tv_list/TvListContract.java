@@ -23,7 +23,7 @@ public interface TvListContract {
 
     }
 
-    interface Presenter extends MyPresenter<View> {
+    interface Presenter{
 
         void loadShows(String discoverType, int page, String region);
 

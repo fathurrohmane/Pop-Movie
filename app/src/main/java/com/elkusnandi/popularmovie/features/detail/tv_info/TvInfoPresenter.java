@@ -11,24 +11,12 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by Taruna 98 on 2/19/2018.
  */
 
-public class TvInfoPresenter extends BasePresenter implements TvInfoContract.Presenter {
-
-    private TvInfoContract.View view;
+public class TvInfoPresenter extends BasePresenter<TvInfoContract.View> implements TvInfoContract.Presenter {
 
     public TvInfoPresenter(CompositeDisposable disposable
             , Repository repository
             , BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(TvInfoContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        disposable.clear();
     }
 
     @Override

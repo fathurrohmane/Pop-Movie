@@ -1,13 +1,13 @@
 package com.elkusnandi.popularmovie.features.detail.info;
 
 import com.elkusnandi.popularmovie.common.interfaces.BaseView;
-import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 import com.elkusnandi.popularmovie.data.model.CastRespond;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.Respond;
 
 /**
+ * Info contract
  * Created by Taruna 98 on 19/12/2017.
  */
 
@@ -29,7 +29,7 @@ public interface InfoContract {
         void showToast(String message);
     }
 
-    interface Presenter extends MyPresenter<View> {
+    interface Presenter {
         void loadInfo(long movieId);
 
         void loadCast(long movieId);

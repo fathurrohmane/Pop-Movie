@@ -18,25 +18,12 @@ import retrofit2.HttpException;
  * Created by Taruna 98 on 13/01/2018.
  */
 
-public class TvPresenter extends BasePresenter implements TvListContract.Presenter {
-
-    private TvListContract.View view;
+public class TvPresenter extends BasePresenter<TvListContract.View> implements TvListContract.Presenter {
 
     public TvPresenter(CompositeDisposable disposable,
                        Repository repository,
                        BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(TvListContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        view = null;
-        disposable.clear();
     }
 
     @Override

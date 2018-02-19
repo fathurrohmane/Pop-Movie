@@ -21,7 +21,7 @@ public interface SearchContract {
 
     }
 
-    interface Presenter extends MyPresenter<View> {
+    interface Presenter{
 
         void search(String query);
 

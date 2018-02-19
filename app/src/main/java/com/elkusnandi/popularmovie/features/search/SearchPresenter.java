@@ -10,23 +10,10 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by Taruna 98 on 26/12/2017.
  */
 
-public class SearchPresenter extends BasePresenter implements SearchContract.Presenter {
-
-    private SearchContract.View view;
+public class SearchPresenter extends BasePresenter<SearchContract.View> implements SearchContract.Presenter {
 
     public SearchPresenter(CompositeDisposable disposable, Repository repository, BaseSchedulerProvider schedulerProvider) {
         super(disposable, repository, schedulerProvider);
-    }
-
-    @Override
-    public void onAttach(SearchContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onDetach() {
-        disposable.clear();
-        this.view = null;
     }
 
     @Override
