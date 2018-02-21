@@ -2,12 +2,15 @@
     <!--View name and title-->
     <string name="app_name">PopularMovie</string>
 
+    <!--Activity and Fragment title-->
     <string name="activity_movie_detail_title">MovieDetailActivity</string>
     <string name="activity_main_title">Pop-Movie</string>
     <string name="activity_detail_title">DetailActivity</string>
 
+    <!--Dialog -->
     <string name="dialog_sort_title">Sort by</string>
 
+    <!--Movie Information View-->
     <string name="text_view_title_title">Title</string>
     <string name="text_view_release_date_title">Release Date</string>
     <string name="text_view_rating_title">Rating</string>
@@ -17,11 +20,22 @@
     <string name="text_view_description_title">Description</string>
     <string name="text_view_cast_title">Cast</string>
 
+    <!--TV Information View-->
+    <string name="text_view_first_air_date_title">First Air Date</string>
+    <string name="text_view_number_episode_title">Total Episode</string>
+    <string name="text_view_number_session_title">Total Session</string>
+    <string name="text_view_current_number_episode_title">First Air Date</string>
+    <string name="text_view_origin_title">Origin Country</string>
+    <string name="text_view_number_episode">%d/%d(%d%)</string>
+    <string name="text_view_season_title">Season</string>
+
+    <!--Movie and Show detail tab-->
     <string name="tab_layout_info_title">Info</string>
     <string name="tab_layout_videos_title">Videos</string>
     <string name="tab_layout_reviews_title">Reviews</string>
     <string name="tab_layout_poster_title">Posters</string>
 
+    <!--Drawer Main Activity-->
     <string name="drawer_my_profile_title">My Profile</string>
     <string name="drawer_discover_title">Discover</string>
     <string name="drawer_account_title">Account</string>
