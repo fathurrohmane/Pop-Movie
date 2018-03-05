@@ -95,9 +95,9 @@ public class MovieListFragment extends BaseFragment implements
 
         GridLayoutManager gridLayoutManager;
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            gridLayoutManager = new GridLayoutManager(getContext(), 2); // number of column in Recyclerview
+            gridLayoutManager = new GridLayoutManager(getContext(), 3); // number of column in Recyclerview
         } else {
-            gridLayoutManager = new GridLayoutManager(getContext(), 4); // number of column in Recyclerview
+            gridLayoutManager = new GridLayoutManager(getContext(), 5); // number of column in Recyclerview
         }
 
         informationView.addButtonListener(this);
