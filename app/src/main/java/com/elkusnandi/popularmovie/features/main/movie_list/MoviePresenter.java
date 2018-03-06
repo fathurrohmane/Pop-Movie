@@ -1,6 +1,7 @@
 package com.elkusnandi.popularmovie.features.main.movie_list;
 
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
@@ -18,7 +19,7 @@ import retrofit2.HttpException;
  * Created by Taruna 98 on 12/12/2017.
  */
 
-public class MoviePresenter extends BasePresenter< MovieListContract.View> implements MovieListContract.Presenter {
+public class MoviePresenter extends BasePresenter<MovieListContract.View> implements MovieListContract.Presenter {
 
     public MoviePresenter(CompositeDisposable disposable,
                           Repository repository,
@@ -28,19 +29,19 @@ public class MoviePresenter extends BasePresenter< MovieListContract.View> imple
 
     @Override
     public void loadMovies(String discoverType, int page, String region) {
-        view.showProgress();
+        view.setState(BaseView.State.SHOW_PROGRESS);
         disposable.add(getMoviesDisposable(repository.getMovies(discoverType, page, region)));
     }
 
     @Override
     public void loadFavouriteMovies(long accountId, String sessionId, int page) {
-        view.showProgress();
+        view.setState(BaseView.State.SHOW_PROGRESS);
         disposable.add(getMoviesDisposable(repository.getUserFavouriteMovies(accountId, sessionId, page)));
     }
 
     @Override
     public void loadWatchList(long accountId, String sessionId, int page) {
-        view.showProgress();
+        view.setState(BaseView.State.SHOW_PROGRESS);
         disposable.add(getMoviesDisposable(repository.getUserMovieWatchList(accountId, sessionId, page)));
     }
 
@@ -51,18 +52,16 @@ public class MoviePresenter extends BasePresenter< MovieListContract.View> imple
                 .subscribe((movieResult, throwable) -> {
                     if (movieResult != null) {
                         view.onMovieLoaded(movieResult);
-                        view.hideProgress();
                     } else {
                         if (throwable instanceof HttpException) {
                             HttpException e = (HttpException) throwable;
                             switch (e.code()) {
                                 case 401:
-                                    view.showError(1);// TODO: 22/12/2017 show error code to information view
+                                    view.setState(BaseView.State.NO_CONNECTION);// TODO: 22/12/2017 show error code to information view
                                     return;
                             }
                         }
-                        view.hideProgress();
-                        view.showError(1);
+                        view.setState(BaseView.State.NO_DATA);
                     }
                 });
     }

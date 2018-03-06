@@ -1,6 +1,5 @@
 package com.elkusnandi.popularmovie.features.detail.info;
 
-import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.data.model.CastRespond;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
@@ -13,7 +12,8 @@ import com.elkusnandi.popularmovie.data.model.Respond;
 
 public interface InfoContract {
 
-    interface View extends BaseView {
+    // TODO: 3/6/2018 add extends BaseView
+    interface View {
         void showProgress();
 
         void hideProgress();

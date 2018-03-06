@@ -5,4 +5,18 @@ package com.elkusnandi.popularmovie.common.interfaces;
  */
 
 public interface BaseView {
+
+    enum State {
+        NO_DATA,
+        NO_CONNECTION,
+        SHOW_DATA,
+        SHOW_PROGRESS
+    }
+
+    void showProgress();
+
+    void hideProgress();
+
+    void setState(State state);
+
 }

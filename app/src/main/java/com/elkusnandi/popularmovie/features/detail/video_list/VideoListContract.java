@@ -1,6 +1,5 @@
 package com.elkusnandi.popularmovie.features.detail.video_list;
 
-import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.data.model.Video;
 
 /**
@@ -10,7 +9,7 @@ import com.elkusnandi.popularmovie.data.model.Video;
 
 public interface VideoListContract {
 
-    interface View extends BaseView {
+    interface View {
         void showProgress();
 
         void hideProgress();

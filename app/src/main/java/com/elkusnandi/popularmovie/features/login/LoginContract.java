@@ -1,7 +1,5 @@
 package com.elkusnandi.popularmovie.features.login;
 
-import com.elkusnandi.popularmovie.common.interfaces.BaseView;
-import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 
 /**
@@ -11,7 +9,7 @@ import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 
 public interface LoginContract {
 
-    interface View extends BaseView {
+    interface View {
 
         void requestLogin(String token);
 

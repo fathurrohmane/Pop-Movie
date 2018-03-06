@@ -4,33 +4,27 @@ package com.elkusnandi.popularmovie.features.main.movie_list;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.MovieAdapter;
-import com.elkusnandi.popularmovie.common.base.BaseFragment;
+import com.elkusnandi.popularmovie.common.base.BaseListFragment;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
-import com.elkusnandi.popularmovie.ui.widget.InformationView;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -39,20 +33,13 @@ import io.reactivex.disposables.CompositeDisposable;
  * Use the {@link MovieListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieListFragment extends BaseFragment implements
+public class MovieListFragment extends BaseListFragment implements
         MovieListContract.View,
         RecyclerViewItemClickListener<Movie>,
         View.OnClickListener {
 
     private static final String ARG_PARAM1 = "discover_type";
     private static final String ARG_MOVIE_SAVED_INSTANCE = "movies";
-
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
-    @BindView(R.id.progressbar)
-    ContentLoadingProgressBar progressBar;
-    @BindView(R.id.view_info)
-    InformationView informationView;
 
     private MoviePresenter presenter;
     private MovieAdapter adapter;
@@ -89,21 +76,11 @@ public class MovieListFragment extends BaseFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        assert view != null;
         ButterKnife.bind(this, view);
 
-        GridLayoutManager gridLayoutManager;
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            gridLayoutManager = new GridLayoutManager(getContext(), 3); // number of column in Recyclerview
-        } else {
-            gridLayoutManager = new GridLayoutManager(getContext(), 5); // number of column in Recyclerview
-        }
-
         informationView.addButtonListener(this);
-        informationView.hide();
-
-        recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new MovieAdapter(getContext());
         adapter.addItemClickListener(this);
         recyclerView.setAdapter(adapter);
@@ -114,9 +91,14 @@ public class MovieListFragment extends BaseFragment implements
             // load movie
             loadMovies(discoverType, 1);
         } else {
-            // load from savedinstance
-            movieList = savedInstanceState.getParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE);
-            adapter.setData(movieList);
+            // load from saved instance
+            if (savedInstanceState.containsKey(ARG_MOVIE_SAVED_INSTANCE)) {
+                movieList = savedInstanceState.getParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE);
+                adapter.setData(movieList);
+                setState(State.SHOW_DATA);
+            } else {
+                setState(State.NO_DATA);
+            }
         }
 
         return view;
@@ -124,33 +106,11 @@ public class MovieListFragment extends BaseFragment implements
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE, (ArrayList<? extends Parcelable>) movieList);
+        if (movieList.size() > 0) {
+            outState.putParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE, (ArrayList<? extends Parcelable>) movieList);
+        }
 
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void showProgress() {
-        informationView.hide();
-        progressBar.show();
-        recyclerView.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        progressBar.hide();
-        recyclerView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void showError(int type) {
-        switch (type) {
-            case 0:
-                informationView.showNoData();
-            case 1:
-                informationView.showNoConnection();
-                break;
-        }
     }
 
     @Override
@@ -160,9 +120,10 @@ public class MovieListFragment extends BaseFragment implements
                 // Add new data
                 movieList.addAll(showRespond.getResults());
                 adapter.setData(showRespond.getResults());
+                setState(State.SHOW_DATA);
             } else {
                 // Show no data view
-                informationView.showNoData();
+                setState(State.NO_DATA);
             }
         } else {
             if (showRespond.getResults() != null) {
@@ -178,7 +139,7 @@ public class MovieListFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         presenter.onDetach();
-        adapter.removeItemClickListener();
+        //adapter.removeItemClickListener();
         super.onDestroy();
     }
 

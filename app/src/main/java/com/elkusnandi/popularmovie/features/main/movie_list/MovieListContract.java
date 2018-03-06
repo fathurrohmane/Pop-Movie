@@ -1,7 +1,6 @@
 package com.elkusnandi.popularmovie.features.main.movie_list;
 
 import com.elkusnandi.popularmovie.common.interfaces.BaseView;
-import com.elkusnandi.popularmovie.common.interfaces.MyPresenter;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 
@@ -13,12 +12,6 @@ import com.elkusnandi.popularmovie.data.model.ShowRespond;
 public interface MovieListContract {
 
     interface View extends BaseView {
-
-        void showProgress();
-
-        void hideProgress();
-
-        void showError(int type);
 
         void onMovieLoaded(ShowRespond<Movie> showRespond);
 
