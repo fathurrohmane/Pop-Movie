@@ -58,7 +58,16 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.mMovieList.clear();
         this.mMovieList.addAll(movieList);
         result.dispatchUpdatesTo(this);
+    }
 
+    public void addMoreData(List<Movie> movieList) {
+        int insertPosition = getItemCount();
+        this.mMovieList.addAll(movieList);
+        this.notifyItemInserted(insertPosition);
+    }
+
+    public List<Movie> getMovieList() {
+        return mMovieList;
     }
 
     @Override

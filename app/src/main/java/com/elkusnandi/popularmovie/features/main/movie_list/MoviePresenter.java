@@ -29,7 +29,6 @@ public class MoviePresenter extends BasePresenter<MovieListContract.View> implem
 
     @Override
     public void loadMovies(String discoverType, int page, String region) {
-        view.setState(BaseView.State.SHOW_PROGRESS);
         disposable.add(getMoviesDisposable(repository.getMovies(discoverType, page, region)));
     }
 

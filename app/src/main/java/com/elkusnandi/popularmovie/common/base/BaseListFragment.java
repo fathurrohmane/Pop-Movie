@@ -32,6 +32,8 @@ public class BaseListFragment extends BaseFragment implements BaseView {
     @BindView(R.id.view_info)
     protected InformationView informationView;
 
+    protected GridLayoutManager gridLayoutManager;
+
     public BaseListFragment() {
 
     }
@@ -43,7 +45,6 @@ public class BaseListFragment extends BaseFragment implements BaseView {
         View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
         ButterKnife.bind(this, view);
 
-        GridLayoutManager gridLayoutManager;
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridLayoutManager = new GridLayoutManager(getContext(), 3); // number of column in Recyclerview
         } else {

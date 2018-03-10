@@ -20,6 +20,8 @@ import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
+import com.elkusnandi.popularmovie.ui.util.PaginationUtil;
+import com.elkusnandi.popularmovie.ui.util.ScrollListener;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 
 import java.util.ArrayList;
@@ -36,14 +38,14 @@ import io.reactivex.disposables.CompositeDisposable;
 public class MovieListFragment extends BaseListFragment implements
         MovieListContract.View,
         RecyclerViewItemClickListener<Movie>,
-        View.OnClickListener {
+        View.OnClickListener,
+        ScrollListener {
 
     private static final String ARG_PARAM1 = "discover_type";
     private static final String ARG_MOVIE_SAVED_INSTANCE = "movies";
 
     private MoviePresenter presenter;
     private MovieAdapter adapter;
-    private List<Movie> movieList;
     private String discoverType;
 
     public MovieListFragment() {
@@ -69,8 +71,6 @@ public class MovieListFragment extends BaseListFragment implements
                 Repository.getInstance(AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );
-
-        movieList = new ArrayList<>();
     }
 
     @Override
@@ -80,6 +80,9 @@ public class MovieListFragment extends BaseListFragment implements
         assert view != null;
         ButterKnife.bind(this, view);
 
+        PaginationUtil paginationUtil = new PaginationUtil(this, gridLayoutManager);
+        paginationUtil.setPageSettings(20, 1);
+        recyclerView.addOnScrollListener(paginationUtil);
         informationView.addButtonListener(this);
         adapter = new MovieAdapter(getContext());
         adapter.addItemClickListener(this);
@@ -93,7 +96,7 @@ public class MovieListFragment extends BaseListFragment implements
         } else {
             // load from saved instance
             if (savedInstanceState.containsKey(ARG_MOVIE_SAVED_INSTANCE)) {
-                movieList = savedInstanceState.getParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE);
+                List<Movie> movieList = savedInstanceState.getParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE);
                 adapter.setData(movieList);
                 setState(State.SHOW_DATA);
             } else {
@@ -106,8 +109,8 @@ public class MovieListFragment extends BaseListFragment implements
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (movieList.size() > 0) {
-            outState.putParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE, (ArrayList<? extends Parcelable>) movieList);
+        if (adapter.getMovieList().size() > 0) {
+            outState.putParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE, (ArrayList<? extends Parcelable>) adapter.getMovieList());
         }
 
         super.onSaveInstanceState(outState);
@@ -118,7 +121,6 @@ public class MovieListFragment extends BaseListFragment implements
         if (adapter.getItemCount() == 0) {
             if (showRespond.getResults() != null && showRespond.getResults().size() > 0) {
                 // Add new data
-                movieList.addAll(showRespond.getResults());
                 adapter.setData(showRespond.getResults());
                 setState(State.SHOW_DATA);
             } else {
@@ -128,8 +130,7 @@ public class MovieListFragment extends BaseListFragment implements
         } else {
             if (showRespond.getResults() != null) {
                 // Add more data
-                movieList.addAll(showRespond.getResults());
-                adapter.setData(showRespond.getResults());
+                adapter.addMoreData(showRespond.getResults());
             } else {
                 // Reach bottom of page cant scroll anymore.
             }
@@ -159,6 +160,16 @@ public class MovieListFragment extends BaseListFragment implements
         }
     }
 
+    @Override
+    public void currentlyOnPage(int page) {
+
+    }
+
+    @Override
+    public void requestNewPage(int newPage) {
+        loadMovies(discoverType, newPage);
+    }
+
     private void loadMovies(String discoverType, int page) {
         SharedPreferences sharedPreferences;
         long accountId;
@@ -180,7 +191,7 @@ public class MovieListFragment extends BaseListFragment implements
                 presenter.loadWatchList(accountId, sessionId, page);
                 break;
             default:
-                presenter.loadMovies(discoverType, page, "ID");
+                presenter.loadMovies(discoverType, page, "US");
                 break;
         }
     }
