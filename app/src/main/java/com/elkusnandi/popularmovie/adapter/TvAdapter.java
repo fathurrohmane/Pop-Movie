@@ -123,7 +123,7 @@ public class TvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            onClickListener.onItemClick(tv, view);
+            onClickListener.onItemClick(tv);
         }
     }
 

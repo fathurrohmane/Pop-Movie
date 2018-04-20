@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.TvAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseFragment;
+import com.elkusnandi.popularmovie.common.base.BaseListFragment;
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.model.Tv;
@@ -39,7 +41,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Use the {@link TvListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TvListFragment extends BaseFragment implements
+public class TvListFragment extends BaseListFragment implements
         TvListContract.View,
         RecyclerViewItemClickListener<Tv>,
         View.OnClickListener {
@@ -141,14 +143,6 @@ public class TvListFragment extends BaseFragment implements
     }
 
     @Override
-    public void onItemClick(Tv item, View view) {
-        Intent intent = new Intent(getContext(), DetailActivity.class);
-        intent.putExtra("tv", item);
-        //startActivity(intent);
-        // TODO: 13/01/2018 handle DetailActivity to show Tv Details
-    }
-
-    @Override
     public void showProgress() {
         informationView.hide();
         progressBar.show();
@@ -159,6 +153,11 @@ public class TvListFragment extends BaseFragment implements
     public void hideProgress() {
         progressBar.hide();
         recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setState(State state) {
+
     }
 
     @Override
@@ -220,4 +219,16 @@ public class TvListFragment extends BaseFragment implements
         }
     }
 
+    @Override
+    public void onReloadRecyclerView() {
+
+    }
+
+    @Override
+    public void onItemClick(Tv data) {
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra("tv", data);
+        //startActivity(intent);
+        // TODO: 13/01/2018 handle DetailActivity to show Tv Details
+    }
 }

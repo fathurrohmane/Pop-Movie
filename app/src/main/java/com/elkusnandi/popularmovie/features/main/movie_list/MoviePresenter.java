@@ -2,6 +2,8 @@ package com.elkusnandi.popularmovie.features.main.movie_list;
 
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
 import com.elkusnandi.popularmovie.common.interfaces.BaseView;
+import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
+import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemInfoState;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
@@ -50,7 +52,22 @@ public class MoviePresenter extends BasePresenter<MovieListContract.View> implem
                 .observeOn(schedulerProvider.ui())
                 .subscribe((movieResult, throwable) -> {
                     if (movieResult != null) {
-                        view.onMovieLoaded(movieResult);
+                        if (view.numberOfItem() == 0) {                         // recycler view is empty
+                            if (movieResult.getResults() != null
+                                    && movieResult.getResults().size() > 0) {   // Add new data
+                                view.onDataFirstLoaded(movieResult);
+                                view.setState(BaseView.State.SHOW_DATA);
+                            } else {                                            // Show no data view
+                                view.setState(BaseView.State.NO_DATA);
+                            }
+                        } else {
+                            if (movieResult.getResults() != null) {             // Add more data
+                                view.onDataContinueLoaded(movieResult);
+                                //view.changeRecyclerViewItemState(RecyclerViewItemInfoState.loading);
+                            } else {                                            // Reach bottom of page cant scroll anymore
+                                view.changeRecyclerViewItemState(RecyclerViewItemInfoState.bottom_of_page);
+                            }
+                        }
                     } else {
                         if (throwable instanceof HttpException) {
                             HttpException e = (HttpException) throwable;
@@ -60,7 +77,7 @@ public class MoviePresenter extends BasePresenter<MovieListContract.View> implem
                                     return;
                             }
                         }
-                        view.setState(BaseView.State.NO_DATA);
+                        view.changeRecyclerViewItemState(RecyclerViewItemInfoState.reload);
                     }
                 });
     }

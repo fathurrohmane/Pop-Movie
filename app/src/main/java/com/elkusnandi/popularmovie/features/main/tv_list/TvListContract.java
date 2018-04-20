@@ -1,5 +1,6 @@
 package com.elkusnandi.popularmovie.features.main.tv_list;
 
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.model.Tv;
 
@@ -9,11 +10,7 @@ import com.elkusnandi.popularmovie.data.model.Tv;
 
 public interface TvListContract {
 
-    interface View {
-
-        void showProgress();
-
-        void hideProgress();
+    interface View extends BaseView {
 
         void showError(int type);
 

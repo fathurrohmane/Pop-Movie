@@ -8,5 +8,8 @@ import android.view.View;
 
 public interface RecyclerViewItemClickListener<T> {
 
-    void onItemClick(T item, View view);
+    void onReloadRecyclerView();
+
+    void onItemClick(T data);
+
 }

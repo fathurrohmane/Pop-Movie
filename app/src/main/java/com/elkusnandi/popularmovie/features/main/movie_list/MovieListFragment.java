@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,10 @@ import android.view.ViewGroup;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.adapter.MovieAdapter;
 import com.elkusnandi.popularmovie.common.base.BaseListFragment;
+import com.elkusnandi.popularmovie.common.base.BaseRecyclerViewAdapter;
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
+import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemInfoState;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
@@ -82,11 +86,25 @@ public class MovieListFragment extends BaseListFragment implements
 
         PaginationUtil paginationUtil = new PaginationUtil(this, gridLayoutManager);
         paginationUtil.setPageSettings(20, 1);
-        recyclerView.addOnScrollListener(paginationUtil);
+
         informationView.addButtonListener(this);
+
         adapter = new MovieAdapter(getContext());
         adapter.addItemClickListener(this);
+
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (adapter.getItemCount() - 1 == position) {
+                    return 3;
+                }
+                return 1;
+            }
+        });
+
+        recyclerView.addOnScrollListener(paginationUtil);
         recyclerView.setAdapter(adapter);
+
         presenter.onAttach(this);
 // TODO: 05/01/2018 fix fragment called twice bug
         // if it is not configuration change
@@ -97,7 +115,7 @@ public class MovieListFragment extends BaseListFragment implements
             // load from saved instance
             if (savedInstanceState.containsKey(ARG_MOVIE_SAVED_INSTANCE)) {
                 List<Movie> movieList = savedInstanceState.getParcelableArrayList(ARG_MOVIE_SAVED_INSTANCE);
-                adapter.setData(movieList);
+                adapter.addData(movieList);
                 setState(State.SHOW_DATA);
             } else {
                 setState(State.NO_DATA);
@@ -117,24 +135,31 @@ public class MovieListFragment extends BaseListFragment implements
     }
 
     @Override
-    public void onMovieLoaded(ShowRespond<Movie> showRespond) {
-        if (adapter.getItemCount() == 0) {
-            if (showRespond.getResults() != null && showRespond.getResults().size() > 0) {
-                // Add new data
-                adapter.setData(showRespond.getResults());
-                setState(State.SHOW_DATA);
-            } else {
-                // Show no data view
-                setState(State.NO_DATA);
-            }
+    public void onDataFirstLoaded(ShowRespond<Movie> showRespond) {
+        // Add new data
+        adapter.addData(showRespond.getResults());
+        setState(State.SHOW_DATA);
+    }
+
+    @Override
+    public void onDataContinueLoaded(ShowRespond<Movie> showRespond) {
+        if (adapter.getItemCount() > 0
+                && showRespond.getResults().size() < 20 || showRespond.getResults().size() == 0) {
+            adapter.addData(showRespond.getResults());
+            adapter.setInfoItemState(RecyclerViewItemInfoState.bottom_of_page);
         } else {
-            if (showRespond.getResults() != null) {
-                // Add more data
-                adapter.addMoreData(showRespond.getResults());
-            } else {
-                // Reach bottom of page cant scroll anymore.
-            }
+            adapter.addData(showRespond.getResults());
         }
+    }
+
+    @Override
+    public void changeRecyclerViewItemState(RecyclerViewItemInfoState infoState) {
+        adapter.setInfoItemState(infoState);
+    }
+
+    @Override
+    public int numberOfItem() {
+        return adapter.getItemCount();
     }
 
     @Override
@@ -145,7 +170,12 @@ public class MovieListFragment extends BaseListFragment implements
     }
 
     @Override
-    public void onItemClick(Movie movie, View view) {
+    public void onReloadRecyclerView() {
+
+    }
+
+    @Override
+    public void onItemClick(Movie movie) {
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
