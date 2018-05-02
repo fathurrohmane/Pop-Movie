@@ -77,6 +77,7 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
                         .load(url)
                         .error(R.drawable.ic_image_error)
                         .placeholder(R.drawable.ic_image_placeholder)
+                        .fit().centerCrop()
                         .into(viewHolder.mImageViewMovie);
                 viewHolder.mTextViewTitle.setText(items.get(position).getTitle());
                 viewHolder.setMovie(items.get(position));
