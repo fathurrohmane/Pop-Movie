@@ -5,7 +5,6 @@
 package com.elkusnandi.popularmovie.adapter;
 
 import android.content.Context;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListen
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,11 +28,11 @@ import java.util.List;
 
 public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
 
-    private final Context mContext;
+    private final Context context;
     private RecyclerViewItemClickListener<Movie> onClickListener;
 
-    public MovieAdapter(Context mContext) {
-        this.mContext = mContext;
+    public MovieAdapter(Context context) {
+        this.context = context;
     }
 
     public void addItemClickListener(RecyclerViewItemClickListener<Movie> movieItemClickListener) {
@@ -57,7 +55,7 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
         switch (viewType) {
-            case 0:
+            case VIEW_ITEM:
                 view = inflater.inflate(R.layout.item_movie, parent, false);
                 viewHolder = new MovieViewHolder(view);
                 return viewHolder;
@@ -73,13 +71,13 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
             case VIEW_ITEM:
                 MovieViewHolder viewHolder = (MovieViewHolder) holder;
                 String url = items.get(position).getPosterUrl(Movie.PosterSize.w342);
-                Picasso.with(mContext)
+                Picasso.with(context)
                         .load(url)
                         .error(R.drawable.ic_image_error)
                         .placeholder(R.drawable.ic_image_placeholder)
                         .fit().centerCrop()
-                        .into(viewHolder.mImageViewMovie);
-                viewHolder.mTextViewTitle.setText(items.get(position).getTitle());
+                        .into(viewHolder.imageViewMovie);
+                viewHolder.textViewTitle.setText(items.get(position).getTitle());
                 viewHolder.setMovie(items.get(position));
                 break;
         }
@@ -87,28 +85,28 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
 
     private class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        final FrameLayout mFrameLayoutItem;
-        final ImageView mImageViewMovie;
-        final TextView mTextViewTitle;
+        final FrameLayout frameLayout;
+        final ImageView imageViewMovie;
+        final TextView textViewTitle;
 
-        Movie mMovie;
+        Movie movie;
 
         MovieViewHolder(View itemView) {
             super(itemView);
 
-            mFrameLayoutItem = itemView.findViewById(R.id.frame_item);
-            mFrameLayoutItem.setOnClickListener(this);
-            mImageViewMovie = itemView.findViewById(R.id.im_movie);
-            mTextViewTitle = itemView.findViewById(R.id.tv_title);
+            frameLayout = itemView.findViewById(R.id.frame_item);
+            frameLayout.setOnClickListener(this);
+            imageViewMovie = itemView.findViewById(R.id.im_movie);
+            textViewTitle = itemView.findViewById(R.id.tv_title);
         }
 
         private void setMovie(Movie movie) {
-            this.mMovie = movie;
+            this.movie = movie;
         }
 
         @Override
         public void onClick(View view) {
-            onClickListener.onItemClick(mMovie);
+            onClickListener.onItemClick(movie);
         }
     }
 }
