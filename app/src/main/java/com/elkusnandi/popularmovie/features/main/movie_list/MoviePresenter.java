@@ -36,13 +36,11 @@ public class MoviePresenter extends BasePresenter<MovieListContract.View> implem
 
     @Override
     public void loadFavouriteMovies(long accountId, String sessionId, int page) {
-        view.setState(BaseView.State.SHOW_PROGRESS);
         disposable.add(getMoviesDisposable(repository.getUserFavouriteMovies(accountId, sessionId, page)));
     }
 
     @Override
     public void loadWatchList(long accountId, String sessionId, int page) {
-        view.setState(BaseView.State.SHOW_PROGRESS);
         disposable.add(getMoviesDisposable(repository.getUserMovieWatchList(accountId, sessionId, page)));
     }
 
