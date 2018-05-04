@@ -1,5 +1,8 @@
 package com.elkusnandi.popularmovie.presenters;
 
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
+import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemInfoState;
+import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListContract;
@@ -35,6 +38,32 @@ public class MoviePresenterTest {
 
         view = new MovieListContract.View() {
 
+            int numberOfPageLoaded;
+
+            @Override
+            public void onDataFirstLoaded(ShowRespond<Movie> showRespond) {
+                Assert.assertNotNull(showRespond);
+                Assert.assertEquals(1, showRespond.getPage());
+                numberOfPageLoaded = showRespond.getPage();
+            }
+
+            @Override
+            public void onDataContinueLoaded(ShowRespond<Movie> showRespond) {
+                Assert.assertNotNull(showRespond);
+                Assert.assertEquals(2, showRespond.getPage());
+                numberOfPageLoaded = showRespond.getPage();
+            }
+
+            @Override
+            public void changeRecyclerViewItemState(RecyclerViewItemInfoState infoState) {
+
+            }
+
+            @Override
+            public int numberOfItem() {
+                return numberOfPageLoaded;
+            }
+
             @Override
             public void showProgress() {
 
@@ -46,23 +75,19 @@ public class MoviePresenterTest {
             }
 
             @Override
-            public void showError(int type) {
+            public void setState(State state) {
 
             }
-
-            @Override
-            public void onMovieLoaded(ShowRespond showRespond) {
-                Assert.assertNotNull(showRespond);
-                Assert.assertEquals(1, showRespond.getPage());
-            }
-
         };
+        presenter.onAttach(view);
     }
 
     @Test
     public void loadMovieTest() {
-        presenter.onAttach(view);
-        presenter.loadMovies("movie", 1, "ID");
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 1, "ID");
+        Assert.assertEquals(1, view.numberOfItem());
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 2, "ID");
+        Assert.assertEquals(2, view.numberOfItem());
     }
 
     @After
