@@ -2,6 +2,7 @@ package com.elkusnandi.popularmovie.data.provider;
 
 import com.elkusnandi.popularmovie.api.MovieDbApi;
 import com.elkusnandi.popularmovie.data.model.CastRespond;
+import com.elkusnandi.popularmovie.data.model.FavouriteMovieEntity;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
@@ -16,6 +17,7 @@ import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -36,9 +38,10 @@ public class Repository {
     public static final String MOVIE_TYPE_WATCH_LIST = "watch_list";
 
     private static Repository INSTANCE;
+    private AppDatabase appDatabase;
     private Retrofit retrofit;
 
-    private Repository(BaseSchedulerProvider schedulerProvider) {
+    private Repository(AppDatabase localDatabase, BaseSchedulerProvider schedulerProvider) {
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -49,11 +52,13 @@ public class Repository {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(schedulerProvider.io()))
                 .build();
+
+        appDatabase = localDatabase;
     }
 
-    public static Repository getInstance(BaseSchedulerProvider schedulerProvider) {
+    public static Repository getInstance(AppDatabase localDatabase, BaseSchedulerProvider schedulerProvider) {
         if (INSTANCE == null) {
-            INSTANCE = new Repository(schedulerProvider);
+            INSTANCE = new Repository(localDatabase, schedulerProvider);
         }
 
         return INSTANCE;
@@ -208,6 +213,25 @@ public class Repository {
      */
     public Single<Respond> addMovieToWatchList(long accountId, String sessionId, PostMovie movie) {
         return getApiService().addMovieToWatchList(accountId, sessionId, movie);
+    }
+
+    public Single<Boolean> isMovieFavourite(int movieId) {
+        return appDatabase.favouriteMovieDao().isFavourites(movieId);
+    }
+
+    public Single<Integer> removeMovieFromFavourite(int movieId) {
+        return Single.fromCallable(
+                () -> appDatabase.favouriteMovieDao().removeFromFavouriteMovieList(new FavouriteMovieEntity(movieId)));
+    }
+
+    public Single<Long> addMovieToFavourite(int movieId) {
+        return Single.fromCallable(
+                () -> appDatabase.favouriteMovieDao().addToFavouriteMovieList(new FavouriteMovieEntity(movieId)));
+    }
+
+    public Single<Integer> removeAllFavourite() {
+        return Single.fromCallable(
+                () -> appDatabase.favouriteMovieDao().deleteAll());
     }
 
 }
