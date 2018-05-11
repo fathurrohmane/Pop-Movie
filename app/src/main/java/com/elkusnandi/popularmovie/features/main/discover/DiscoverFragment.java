@@ -22,6 +22,8 @@ import butterknife.ButterKnife;
 public class DiscoverFragment extends BaseFragment {
 
     public static final String ARG_TYPE = "type";
+    public static final String MOVIE = "movie";
+    public static final String TV = "tv";
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
@@ -68,9 +70,9 @@ public class DiscoverFragment extends BaseFragment {
 
     public FragmentPagerAdapter getPagerAdapter(String type) {
         switch (type) {
-            case "movie":
+            case MOVIE:
                 return new DiscoverMovieAdapter(getChildFragmentManager());
-            case "tv":
+            case TV:
                 return new DiscoverTvAdapter(getChildFragmentManager());
             default:
                 return null;

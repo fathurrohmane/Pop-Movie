@@ -37,6 +37,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public final String LOGOUT_DIALOG = "logout_dialog";
+
     @BindView(R.id.fragment_container)
     FrameLayout frameLayout;
     @BindView(R.id.toolbar)
@@ -47,9 +49,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.tabs)
     TabLayout tabLayout;
-    //@BindView(R.id.imageview_profile)
     ImageView imageViewProfile;
-    //@BindView(R.id.textview_username)
     TextView textViewUserName;
 
     private Fragment nextFragment;
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         context = this;
 
         // Set toolbar
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState != null) {
             return;
         }
+
         // Show default fragment
         changeFragment(DiscoverFragment.newInstance("movie"));
 
@@ -127,11 +127,11 @@ public class MainActivity extends AppCompatActivity
                 drawerItemClickedId = R.id.nav_log_in;
                 break;
             case R.id.nav_discover_movie:
-                nextFragment = DiscoverFragment.newInstance("movie");
+                nextFragment = DiscoverFragment.newInstance(DiscoverFragment.MOVIE);
                 drawerItemClickedId = R.id.nav_discover_movie;
                 break;
             case R.id.nav_discover_tv:
-                nextFragment = DiscoverFragment.newInstance("tv");
+                nextFragment = DiscoverFragment.newInstance(DiscoverFragment.TV);
                 drawerItemClickedId = R.id.nav_discover_tv;
                 break;
             case R.id.nav_movie_list:
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_log_out:
                 new MaterialDialog.Builder(this)
-                        .tag("logout_dialog")
+                        .tag(LOGOUT_DIALOG)
                         .title(R.string.dialog_logout_title)
                         .content(R.string.dialog_logout_content)
                         .onPositive(onPositiveDialogButtonClicked)
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 123) {
+        if (requestCode == LogInActivity.REQUEST_CODE_LOGIN) {
             setNavigationViewState();
         }
 
@@ -176,9 +176,9 @@ public class MainActivity extends AppCompatActivity
      */
     private void setNavigationViewState() {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
-        boolean loginStatus = sharedPreferences.getBoolean(getString(R.string.sharedpreference_login_status), false);
+        boolean isLogin = sharedPreferences.getBoolean(getString(R.string.sharedpreference_login_status), false);
 
-        if (loginStatus) {
+        if (isLogin) {
             String avatarPath = sharedPreferences.getString(getString(R.string.sharedpreference_profile_picture_path), "");
             String userName = sharedPreferences.getString(getString(R.string.sharedpreference_user_name), "");
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(true);
@@ -232,6 +232,8 @@ public class MainActivity extends AppCompatActivity
                 default:
                     break;
             }
+
+            // reset
             drawerItemClickedId = -1;
         }
     };
@@ -244,7 +246,7 @@ public class MainActivity extends AppCompatActivity
 
         if (tag != null) {
             switch (tag) {
-                case "logout_dialog":
+                case LOGOUT_DIALOG:
                     SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(getString(R.string.sharedpreference_login_status), false);
