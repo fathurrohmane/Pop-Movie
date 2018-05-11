@@ -27,6 +27,8 @@ public interface InfoContract {
         void showRespond(Respond respond);
 
         void showToast(String message);
+
+        void setFavouriteMovieDrawableButton(boolean isMovieFavourited);
     }
 
     interface Presenter {
@@ -37,6 +39,8 @@ public interface InfoContract {
         void addToFavourite(long accountId, String sessionId, PostMovie favouriteMovie);
 
         void addToWatchList(long accountId, String sessionId, PostMovie favouriteMovie);
+
+        void checkFavourite(int movieId);
     }
 
 }

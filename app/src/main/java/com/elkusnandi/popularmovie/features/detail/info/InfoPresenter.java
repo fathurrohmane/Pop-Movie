@@ -2,6 +2,7 @@ package com.elkusnandi.popularmovie.features.detail.info;
 
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.BaseSchedulerProvider;
 
@@ -88,6 +89,48 @@ public class InfoPresenter extends BasePresenter<InfoContract.View> implements I
                                 view.showToast(throwable.getMessage());
                             }
                         })
+        );
+    }
+
+    @Override
+    public void checkFavourite(int movieId) {
+        disposable.add(
+                repository.isMovieFavourite(movieId)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe((aBoolean, throwable) -> {
+                    if (throwable == null) {
+                        view.setFavouriteMovieDrawableButton(aBoolean);
+                    } else {
+                        if (throwable instanceof HttpException) {
+                            HttpException httpException = (HttpException) throwable;
+                            view.showToast(httpException.getMessage() + " Error code :" + httpException.code());
+                        }
+                        view.showToast(throwable.getMessage());
+                    }
+                })
+        );
+    }
+
+    public void removeFavourite(int movieId) {
+        disposable.add(
+                repository.removeMovieFromFavourite(movieId)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe((integer, throwable) ->
+                    view.showToast("Movie removed")
+                )
+        );
+    }
+
+    public void addToFavourite(int movieId) {
+        disposable.add(
+                repository.addMovieToFavourite(movieId)
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe((aLong, throwable) ->
+                            view.showToast("Movie favourite")
+                        )
         );
     }
 }

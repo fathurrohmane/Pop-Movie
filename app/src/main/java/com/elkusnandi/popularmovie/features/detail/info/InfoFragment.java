@@ -24,6 +24,7 @@ import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.MovieDetail;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.model.Respond;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 import com.elkusnandi.popularmovie.utils.TextToLinkUtils;
@@ -78,6 +79,7 @@ public class InfoFragment extends BaseFragment implements
     private InfoPresenter presenter;
     private CastAdapter castAdapter;
     private TextToLinkUtils textToLinkUtils;
+    private boolean isFavouriteShow;
 
     public InfoFragment() {
     }
@@ -98,7 +100,7 @@ public class InfoFragment extends BaseFragment implements
         }
 
         presenter = new InfoPresenter(new CompositeDisposable(),
-                Repository.getInstance(AndroidSchedulerProvider.getInstance()),
+                Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance());
         textToLinkUtils = new TextToLinkUtils(this);
     }
@@ -108,6 +110,10 @@ public class InfoFragment extends BaseFragment implements
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
         ButterKnife.bind(this, view);
+
+        if (getContext() == null) {
+            return null;
+        }
 
         // Initialize view
         Picasso.with(getContext())
@@ -130,8 +136,6 @@ public class InfoFragment extends BaseFragment implements
         String rating = String.valueOf(movie.getVoteAverage());
         textViewRating.setText(rating);
 
-        // set button fab
-
         // Init presenter
         presenter.onAttach(this);
         presenter.loadCast(movie.getId());
@@ -146,6 +150,12 @@ public class InfoFragment extends BaseFragment implements
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        presenter.checkFavourite(movie.getId());
+    }
 
     @Override
     public void onDetach() {
@@ -173,8 +183,20 @@ public class InfoFragment extends BaseFragment implements
                     long accountId = getActivity()
                             .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
                             .getLong(getString(R.string.sharedpreference_account_id), -1L);
-                    presenter.addToFavourite(accountId, sessionId, new PostMovie(PostMovie.TYPE_MOVIE, movie.getId(), true));
-                    fabFavourite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favourite));
+
+                    // check login status
+                    if (accountId < 0L || sessionId.isEmpty()) {
+                        return;
+                    }
+
+                    isFavouriteShow = !isFavouriteShow;
+                    presenter.addToFavourite(accountId, sessionId, new PostMovie(PostMovie.TYPE_MOVIE, movie.getId(), isFavouriteShow));
+                    if (isFavouriteShow) {
+                        presenter.addToFavourite(movie.getId());
+                    } else {
+                        presenter.removeFavourite(movie.getId());
+                    }
+                    setFavouriteMovieDrawableButton(isFavouriteShow);
                 }
                 break;
             case R.id.fab_watchlist:
@@ -200,6 +222,16 @@ public class InfoFragment extends BaseFragment implements
     @Override
     public void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setFavouriteMovieDrawableButton(boolean isMovieFavourited) {
+        isFavouriteShow = isMovieFavourited;
+        if (isMovieFavourited) {
+            fabFavourite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favourite));
+        } else {
+            fabFavourite.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_unfavorite));
+        }
     }
 
     @Override
