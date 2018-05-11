@@ -32,30 +32,8 @@
         android:layout_marginStart="8dp"
         android:src="@drawable/ic_unfavorite"
         app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
-        app:layout_constraintStart_toEndOf="@+id/fab_watchlist" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_watchlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_add_to_playlist"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
         app:layout_constraintEnd_toEndOf="@+id/iv_poster"
         app:layout_constraintStart_toStartOf="@+id/iv_poster" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:src="@drawable/ic_create_list"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
-        app:layout_constraintEnd_toStartOf="@+id/fab_watchlist" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_half_screen"
@@ -68,8 +46,8 @@
         android:id="@+id/scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_poster"
@@ -93,10 +71,10 @@
                 tools:text="Title Avatar The Legend of Aang" />
 
             <TableLayout
-                android:stretchColumns="0,1,2"
-                android:padding="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:stretchColumns="0,1,2">
 
                 <TableRow>
 

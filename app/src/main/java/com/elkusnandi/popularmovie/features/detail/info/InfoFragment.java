@@ -68,10 +68,6 @@ public class InfoFragment extends BaseFragment implements
     //    Action button
     @BindView(R.id.fab_favourite)
     FloatingActionButton fabFavourite;
-    @BindView(R.id.fab_list)
-    FloatingActionButton fabList;
-    @BindView(R.id.fab_watchlist)
-    FloatingActionButton fabWatchList;
 
     private Movie movie;
     private CastRespond castRespond;
@@ -172,7 +168,7 @@ public class InfoFragment extends BaseFragment implements
 
     }
 
-    @OnClick({R.id.fab_favourite, R.id.fab_watchlist})
+    @OnClick(R.id.fab_favourite)
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_favourite:
@@ -197,18 +193,6 @@ public class InfoFragment extends BaseFragment implements
                         presenter.removeFavourite(movie.getId());
                     }
                     setFavouriteMovieDrawableButton(isFavouriteShow);
-                }
-                break;
-            case R.id.fab_watchlist:
-                if (getActivity() != null && getContext() != null) {
-                    String sessionId = getActivity()
-                            .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
-                            .getString(getString(R.string.sharedpreference_session_id), "");
-                    long accountId = getActivity()
-                            .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
-                            .getLong(getString(R.string.sharedpreference_account_id), -1L);
-                    presenter.addToWatchList(accountId, sessionId, new PostMovie(PostMovie.TYPE_MOVIE, movie.getId(), true));
-                    fabWatchList.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_playlist_check));
                 }
                 break;
         }
