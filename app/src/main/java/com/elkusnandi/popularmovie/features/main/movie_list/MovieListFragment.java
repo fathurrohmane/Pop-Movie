@@ -22,6 +22,7 @@ import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListen
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemInfoState;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
 import com.elkusnandi.popularmovie.ui.util.PaginationUtil;
@@ -72,7 +73,7 @@ public class MovieListFragment extends BaseListFragment implements
 
         presenter = new MoviePresenter(
                 new CompositeDisposable(),
-                Repository.getInstance(AndroidSchedulerProvider.getInstance()),
+                Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );
     }

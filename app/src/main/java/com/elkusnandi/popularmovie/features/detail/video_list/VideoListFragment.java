@@ -19,6 +19,7 @@ import com.elkusnandi.popularmovie.common.base.BaseFragment;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.Video;
 import com.elkusnandi.popularmovie.data.model.VideoResult;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.ui.widget.InformationView;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
@@ -63,7 +64,7 @@ public class VideoListFragment extends BaseFragment implements
         }
 
         presenter = new VideoListPresenter(new CompositeDisposable()
-                , Repository.getInstance(AndroidSchedulerProvider.getInstance())
+                , Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance())
                 , AndroidSchedulerProvider.getInstance());
     }
 

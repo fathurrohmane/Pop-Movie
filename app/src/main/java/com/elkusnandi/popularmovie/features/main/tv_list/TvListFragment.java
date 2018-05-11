@@ -24,6 +24,7 @@ import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemClickListener;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
 import com.elkusnandi.popularmovie.data.model.Tv;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.detail.DetailActivity;
 import com.elkusnandi.popularmovie.ui.widget.InformationView;
@@ -83,7 +84,7 @@ public class TvListFragment extends BaseListFragment implements
 
         presenter = new TvPresenter(
                 new CompositeDisposable(),
-                Repository.getInstance(AndroidSchedulerProvider.getInstance()),
+                Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );
 

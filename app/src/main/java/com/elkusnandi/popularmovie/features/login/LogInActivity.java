@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 
@@ -63,7 +64,7 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
 
         // Set Presenter
         presenter = new LoginPresenter(new CompositeDisposable(),
-                Repository.getInstance(AndroidSchedulerProvider.getInstance()),
+                Repository.getInstance(AppDatabase.getInstance(getApplicationContext()), AndroidSchedulerProvider.getInstance()),
                 AndroidSchedulerProvider.getInstance()
         );
         presenter.onAttach(this);
