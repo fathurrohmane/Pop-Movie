@@ -22,7 +22,7 @@ public interface FavouriteMovieDao {
     Single<Boolean> isFavourites(int movie_id);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long addToFavouriteMovieList(FavouriteMovieEntity... favouriteMovieEntity);
+    long[] addToFavouriteMovieList(FavouriteMovieEntity... favouriteMovieEntity);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long addToFavouriteMovieList(FavouriteMovieEntity favouriteMovieEntity);
