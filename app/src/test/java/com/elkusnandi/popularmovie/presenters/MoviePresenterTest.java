@@ -4,6 +4,7 @@ import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 import com.elkusnandi.popularmovie.common.interfaces.RecyclerViewItemInfoState;
 import com.elkusnandi.popularmovie.data.model.Movie;
 import com.elkusnandi.popularmovie.data.model.ShowRespond;
+import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListContract;
 import com.elkusnandi.popularmovie.features.main.movie_list.MoviePresenter;
@@ -32,7 +33,7 @@ public class MoviePresenterTest {
     public void setup() {
         presenter = new MoviePresenter(
                 new CompositeDisposable(),
-                Repository.getInstance(TestSchedulerProvider.getInstance()),
+                Repository.getInstance(null, TestSchedulerProvider.getInstance()),
                 TestSchedulerProvider.getInstance()
         );
 

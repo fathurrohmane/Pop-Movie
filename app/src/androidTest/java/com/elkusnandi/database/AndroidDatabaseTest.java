@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.elkusnandi.popularmovie.data.model.FavouriteMovieEntity;
 import com.elkusnandi.popularmovie.data.provider.AppDatabase;
 import com.elkusnandi.popularmovie.data.provider.FavouriteMovieDao;
+import com.elkusnandi.popularmovie.utils.TestSchedulerProvider;
 
 import junit.framework.Assert;
 
@@ -20,20 +21,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 @RunWith(AndroidJUnit4.class)
 public class AndroidDatabaseTest {
     private AppDatabase appDatabase;
+    private CompositeDisposable compositeDisposable;
 
     @Before
     public void createDatabase() {
         Context context = InstrumentationRegistry.getTargetContext();
         appDatabase = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class).build();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @After
     public void closeDatabase() throws IOException {
         appDatabase.close();
-
+        compositeDisposable.clear();
     }
 
     private long addAFavouriteMovie(int id) {
@@ -52,21 +57,38 @@ public class AndroidDatabaseTest {
         int movieId = 1;
         long id = addAFavouriteMovie(movieId);
 
-        List<FavouriteMovieEntity> dataset = new ArrayList<>(appDatabase.favouriteMovieDao().getAll());
-        Assert.assertEquals(movieId, dataset.get(0).getId());
+        compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(appDatabase.favouriteMovieDao().getAll()
+                .subscribeOn(TestSchedulerProvider.getInstance().io())
+                .observeOn(TestSchedulerProvider.getInstance().io())
+                .subscribe((favouriteMovieEntities, throwable) -> {
+                    Assert.assertEquals(movieId, favouriteMovieEntities.get(0).getId());
+                })
+        );
     }
 
     @Test
     public void removeAllMovieFromDatabaseTest() {
         addSomeFavouriteMovies();
 
-        List<FavouriteMovieEntity> dataset = new ArrayList<>(appDatabase.favouriteMovieDao().getAll());
-        Assert.assertTrue(dataset.size() == 4);
+        compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(appDatabase.favouriteMovieDao().getAll()
+                .subscribeOn(TestSchedulerProvider.getInstance().io())
+                .observeOn(TestSchedulerProvider.getInstance().io())
+                .subscribe((favouriteMovieEntities, throwable) -> {
+                    Assert.assertTrue(favouriteMovieEntities.size() == 4);
+                })
+        );
 
         appDatabase.favouriteMovieDao().deleteAll();
 
-        dataset = new ArrayList<>(appDatabase.favouriteMovieDao().getAll());
-        Assert.assertEquals(0, dataset.size());
+        compositeDisposable.add(appDatabase.favouriteMovieDao().getAll()
+                .subscribeOn(TestSchedulerProvider.getInstance().io())
+                .observeOn(TestSchedulerProvider.getInstance().io())
+                .subscribe((favouriteMovieEntities, throwable) -> {
+                    Assert.assertEquals(0, favouriteMovieEntities.size());
+                })
+        );
     }
 
     @Test
@@ -74,35 +96,49 @@ public class AndroidDatabaseTest {
         addSomeFavouriteMovies();
 
         int[] ids = new int[]{1, 2, 3, 4};
-        int counter = 0;
 
-        List<FavouriteMovieEntity> dataset = new ArrayList<>(appDatabase.favouriteMovieDao().getAll());
-
-        for (FavouriteMovieEntity favouriteMovieEntity : dataset) {
-            Assert.assertEquals(ids[counter++], favouriteMovieEntity.getId());
-        }
+        compositeDisposable.add(appDatabase.favouriteMovieDao().getAll()
+                .subscribeOn(TestSchedulerProvider.getInstance().io())
+                .observeOn(TestSchedulerProvider.getInstance().io())
+                .subscribe((favouriteMovieEntities, throwable) -> {
+                    int counter = 0;
+                    for (FavouriteMovieEntity favouriteMovieEntity : favouriteMovieEntities) {
+                        Assert.assertEquals(ids[counter++], favouriteMovieEntity.getId());
+                    }
+                })
+        );
     }
 
     @Test
     public void checkIfFavouriteMovieIsInDatabaseTest() {
-        addSomeFavouriteMovies();
+        int movieId = 1;
+        addAFavouriteMovie(movieId);
 
-        List<FavouriteMovieEntity> dataset = new ArrayList<>(appDatabase.favouriteMovieDao().getAll());
-
-        for (FavouriteMovieEntity favouriteMovieEntity : dataset) {
-            Assert.assertTrue(appDatabase.favouriteMovieDao().isFavourite(favouriteMovieEntity.getId()));
-        }
+        compositeDisposable.add(appDatabase.favouriteMovieDao().isFavourites(movieId)
+                .subscribeOn(TestSchedulerProvider.getInstance().io())
+                .observeOn(TestSchedulerProvider.getInstance().io())
+                .subscribe((aBoolean, throwable) ->
+                        Assert.assertTrue(aBoolean)
+                )
+        );
     }
 
     @Test
     public void deleteFavouriteMovieFromDatabaseTest() {
-        addSomeFavouriteMovies();
+        int movieId = 1;
+        addAFavouriteMovie(movieId);
 
-        FavouriteMovieEntity favouriteMovieEntity = new FavouriteMovieEntity(1);
+        FavouriteMovieEntity favouriteMovieEntity = new FavouriteMovieEntity(movieId);
 
         appDatabase.favouriteMovieDao().removeFromFavouriteMovieList(favouriteMovieEntity);
 
-        Assert.assertFalse(appDatabase.favouriteMovieDao().isFavourite(favouriteMovieEntity.getId()));
+        compositeDisposable.add(appDatabase.favouriteMovieDao().isFavourites(movieId)
+                .subscribeOn(TestSchedulerProvider.getInstance().io())
+                .observeOn(TestSchedulerProvider.getInstance().io())
+                .subscribe((aBoolean, throwable) ->
+                        Assert.assertFalse(aBoolean)
+                )
+        );
     }
 
 
