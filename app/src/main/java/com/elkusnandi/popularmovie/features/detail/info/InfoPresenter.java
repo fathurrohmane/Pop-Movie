@@ -1,5 +1,7 @@
 package com.elkusnandi.popularmovie.features.detail.info;
 
+import android.content.SharedPreferences;
+
 import com.elkusnandi.popularmovie.common.base.BasePresenter;
 import com.elkusnandi.popularmovie.data.model.PostMovie;
 import com.elkusnandi.popularmovie.data.provider.AppDatabase;

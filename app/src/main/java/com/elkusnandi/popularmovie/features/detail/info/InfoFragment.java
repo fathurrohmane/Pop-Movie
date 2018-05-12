@@ -150,7 +150,15 @@ public class InfoFragment extends BaseFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter.checkFavourite(movie.getId());
+        boolean isLogin = false;
+        if (getActivity() != null && getContext() != null) {
+            isLogin = getActivity()
+                    .getSharedPreferences(getString(R.string.sharedpreference_id), Context.MODE_PRIVATE)
+                    .getBoolean(getString(R.string.sharedpreference_login_status), false);
+        }
+        if (isLogin) {
+            presenter.checkFavourite(movie.getId());
+        }
     }
 
     @Override

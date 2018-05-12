@@ -2,6 +2,7 @@ package com.elkusnandi.popularmovie.features.login;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.UserDetailRespond;
 import com.elkusnandi.popularmovie.data.provider.AppDatabase;
+import com.elkusnandi.popularmovie.data.provider.FavouriteMovieListService;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.utils.AndroidSchedulerProvider;
 
@@ -102,6 +104,9 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
         editor.putString(getString(R.string.sharedpreference_profile_picture_path), userDetailRespond.avatarPath());
         editor.putLong(getString(R.string.sharedpreference_account_id), userDetailRespond.getId());
         editor.apply();
+
+        Intent serviceIntent = new Intent(getApplicationContext(), FavouriteMovieListService.class);
+        startService(serviceIntent);
 
         Toast.makeText(this, getString(R.string.success_get_user_detail, userDetailRespond.getUsername()), Toast.LENGTH_LONG).show();
     }
