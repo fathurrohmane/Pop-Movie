@@ -35,11 +35,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MovieListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MovieListFragment extends BaseListFragment implements
         MovieListContract.View,
         RecyclerViewItemClickListener<Movie>,
@@ -52,6 +47,7 @@ public class MovieListFragment extends BaseListFragment implements
     private MoviePresenter presenter;
     private MovieAdapter adapter;
     private String discoverType;
+    private PaginationUtil paginationUtil;
 
     public MovieListFragment() {
     }
@@ -85,7 +81,7 @@ public class MovieListFragment extends BaseListFragment implements
         assert view != null;
         ButterKnife.bind(this, view);
 
-        PaginationUtil paginationUtil = new PaginationUtil(this, gridLayoutManager);
+        paginationUtil = new PaginationUtil(this, gridLayoutManager);
         paginationUtil.setPageSettings(20, 1);
 
         informationView.addButtonListener(this);
@@ -136,21 +132,8 @@ public class MovieListFragment extends BaseListFragment implements
     }
 
     @Override
-    public void onDataFirstLoaded(ShowRespond<Movie> showRespond) {
-        // Add new data
+    public void onDataLoaded(ShowRespond<Movie> showRespond) {
         adapter.addData(showRespond.getResults());
-        setState(State.SHOW_DATA);
-    }
-
-    @Override
-    public void onDataContinueLoaded(ShowRespond<Movie> showRespond) {
-        if (adapter.getItemCount() > 0
-                && showRespond.getResults().size() < 20 || showRespond.getResults().size() == 0) {
-            adapter.addData(showRespond.getResults());
-            adapter.setInfoItemState(RecyclerViewItemInfoState.bottom_of_page);
-        } else {
-            adapter.addData(showRespond.getResults());
-        }
     }
 
     @Override

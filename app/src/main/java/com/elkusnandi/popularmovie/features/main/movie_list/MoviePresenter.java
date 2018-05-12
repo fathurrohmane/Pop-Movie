@@ -49,33 +49,30 @@ public class MoviePresenter extends BasePresenter<MovieListContract.View> implem
                 .timeout(15, TimeUnit.SECONDS)
                 .observeOn(schedulerProvider.ui())
                 .subscribe((movieResult, throwable) -> {
-                    if (movieResult != null) {
-                        if (view.numberOfItem() == 0) {                         // recycler view is empty
-                            if (movieResult.getResults() != null
-                                    && movieResult.getResults().size() > 0) {   // Add new data
-                                view.onDataFirstLoaded(movieResult);
-                                view.setState(BaseView.State.SHOW_DATA);
-                            } else {                                            // Show no data view
-                                view.setState(BaseView.State.NO_DATA);
-                            }
-                        } else {
-                            if (movieResult.getResults() != null) {             // Add more data
-                                view.onDataContinueLoaded(movieResult);
-                                //view.changeRecyclerViewItemState(RecyclerViewItemInfoState.loading);
-                            } else {                                            // Reach bottom of page cant scroll anymore
-                                view.changeRecyclerViewItemState(RecyclerViewItemInfoState.bottom_of_page);
-                            }
-                        }
-                    } else {
+                    if (throwable != null) {                                                            // On error
                         if (throwable instanceof HttpException) {
                             HttpException e = (HttpException) throwable;
                             switch (e.code()) {
                                 case 401:
-                                    view.setState(BaseView.State.NO_CONNECTION);// TODO: 22/12/2017 show error code to information view
+                                    view.setState(BaseView.State.NO_CONNECTION);
                                     return;
                             }
                         }
                         view.changeRecyclerViewItemState(RecyclerViewItemInfoState.reload);
+                    } else {
+                        if (movieResult.getPage() <= 1) {                                               // On First Data Loaded
+                            if (movieResult.getResults() == null || movieResult.getResults().size() == 0) {                                     // No data
+                                view.setState(BaseView.State.NO_DATA);
+                            } else {                                                                        // Data available
+                                view.onDataLoaded(movieResult);
+                                view.setState(BaseView.State.SHOW_DATA);
+                            }
+                        } else if (movieResult.getPage() > 1) {                                         // On More Data Loaded
+                            view.onDataLoaded(movieResult);
+                        }
+                        if (movieResult.getPage() == movieResult.getTotalPages()) {                 // On Reach last page
+                            view.changeRecyclerViewItemState(RecyclerViewItemInfoState.bottom_of_page);
+                        }
                     }
                 });
     }

@@ -15,9 +15,7 @@ public interface MovieListContract {
 
     interface View extends BaseView {
 
-        void onDataFirstLoaded(ShowRespond<Movie> showRespond);
-
-        void onDataContinueLoaded(ShowRespond<Movie> showRespond);
+        void onDataLoaded(ShowRespond<Movie> showRespond);
 
         void changeRecyclerViewItemState(RecyclerViewItemInfoState infoState);
 

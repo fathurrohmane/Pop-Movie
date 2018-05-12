@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 public class PaginationUtil extends RecyclerView.OnScrollListener {
 
     private int itemPerPage;
-    private int lastLoadedPage = 0;
+    private int lastLoadedPage = 1;
     private int currentlyDisplayedPage = -1;
     private int pagePadding;
     private int pageOffset;
