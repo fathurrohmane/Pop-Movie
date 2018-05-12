@@ -95,4 +95,29 @@ public class BaseListFragment extends BaseFragment implements BaseView {
                 break;
         }
     }
+
+    /**
+     * Class to handle recylerview span size depends on orientation and position
+     *
+     */
+    public class SpanSizeLookUp extends GridLayoutManager.SpanSizeLookup {
+
+        private BaseRecyclerViewAdapter adapter;
+
+        public SpanSizeLookUp(BaseRecyclerViewAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        public int getSpanSize(int position) {
+            if (adapter.getItemCount() - 1 == position) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    return 3;
+                } else {
+                    return 5;
+                }
+            }
+            return 1;
+        }
+    }
 }

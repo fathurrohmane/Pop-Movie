@@ -4,6 +4,7 @@ package com.elkusnandi.popularmovie.features.main.movie_list;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -89,15 +90,7 @@ public class MovieListFragment extends BaseListFragment implements
         adapter = new MovieAdapter(getContext());
         adapter.addItemClickListener(this);
 
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                if (adapter.getItemCount() - 1 == position) {
-                    return 3;
-                }
-                return 1;
-            }
-        });
+        gridLayoutManager.setSpanSizeLookup(new BaseListFragment.SpanSizeLookUp(adapter));
 
         recyclerView.addOnScrollListener(paginationUtil);
         recyclerView.setAdapter(adapter);
