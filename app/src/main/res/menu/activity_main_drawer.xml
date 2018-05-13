@@ -16,8 +16,8 @@
                 <item
                     android:id="@+id/nav_discover_tv"
                     android:icon="@drawable/ic_tv"
-                    android:visible="false"
-                    android:title="@string/navigation_drawer_group_discover_tv_title" />
+                    android:title="@string/navigation_drawer_group_discover_tv_title"
+                    android:visible="false" />
             </menu>
         </item>
 
@@ -28,11 +28,13 @@
                 <item
                     android:id="@+id/nav_movie_list"
                     android:icon="@drawable/ic_movie_list"
-                    android:title="@string/navigation_drawer_group_my_moviedb_movie_list_title" />
+                    android:title="@string/navigation_drawer_group_my_moviedb_movie_list_title"
+                    android:visible="false" />
                 <item
                     android:id="@+id/nav_watch_list"
                     android:icon="@drawable/ic_watch_list"
-                    android:title="@string/navigation_drawer_group_my_moviedb_watch_list_title" />
+                    android:title="@string/navigation_drawer_group_my_moviedb_watch_list_title"
+                    android:visible="false" />
                 <item
                     android:id="@+id/nav_favourite"
                     android:icon="@drawable/ic_favourite"
