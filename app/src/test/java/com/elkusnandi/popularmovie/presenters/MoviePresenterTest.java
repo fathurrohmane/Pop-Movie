@@ -42,16 +42,9 @@ public class MoviePresenterTest {
             int numberOfPageLoaded;
 
             @Override
-            public void onDataFirstLoaded(ShowRespond<Movie> showRespond) {
+            public void onDataLoaded(ShowRespond<Movie> showRespond) {
                 Assert.assertNotNull(showRespond);
                 Assert.assertEquals(1, showRespond.getPage());
-                numberOfPageLoaded = showRespond.getPage();
-            }
-
-            @Override
-            public void onDataContinueLoaded(ShowRespond<Movie> showRespond) {
-                Assert.assertNotNull(showRespond);
-                Assert.assertEquals(2, showRespond.getPage());
                 numberOfPageLoaded = showRespond.getPage();
             }
 
@@ -87,8 +80,6 @@ public class MoviePresenterTest {
     public void loadMovieTest() {
         presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 1, "ID");
         Assert.assertEquals(1, view.numberOfItem());
-        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 2, "ID");
-        Assert.assertEquals(2, view.numberOfItem());
     }
 
     @After
