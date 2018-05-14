@@ -70,7 +70,7 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
         switch (getItemViewType(position)) {
             case VIEW_ITEM:
                 MovieViewHolder viewHolder = (MovieViewHolder) holder;
-                String url = items.get(position).getPosterUrl(Movie.PosterSize.w342);
+                String url = items.get(position).getPosterUrl(Movie.PosterSize.w154);
                 Picasso.with(context)
                         .load(url)
                         .error(R.drawable.ic_image_error)
