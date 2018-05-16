@@ -198,7 +198,9 @@ public class MovieListFragment extends BaseListFragment implements
                 presenter.loadWatchList(accountId, sessionId, page);
                 break;
             default:
-                presenter.loadMovies(discoverType, page, "US");
+                String regionCode = sharedPreferences.getString(getString(R.string.sharedpreference_region_code),
+                        getString(R.string.sharedpreference_region_code_default));
+                presenter.loadMovies(discoverType, page, regionCode);
                 break;
         }
     }

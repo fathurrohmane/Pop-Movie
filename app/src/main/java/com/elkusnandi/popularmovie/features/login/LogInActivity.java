@@ -103,6 +103,7 @@ public class LogInActivity extends AppCompatActivity implements LoginContract.Vi
         editor.putString(getString(R.string.sharedpreference_user_name), userDetailRespond.getUsername());
         editor.putString(getString(R.string.sharedpreference_profile_picture_path), userDetailRespond.avatarPath());
         editor.putLong(getString(R.string.sharedpreference_account_id), userDetailRespond.getId());
+        editor.putString(getString(R.string.sharedpreference_region_code), userDetailRespond.getIso31661());
         editor.apply();
 
         Intent serviceIntent = new Intent(getApplicationContext(), FavouriteMovieListService.class);

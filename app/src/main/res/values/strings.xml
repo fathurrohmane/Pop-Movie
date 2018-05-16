@@ -102,8 +102,10 @@
     <string name="sharedpreference_session_id">session_id</string>
     <string name="sharedpreference_account_id">account_id</string>
     <string name="sharedpreference_user_name">user_name</string>
+    <string name="sharedpreference_region_code">region_code</string>
     <string name="sharedpreference_profile_picture_path">profile_picture</string>
     <string name="sharedpreference_login_status">login_status</string>
+    <string name="sharedpreference_region_code_default">US</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
