@@ -96,6 +96,10 @@
     <string name="navigation_drawer_group_discover_movie_title">Movie</string>
     <string name="navigation_drawer_group_discover_tv_title">TV</string>
 
+    <!--Item Information-->
+    <string name="item_information_no_connection">No connection!</string>
+    <string name="item_information_bottom_of_the_page">Bottom of the page</string>
+
     <!--Sharedpreference strings-->
     <string name="sharedpreference_id">com.elkusnandi.popularmovie.PREFERENCE_FILE_KEY</string>
     <string name="sharedpreference_dialog_sort">sort</string>

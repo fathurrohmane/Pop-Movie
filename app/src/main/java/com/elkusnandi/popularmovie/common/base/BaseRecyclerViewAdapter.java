@@ -1,5 +1,7 @@
 package com.elkusnandi.popularmovie.common.base;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,8 +42,10 @@ public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     protected List<T> items;
     protected RecyclerViewItemInfoState infoState;
     protected RecyclerViewItemListener<T> listener;
+    protected Context context;
 
-    public BaseRecyclerViewAdapter() {
+    public BaseRecyclerViewAdapter(Context context) {
+        this.context = context;
         this.items = new ArrayList<>();
         infoState = RecyclerViewItemInfoState.loading;
 
@@ -68,7 +72,7 @@ public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
 
@@ -87,7 +91,7 @@ public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         InfoViewHolder infoViewHolder;
         switch (getItemViewType(position)) {
             case VIEW_INFO_LOADING:
@@ -101,14 +105,14 @@ public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerVie
                 infoViewHolder.progressBar.hide();
                 infoViewHolder.reloadButton.setVisibility(View.VISIBLE);
                 infoViewHolder.textViewInfo.setVisibility(View.VISIBLE);
-                infoViewHolder.textViewInfo.setText("No Connection!");
+                infoViewHolder.textViewInfo.setText(context.getText(R.string.item_information_no_connection));
                 break;
             case VIEW_INFO_BOTTOM_PAGE:
                 infoViewHolder = (InfoViewHolder) holder;
                 infoViewHolder.progressBar.hide();
                 infoViewHolder.reloadButton.setVisibility(View.GONE);
                 infoViewHolder.textViewInfo.setVisibility(View.VISIBLE);
-                infoViewHolder.textViewInfo.setText("Bottom of page");
+                infoViewHolder.textViewInfo.setText(context.getText(R.string.item_information_bottom_of_the_page));
                 break;
         }
     }

@@ -28,11 +28,10 @@ import java.util.List;
 
 public class MovieAdapter extends BaseRecyclerViewAdapter<Movie> {
 
-    private final Context context;
     private RecyclerViewItemClickListener<Movie> onClickListener;
 
     public MovieAdapter(Context context) {
-        this.context = context;
+        super(context);
     }
 
     public void addItemClickListener(RecyclerViewItemClickListener<Movie> movieItemClickListener) {
