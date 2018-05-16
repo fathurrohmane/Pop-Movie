@@ -57,12 +57,14 @@ public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         notifyItemMoved(lastPos, getItemCount() - 1);
         notifyItemInserted(getItemCount());
 
-        infoState = RecyclerViewItemInfoState.loading;
+        setInfoItemState(RecyclerViewItemInfoState.loading);
     }
 
     public void setInfoItemState(RecyclerViewItemInfoState infoItemState) {
-        this.infoState = infoItemState;
-        notifyItemChanged(getItemCount() - 1);
+        if (!this.infoState.equals(infoItemState)) {
+            this.infoState = infoItemState;
+            notifyItemChanged(getItemCount() - 1);
+        }
     }
 
     @Override

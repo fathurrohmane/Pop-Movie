@@ -17,6 +17,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -28,6 +31,7 @@ public class MoviePresenterTest {
 
     private MoviePresenter presenter;
     private MovieListContract.View view;
+    private List<Movie> movies = new ArrayList<>();
 
     @Before
     public void setup() {
@@ -43,8 +47,8 @@ public class MoviePresenterTest {
 
             @Override
             public void onDataLoaded(ShowRespond<Movie> showRespond) {
+                movies.addAll(showRespond.getResults());
                 Assert.assertNotNull(showRespond);
-                Assert.assertEquals(1, showRespond.getPage());
                 numberOfPageLoaded = showRespond.getPage();
             }
 
@@ -77,9 +81,23 @@ public class MoviePresenterTest {
     }
 
     @Test
-    public void loadMovieTest() {
-        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 1, "ID");
-        Assert.assertEquals(1, view.numberOfItem());
+    public void noDuplicateMovieTest() {
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 1, "US");
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 2, "US");
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 3, "US");
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 4, "US");
+        presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 5, "US");
+
+        // check for double
+        for (Movie movie : movies) {
+            int counter = 0;
+            for (Movie movie1 : movies) {
+                if (movie.getId() == movie1.getId()) {
+                    counter++;
+                }
+            }
+            Assert.assertEquals(1, counter);
+        }
     }
 
     @After
