@@ -88,6 +88,8 @@ public class MoviePresenterTest {
         presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 4, "US");
         presenter.loadMovies(Repository.MOVIE_TYPE_NOW_PLAYING, 5, "US");
 
+        Assert.assertEquals(20 * 5, movies.size());
+        int doubleCounter = 0;
         // check for double
         for (Movie movie : movies) {
             int counter = 0;
@@ -96,8 +98,12 @@ public class MoviePresenterTest {
                     counter++;
                 }
             }
-            Assert.assertEquals(1, counter);
+            if (counter > 1) {
+                doubleCounter++;
+            }
+            //Assert.assertEquals(1, counter);
         }
+        Assert.assertEquals(0, doubleCounter);
     }
 
     @After
