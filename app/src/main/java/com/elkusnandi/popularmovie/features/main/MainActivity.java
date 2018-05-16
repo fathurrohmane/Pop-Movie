@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity
             String userName = sharedPreferences.getString(getString(R.string.sharedpreference_user_name), "");
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_in).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_group_my_movie_db_logged_out).setVisible(false);
-            Picasso.with(this)
+            Picasso.get()
                     .load("https://secure.gravatar.com/avatar/" + avatarPath + ".jpg?s=150")
                     .transform(new CircleTransform())
                     .into(imageViewProfile);

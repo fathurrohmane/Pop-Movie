@@ -80,7 +80,7 @@ public class TvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TvAdapter.TvViewHolder viewHolder = (TvAdapter.TvViewHolder) holder;
         String url = mShowList.get(position).getPosterUrl(Movie.PosterSize.w342);
 
-        Picasso.with(mContext)
+        Picasso.get()
                 .load(url)
                 .error(R.drawable.ic_image_error)
                 .placeholder(R.drawable.ic_image_placeholder)

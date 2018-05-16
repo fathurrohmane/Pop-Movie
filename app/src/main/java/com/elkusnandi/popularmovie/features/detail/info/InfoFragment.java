@@ -112,11 +112,11 @@ public class InfoFragment extends BaseFragment implements
         }
 
         // Initialize view
-        Picasso.with(getContext())
+        Picasso.get()
                 .load(movie.getPosterUrl(Movie.PosterSize.w342))
                 .into(imageViewPoster);
         if (imageViewBackdrop != null) {
-            Picasso.with(getContext())
+            Picasso.get()
                     .load(movie.getBackdropUrl(Movie.PosterSize.w342))
                     .fit()
                     .centerCrop()
