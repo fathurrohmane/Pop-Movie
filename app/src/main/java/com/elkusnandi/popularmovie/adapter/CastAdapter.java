@@ -55,6 +55,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
                 .error(R.drawable.ic_cast_placeholder)
                 .into(holder.imageViewCast);
 
+        holder.textViewCastAs.setText(mContext.getString(R.string.text_view_cast_as));
         holder.textViewCastName.setText(item.getName());
         holder.textViewCastMovieName.setText(item.getCharacter());
 
@@ -71,6 +72,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         ImageView imageViewCast;
         @BindView(R.id.tv_cast_name)
         TextView textViewCastName;
+        @BindView(R.id.tv_cast_as)
+        TextView textViewCastAs;
         @BindView(R.id.tv_cast_movie_name)
         TextView textViewCastMovieName;
 

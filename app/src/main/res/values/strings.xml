@@ -19,6 +19,7 @@
     <string name="text_view_genre_title">Genre</string>
     <string name="text_view_description_title">Description</string>
     <string name="text_view_cast_title">Cast</string>
+    <string name="text_view_cast_as">as</string>
 
     <!--TV Information View-->
     <string name="text_view_first_air_date_title">First Air Date</string>
