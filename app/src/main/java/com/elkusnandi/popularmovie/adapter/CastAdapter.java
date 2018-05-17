@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.Cast;
 import com.elkusnandi.popularmovie.data.model.Movie;
-import com.elkusnandi.popularmovie.utils.GlideApp;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +49,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Cast item = list.get(position);
 
-        GlideApp
-                .with(mContext)
+        Picasso.get()
                 .load(item.getProfilePath(Movie.PosterSize.w342))
                 .placeholder(R.drawable.ic_cast_placeholder)
                 .error(R.drawable.ic_cast_placeholder)

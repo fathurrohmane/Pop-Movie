@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.model.VideoResult;
-import com.elkusnandi.popularmovie.utils.GlideApp;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +54,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         VideoResult item = mList.get(position);
 
         String youtubePath = "https://img.youtube.com/vi/" + item.getKey() + "/0.jpg";
-        GlideApp.with(mContext)
+        Picasso.get()
                 .load(youtubePath)
                 .error(R.drawable.ic_image_error)
                 .placeholder(R.drawable.ic_image_placeholder)
-                .centerCrop()
+                .fit().centerCrop()
                 .into(holder.imageViewThumbnail);
         holder.textViewTitle.setText(item.getName());
         holder.textViewType.setText(item.getType());
