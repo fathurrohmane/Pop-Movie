@@ -84,6 +84,10 @@ public class BaseFragment extends Fragment {
                 // update data
                 Toast.makeText(getContext(), getString(R.string.success_add_data), Toast.LENGTH_LONG).show();
                 break;
+            case 13:
+                // delete data
+                Toast.makeText(getContext(), getString(R.string.success_delete_data), Toast.LENGTH_LONG).show();
+                break;
             case 3:
                 // error auth
                 Toast.makeText(getContext(), getString(R.string.error_authentication), Toast.LENGTH_LONG).show();

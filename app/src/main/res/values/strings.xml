@@ -59,7 +59,8 @@
     <string name="success_login">Login has success. Close this window.</string>
     <string name="success_logout">Logout has success.</string>
     <string name="success_get_user_detail">Welcome %s</string>
-    <string name="success_add_data">The item/record was updated successfully.</string>
+    <string name="success_add_data">The item/record was updated.</string>
+    <string name="success_delete_data">The item/record was removed.</string>
     <string name="error_authentication">Authentication failed: Login to gain access to your account.</string>
     <string name="error_resource_not_found">The resource you requested could not be found.</string>
     <string name="error_unknown">Unknown error. Error code : %d</string>
