@@ -82,15 +82,15 @@ public class BaseFragment extends Fragment {
                 // mew added
             case 12:
                 // update data
-                Toast.makeText(getContext(), getString(R.string.success_add_data), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.success_add_data), Toast.LENGTH_SHORT).show();
                 break;
             case 13:
                 // delete data
-                Toast.makeText(getContext(), getString(R.string.success_delete_data), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.success_delete_data), Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 // error auth
-                Toast.makeText(getContext(), getString(R.string.error_authentication), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.error_authentication), Toast.LENGTH_SHORT).show();
                 if (getContext() != null) {
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences(getString(R.string.sharedpreference_id), MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -102,10 +102,10 @@ public class BaseFragment extends Fragment {
                 break;
             case 34:
                 // resource not found / wrong id
-                Toast.makeText(getContext(), getString(R.string.error_resource_not_found), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.error_resource_not_found), Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Toast.makeText(getContext(), getString(R.string.error_unknown, respond.getStatusCode()), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.error_unknown, respond.getStatusCode()), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
