@@ -19,11 +19,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Base class for fragment with only show recyclerview
+ * Base class for fragment that only show recyclerview
  * Created by Taruna 98 on 3/5/2018.
  */
 
 public class BaseListFragment extends BaseFragment implements BaseView {
+
+    // default span count
+    private int spanCountPortrait = 3;
+    private int spanCountLandscape = 5;
 
     @BindView(R.id.recyclerview)
     protected RecyclerView recyclerView;
@@ -38,6 +42,17 @@ public class BaseListFragment extends BaseFragment implements BaseView {
 
     }
 
+    /**
+     * Set span size for recyclerview
+     * Call it before onCreateView
+     * @param spanCountPortrait
+     * @param spanCountLandscape
+     */
+    public void setSpanCountRecyclerView(int spanCountPortrait, int spanCountLandscape) {
+        this.spanCountPortrait = spanCountPortrait;
+        this.spanCountLandscape = spanCountLandscape;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,9 +61,9 @@ public class BaseListFragment extends BaseFragment implements BaseView {
         ButterKnife.bind(this, view);
 
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            gridLayoutManager = new GridLayoutManager(getContext(), 3); // number of column in Recyclerview
+            gridLayoutManager = new GridLayoutManager(getContext(), spanCountPortrait); // number of column in Recyclerview
         } else {
-            gridLayoutManager = new GridLayoutManager(getContext(), 5); // number of column in Recyclerview
+            gridLayoutManager = new GridLayoutManager(getContext(), spanCountLandscape); // number of column in Recyclerview
         }
 
         informationView.hide();
@@ -97,7 +112,7 @@ public class BaseListFragment extends BaseFragment implements BaseView {
     }
 
     /**
-     * Class to handle recylerview span size depends on orientation and position
+     * Class to handle recyclerview span size depends on orientation and position
      *
      */
     public class SpanSizeLookUp extends GridLayoutManager.SpanSizeLookup {
@@ -112,9 +127,9 @@ public class BaseListFragment extends BaseFragment implements BaseView {
         public int getSpanSize(int position) {
             if (adapter.getItemCount() - 1 == position) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    return 3;
+                    return spanCountPortrait;
                 } else {
-                    return 5;
+                    return spanCountLandscape;
                 }
             }
             return 1;

@@ -67,6 +67,7 @@ public class MovieListFragment extends BaseListFragment implements
         if (getArguments() != null) {
             discoverType = getArguments().getString(ARG_PARAM1);
         }
+
         setRetainInstance(true);
 
         if (presenter == null) {
