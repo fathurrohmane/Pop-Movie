@@ -67,12 +67,15 @@ public class MovieListFragment extends BaseListFragment implements
         if (getArguments() != null) {
             discoverType = getArguments().getString(ARG_PARAM1);
         }
+        setRetainInstance(true);
 
-        presenter = new MoviePresenter(
-                new CompositeDisposable(),
-                Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
-                AndroidSchedulerProvider.getInstance()
-        );
+        if (presenter == null) {
+            presenter = new MoviePresenter(
+                    new CompositeDisposable(),
+                    Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
+                    AndroidSchedulerProvider.getInstance()
+            );
+        }
     }
 
     @Override

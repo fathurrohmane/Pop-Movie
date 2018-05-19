@@ -82,11 +82,15 @@ public class TvListFragment extends BaseListFragment implements
             discoverType = getArguments().getString(ARG_PARAM1);
         }
 
-        presenter = new TvPresenter(
-                new CompositeDisposable(),
-                Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
-                AndroidSchedulerProvider.getInstance()
-        );
+        setRetainInstance(true);
+
+        if (presenter == null) {
+            presenter = new TvPresenter(
+                    new CompositeDisposable(),
+                    Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
+                    AndroidSchedulerProvider.getInstance()
+            );
+        }
 
         showList = new ArrayList<>();
     }

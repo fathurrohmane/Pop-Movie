@@ -95,9 +95,13 @@ public class InfoFragment extends BaseFragment implements
             movie = getArguments().getParcelable(ARG_PARAM1);
         }
 
-        presenter = new InfoPresenter(new CompositeDisposable(),
-                Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
-                AndroidSchedulerProvider.getInstance());
+        setRetainInstance(true);
+
+        if (presenter == null) {
+            presenter = new InfoPresenter(new CompositeDisposable(),
+                    Repository.getInstance(AppDatabase.getInstance(getContext()), AndroidSchedulerProvider.getInstance()),
+                    AndroidSchedulerProvider.getInstance());
+        }
         textToLinkUtils = new TextToLinkUtils(this);
     }
 
