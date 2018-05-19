@@ -30,6 +30,12 @@
     <string name="text_view_number_episode">%d/%d(%d%)</string>
     <string name="text_view_season_title">Season</string>
 
+    <!--Discover movie tab-->
+    <string name="tab_layout_now_playing_title">Now Playing</string>
+    <string name="tab_layout_upcoming_title">Up Coming</string>
+    <string name="tab_layout_popular_title">Popular</string>
+    <string name="tab_layout_recently_added_title">Recently Added</string>
+
     <!--Movie and Show detail tab-->
     <string name="tab_layout_info_title">Info</string>
     <string name="tab_layout_videos_title">Videos</string>

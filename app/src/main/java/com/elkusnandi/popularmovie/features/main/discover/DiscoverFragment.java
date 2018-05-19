@@ -71,7 +71,7 @@ public class DiscoverFragment extends BaseFragment {
     public FragmentPagerAdapter getPagerAdapter(String type) {
         switch (type) {
             case MOVIE:
-                return new DiscoverMovieAdapter(getChildFragmentManager());
+                return new DiscoverMovieAdapter(getContext(), getChildFragmentManager());
             case TV:
                 return new DiscoverTvAdapter(getChildFragmentManager());
             default:
