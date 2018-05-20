@@ -48,7 +48,6 @@ public class MovieListFragment extends BaseListFragment implements
     private MoviePresenter presenter;
     private MovieAdapter adapter;
     private String discoverType;
-    private PaginationUtil paginationUtil;
 
     public MovieListFragment() {
     }
@@ -86,7 +85,7 @@ public class MovieListFragment extends BaseListFragment implements
         assert view != null;
         ButterKnife.bind(this, view);
 
-        paginationUtil = new PaginationUtil(this, gridLayoutManager);
+        PaginationUtil paginationUtil = new PaginationUtil(this, gridLayoutManager);
         paginationUtil.setPageSettings(20, 1);
 
         informationView.addButtonListener(this);
@@ -100,7 +99,7 @@ public class MovieListFragment extends BaseListFragment implements
         recyclerView.setAdapter(adapter);
 
         presenter.onAttach(this);
-// TODO: 05/01/2018 fix fragment called twice bug
+
         // if it is not configuration change
         if (savedInstanceState == null) {
             // load movie
@@ -146,7 +145,6 @@ public class MovieListFragment extends BaseListFragment implements
     @Override
     public void onDestroy() {
         presenter.onDetach();
-        //adapter.removeItemClickListener();
         super.onDestroy();
     }
 
