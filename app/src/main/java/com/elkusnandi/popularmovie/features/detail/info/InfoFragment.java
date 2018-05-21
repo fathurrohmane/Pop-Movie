@@ -194,6 +194,7 @@ public class InfoFragment extends BaseFragment implements
 
                     // check login status
                     if (accountId < 0L || sessionId.isEmpty()) {
+                        showToast(getString(R.string.error_login_require));
                         return;
                     }
 
