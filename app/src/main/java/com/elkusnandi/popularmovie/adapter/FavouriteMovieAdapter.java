@@ -1,10 +1,12 @@
 package com.elkusnandi.popularmovie.adapter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.elkusnandi.popularmovie.R;
 import com.elkusnandi.popularmovie.data.provider.Repository;
 import com.elkusnandi.popularmovie.features.main.movie_list.MovieListFragment;
 import com.elkusnandi.popularmovie.features.main.tv_list.TvListFragment;
@@ -15,8 +17,11 @@ import com.elkusnandi.popularmovie.features.main.tv_list.TvListFragment;
 
 public class FavouriteMovieAdapter extends FragmentPagerAdapter {
 
-    public FavouriteMovieAdapter(FragmentManager fm) {
+    private Context context;
+
+    public FavouriteMovieAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class FavouriteMovieAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Nullable
@@ -41,9 +46,9 @@ public class FavouriteMovieAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Movie";
+                return context.getString(R.string.tab_layout_movie_title);
             case 1:
-                return "TVs";
+                return context.getString(R.string.tab_layout_tv_title);
         }
         return super.getPageTitle(position);
     }

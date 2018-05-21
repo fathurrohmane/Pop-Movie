@@ -42,6 +42,10 @@
     <string name="tab_layout_reviews_title">Reviews</string>
     <string name="tab_layout_poster_title">Posters</string>
 
+    <!--Favourite tab-->
+    <string name="tab_layout_movie_title">Movies</string>
+    <string name="tab_layout_tv_title">Tvs</string>
+
     <!--Drawer Main Activity-->
     <string name="drawer_my_profile_title">My Profile</string>
     <string name="drawer_discover_title">Discover</string>

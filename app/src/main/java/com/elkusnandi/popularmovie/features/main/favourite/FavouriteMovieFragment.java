@@ -49,7 +49,7 @@ public class FavouriteMovieFragment extends BaseFragment {
 
         if (getActivity() != null) {
             TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-            setPagerAdapter(viewPager, tabLayout, new FavouriteMovieAdapter(getChildFragmentManager()));
+            setPagerAdapter(viewPager, tabLayout, new FavouriteMovieAdapter(getChildFragmentManager(), getContext()));
         }
 
         return view;
