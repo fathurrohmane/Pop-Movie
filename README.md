@@ -1,6 +1,8 @@
 # Pop-Movie
 A simple MovieDB client app.
 
+![screenshoot](https://raw.githubusercontent.com/fathurrohmane/Pop-Movie/master/github/ss.png)
+
 # Feature
 * Browse/Discover movies (Upcoming, Up Coming Popular, Recently Added)
 * Login to browse user favourite movie list
