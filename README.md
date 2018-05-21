@@ -15,3 +15,10 @@ A simple MovieDB client app.
 * Gson
 * Material Dialog
 * Room
+
+## How to use
+Add your own MovieDb api key to gradle.properties
+
+```
+MOVIE_DB_API="INSERT_KEY_HERE"
+```
