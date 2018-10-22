@@ -7,6 +7,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
 import com.elkusnandi.popularmovie.R;
+import com.elkusnandi.popularmovie.common.interfaces.BaseView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,16 @@ public class SearchActivity extends AppCompatActivity implements SearchContract.
     }
 
     @Override
+    public void showResult() {
+
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
     public void showProgress() {
 
     }
@@ -42,12 +53,7 @@ public class SearchActivity extends AppCompatActivity implements SearchContract.
     }
 
     @Override
-    public void showResult() {
-
-    }
-
-    @Override
-    public void showError() {
+    public void setState(State state) {
 
     }
 }
